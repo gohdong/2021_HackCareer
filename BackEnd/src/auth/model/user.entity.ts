@@ -1,4 +1,5 @@
-import {BaseEntity, Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
+import { Feed } from 'src/feed/model/feed.entity';
+import {BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
 import { Department, Gender, Interest, Role } from './user.enum';
 
 
@@ -47,6 +48,9 @@ export class User extends BaseEntity{
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
+
+    @OneToMany(() => Feed, (feed) => feed.writer, { eager: false })
+    feeds: Feed[];
 
 
 }
