@@ -15,6 +15,6 @@ import { UserService } from './service/user.service';
     TypeOrmModule.forFeature([UserRepository])],
   controllers: [AuthController, UserController],
   providers: [AuthStrategy,AuthService, UserService],
-  exports:[AuthService,PassportModule]
+  exports:[AuthService,PassportModule,UserService]
 })
 export class AuthModule {}

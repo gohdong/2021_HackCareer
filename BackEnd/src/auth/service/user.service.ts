@@ -19,4 +19,8 @@ export class UserService {
         return this.userRepository.update(id,user)
     }
 
+    findUserByUid(uid:string):Promise<User>{
+        return this.userRepository.findOne({uid});
+    }
+
 }

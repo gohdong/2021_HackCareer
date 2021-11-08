@@ -1,3 +1,4 @@
+import { Optional } from "@nestjs/common";
 import { User } from "src/auth/model/user.entity";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -10,13 +11,14 @@ export class Feed extends BaseEntity{
     @Column({nullable:false})
     description:string;
 
-    @Column({nullable:false,array:true})
+    @Optional()
+    @Column({array:true,type:'text',default:null})
     imagePath:string[];
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
-    @ManyToOne(()=>User, (user)=>user.feeds)
+    @ManyToOne(()=>User, (user)=>user.feeds,{eager:true})
     writer:User;
 
 }
