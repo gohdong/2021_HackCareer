@@ -7,6 +7,8 @@ import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedService } from '../service/feed.service';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { CommentService } from '../service/comment.service';
+import { Comment } from '../model/comment.entity';
 
 @Controller('feed')
 @UseGuards(AuthGuard("jwt"))
@@ -14,6 +16,7 @@ export class FeedController {
 
     constructor(
         private feedService : FeedService,
+        private commentService : CommentService,
     ){}
 
     @Get()
@@ -55,5 +58,15 @@ export class FeedController {
         @Param('id') id:number,
     ):Promise<DeleteResult>{
         return this.feedService.deleteFeed(id);
+    }
+
+    @Post("/:boardId/comment")
+    createComment(
+        @Param("boardId") boardId:number,
+        @GetUser() user:User,
+        @Body("content") content:string
+        ):Promise<Comment>{
+            return this.commentService.createComment(user,boardId,content)
+
     }
 }

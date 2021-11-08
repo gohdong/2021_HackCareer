@@ -7,11 +7,12 @@ import { FeedRepository } from './repository/feed.repository';
 import { FeedService } from './service/feed.service';
 import { CommentController } from './controller/comment.controller';
 import { CommentService } from './service/comment.service';
+import { CommentRepository } from './repository/comment.repository';
 
 @Module({
   imports : [
     AuthModule,
-    TypeOrmModule.forFeature([FeedRepository])
+    TypeOrmModule.forFeature([FeedRepository,CommentRepository])
   ],
   controllers: [FeedController, CommentController],
   providers: [FeedService,IsCreatorGuard, CommentService]

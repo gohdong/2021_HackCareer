@@ -50,10 +50,10 @@ export class User extends BaseEntity{
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
-    @OneToMany(() => Feed, (feed) => feed.writer, { eager: false })
+    @OneToMany(() => Feed, (feed) => feed.writer, { lazy:true})
     feeds: Feed[];
 
-    @OneToMany(()=>Comment,(comment)=>comment.writer,{eager:false})
+    @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true})
     comments: Comment[];
 
 }
