@@ -1,6 +1,7 @@
 import { Feed } from 'src/feed/model/feed.entity';
 import {BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
 import { Department, Gender, Interest, Role } from './user.enum';
+import {Comment} from '../../feed/model/comment.entity'
 
 
 
@@ -52,5 +53,7 @@ export class User extends BaseEntity{
     @OneToMany(() => Feed, (feed) => feed.writer, { eager: false })
     feeds: Feed[];
 
+    @OneToMany(()=>Comment,(comment)=>comment.writer,{eager:false})
+    comments: Comment[];
 
 }
