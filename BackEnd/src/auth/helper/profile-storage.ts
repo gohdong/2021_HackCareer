@@ -25,7 +25,7 @@ type validMimeType = 'image/png' | 'image/jpg' | 'image/jpeg';
 const validFileExtensions: validFileExtension[] = ['jpeg','jpg','png']
 const validMimeTypes : validMimeType[] = ['image/jpeg','image/jpg','image/png']
 
-export const saveImageToStorage = Multer({
+export const saveProfileImageToStorage = Multer({
     storage: FirebaseStorage({
         bucketName: "gs://club-cb0f5.appspot.com",
         directoryPath:"profiles",

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
 import { Feed } from '../model/feed.entity';
@@ -16,12 +16,15 @@ export class FeedService {
 
     findFeeds(take:number,skip:number):Promise<Feed[]>{
         return this.feedRepository.findAndCount({take,skip}).then(([feeds])=>{
+            if(feeds.length == 0){
+                throw new NotFoundException(`No Feeds`)
+            }
             return <Feed[]>feeds;
         })
     }
 
     findFeedById(id:number):Promise<Feed>{
-        return this.feedRepository.findOne(id);
+        return this.feedRepository.findById(id);
     }
 
     writeFeed(user:User, feedDTO:FeedDTO):Promise<Feed>{
@@ -33,7 +36,8 @@ export class FeedService {
     }
 
     deleteFeed(id:number):Promise<DeleteResult>{
-        return this.feedRepository.delete(id)
+        this.findFeedById(id);
+        return this.feedRepository.softDelete(id);
     }
     
 }

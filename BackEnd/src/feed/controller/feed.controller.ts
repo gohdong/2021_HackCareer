@@ -2,13 +2,14 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } fro
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decoration/get-user.decorator';
 import { User } from 'src/auth/model/user.entity';
-import { IsCreatorGuard } from '../guard/is-creator.guard';
+import { IsFeedCreatorGuard } from '../guard/is-feed-creator.guard';
 import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedService } from '../service/feed.service';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { CommentService } from '../service/comment.service';
 import { Comment } from '../model/comment.entity';
+import { IsCommentCreatorGuard } from '../guard/is-comment-creator.guard';
 
 @Controller('feed')
 @UseGuards(AuthGuard("jwt"))
@@ -44,7 +45,7 @@ export class FeedController {
     }
 
     @Put("/:id")
-    @UseGuards(IsCreatorGuard)
+    @UseGuards(IsFeedCreatorGuard)
     udpateFeed(
         @Param('id') id:number,
         @Body() feedDTO :FeedDTO
@@ -53,20 +54,38 @@ export class FeedController {
     }
 
     @Delete("/:id")
-    @UseGuards(IsCreatorGuard)
+    @UseGuards(IsFeedCreatorGuard)
     deleteFeed(
         @Param('id') id:number,
     ):Promise<DeleteResult>{
         return this.feedService.deleteFeed(id);
     }
 
-    @Post("/:boardId/comment")
+    @Post("/:feedId/comment")
     createComment(
-        @Param("boardId") boardId:number,
+        @Param("feedId") feedId:number,
         @GetUser() user:User,
         @Body("content") content:string
         ):Promise<Comment>{
-            return this.commentService.createComment(user,boardId,content)
+            return this.commentService.createComment(user,feedId,content)
+    }
 
+    @Put("/:feedId/comment/:commentId")
+    @UseGuards(IsCommentCreatorGuard)
+    updateComment(
+        @Param("feedId") feedId :number,
+        @Param("commentId") commentId:number,
+        @Body("content") content:string
+    ):Promise<UpdateResult>{
+        return this.commentService.updateComment(feedId,commentId,content)
+    }
+
+    @Delete("/:feedId/comment/:commentId")
+    deleteComment(
+        @Param("feedId") feedId :number,
+        @Param("commentId") commentId:number,
+        @Body("content") content:string
+    ):Promise<DeleteResult>{
+        return this.commentService.deleteComment(feedId,commentId,content)
     }
 }

@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { CommentService } from '../service/comment.service';
 
 @Controller('comment')
-export class CommentController {}
+@UseGuards(AuthGuard("jwt"))
+export class CommentController {
+    constructor( 
+        commentService : CommentService
+        ){}
+
+}

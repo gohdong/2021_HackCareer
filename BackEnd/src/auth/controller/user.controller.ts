@@ -3,7 +3,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateResult } from 'typeorm';
 import { GetUser } from '../decoration/get-user.decorator';
-import { saveImageToStorage } from '../helper/image-storage';
+import { saveProfileImageToStorage } from '../helper/profile-storage';
 import { User } from '../model/user.entity';
 import { UserService } from '../service/user.service';
 
@@ -16,7 +16,7 @@ export class UserController {
     ){}
 
     @Post('/profile')
-    @UseInterceptors(FileInterceptor('file',saveImageToStorage))
+    @UseInterceptors(FileInterceptor('file',saveProfileImageToStorage))
     async uploadProfile(@GetUser() user:User, @UploadedFile() file:Express.Multer.File): Promise<UpdateResult | {error:string}>{
         return this.userService.updateProfile(user.id,file['publicUrl'])
     }

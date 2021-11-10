@@ -1,6 +1,6 @@
 import { Optional } from "@nestjs/common";
 import { User } from "src/auth/model/user.entity";
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Comment } from 'src/feed/model/comment.entity'
 
 @Entity()
@@ -18,10 +18,13 @@ export class Feed extends BaseEntity{
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
+    @DeleteDateColumn({type:'timestamp'})
+    deletedAt?:Date;
+
     @ManyToOne(()=>User, (user)=>user.feeds,{eager:true})
     writer:User;
 
-    @OneToMany(()=>Comment,(comment)=>comment.feed,{eager:true})
+    @OneToMany(()=>Comment,(comment)=>comment.feed,{eager:true,cascade:true})
     comments :Comment[]
 
 }

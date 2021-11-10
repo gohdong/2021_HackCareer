@@ -6,7 +6,7 @@ import { Feed } from "../model/feed.entity";
 import { FeedService } from "../service/feed.service";
 
 @Injectable()
-export class IsCreatorGuard implements CanActivate{
+export class IsFeedCreatorGuard implements CanActivate{
     constructor(
         private userService:UserService,
         private feedService:FeedService
