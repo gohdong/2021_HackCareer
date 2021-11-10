@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
 import { CommentRepository } from '../repository/comment.repository';
@@ -25,18 +25,12 @@ export class CommentService {
     }
 
     async updateComment(feedId:number,commentId:number,content:string):Promise<UpdateResult>{
-        const feed = await this.feedRepository.findOne(feedId);
-        if (!feed){
-            throw new NotFoundException(`No feed with Id: ${feedId}`);
-        }
+        await this.feedRepository.findById(feedId);
         return this.commentRepository.updateComment(commentId,content)
     }
 
     async deleteComment(feedId:number,commentId:number,content:string):Promise<DeleteResult>{
-        const feed = await this.feedRepository.findOne(feedId);
-        if (!feed){
-            throw new NotFoundException(`No feed with Id: ${feedId}`);
-        }
+        await this.feedRepository.findById(feedId);
         return this.commentRepository.softDelete(commentId)
     }
 

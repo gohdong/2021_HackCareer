@@ -8,15 +8,33 @@ import { NotFoundException } from "@nestjs/common";
 export class FeedRepository extends Repository<Feed>{
 
     async findById(id:number):Promise<Feed>{
-        const feed:Feed  = await this.findOne(id)
+        const feed:Feed  = await this.findOne(id,{
+            loadEagerRelations:false,
+            loadRelationIds:{
+                relations:["writer"],
+                disableMixedMap:true
+            }
+        })
         if(!feed){
             throw new NotFoundException(`Not Found Feed with id : ${id}`)
         }
         return feed;
     }
 
-    async writeFeed(user:User,writeFeedDTO:FeedDTO):Promise<Feed>{
-        const {description,imagePath} = writeFeedDTO;
+    async findOneByIdWithComment(id:number):Promise<Feed>{
+        const feed:Feed = await this.findOne(id,{
+            loadRelationIds:{
+                relations:['comments']
+            }
+        })
+        if(!feed){
+            throw new NotFoundException(`Not Found Feed with id : ${id}`)
+        }
+        return feed
+    }
+
+    async writeFeed(user:User,feedDTO:FeedDTO):Promise<Feed>{
+        const {description,imagePath} = feedDTO;
 
         const feed:Feed = this.create({
             writer:user,
