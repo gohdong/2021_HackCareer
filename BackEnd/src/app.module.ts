@@ -6,13 +6,15 @@ import { AuthModule } from './auth/auth.module';
 import { typeORMConfig } from './config/typeorm.config';
 import { ChatModule } from './chat/chat.module';
 import { FeedModule } from './feed/feed.module';
+import { ClubModule } from './club/club.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMConfig),
     AuthModule,
     ChatModule,
-    FeedModule],
+    FeedModule,
+    ClubModule],
   controllers: [AppController],
   providers: [AppService],
 })

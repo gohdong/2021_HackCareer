@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 
-export class UpdateFeedDto {
+export class UpdateFeedDTO {
     @IsOptional()
     @IsString()
     description:string;
@@ -12,5 +12,5 @@ export class UpdateFeedDto {
 
     @IsOptional()
     @IsString({each:true})
-    addedImagePath : string[];
+    addedImagePath? : string[];
 }

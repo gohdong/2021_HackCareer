@@ -5,6 +5,7 @@ import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { UpdateFeedDTO } from '../model/update-feed.dto';
 
 @Injectable()
 export class FeedService {
@@ -34,8 +35,14 @@ export class FeedService {
         return this.feedRepository.writeFeed(user,feedDTO)
     }
 
-    async updateFeed(id:number,description:string,addedImagePath:string[],removedImagePath:string[]):Promise<UpdateResult>{
+    async updateFeed(id:number,updateFeedDTO:UpdateFeedDTO):Promise<UpdateResult>{
+
         const feed:Feed = await this.feedRepository.findById(id)
+        const {
+            addedImagePath,
+            removedImagePath,
+            description
+        }  = updateFeedDTO
         feed.description = description? description:feed.description;
         feed.imagePath = removedImagePath?feed.imagePath.filter((imagePath)=>!removedImagePath.includes(imagePath)):feed.imagePath;
         feed.imagePath = feed.imagePath.concat(addedImagePath)

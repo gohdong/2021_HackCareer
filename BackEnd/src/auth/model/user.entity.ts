@@ -2,6 +2,7 @@ import { Feed } from 'src/feed/model/feed.entity';
 import {BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
 import { Department, Gender, Interest, Role } from './user.enum';
 import {Comment} from '../../feed/model/comment.entity'
+import { Club } from 'src/club/model/club.entity';
 
 
 
@@ -55,5 +56,8 @@ export class User extends BaseEntity{
 
     @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true})
     comments: Comment[];
+
+    @OneToMany(()=>Club,(club)=>club.leader,{lazy:true})
+    clubs: Club[]
 
 }

@@ -7,6 +7,7 @@ export class FeedDTO {
     @IsNotEmpty()
     description:string;
 
+    @IsOptional()
     @IsString({each:true})
     imagePath:string[];
 }

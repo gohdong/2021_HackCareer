@@ -11,7 +11,10 @@ import { CommentService } from '../service/comment.service';
 import { Comment } from '../model/comment.entity';
 import { IsCommentCreatorGuard } from '../guard/is-comment-creator.guard';
 import { saveFeedImageToStorage } from '../helper/feed-storage';
-import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { BodyInterceptor } from '../helper/feed-opt.interceptor';
+import { UpdateFeedDTO } from '../model/update-feed.dto';
+
 
 @Controller('feed')
 @UseGuards(AuthGuard("jwt"))
@@ -41,17 +44,17 @@ export class FeedController {
     @Post()
     @UseInterceptors(FileFieldsInterceptor([
         { name: 'files', maxCount: 10 },
-      ],saveFeedImageToStorage))
+      ],saveFeedImageToStorage),BodyInterceptor,)
     writeFeed(
         @GetUser() user:User,
-        @Body('opt') raw:string,
+        @Body() feedDTO:FeedDTO,
         @UploadedFiles() files: Array<Express.Multer.File>
-    ){
+    ):Promise<Feed>{
         const temp = JSON.parse(JSON.stringify(files))['files']
         const urls = temp?temp.map((file)=>file['publicUrl']):[];
-        const feedDTO :FeedDTO = new FeedDTO()
-        const opt :{description:string}= JSON.parse(raw);
-        feedDTO.description = opt.description;
+        // const feedDTO :FeedDTO = new FeedDTO()
+        // const opt :{description:string}= JSON.parse(raw);
+        // feedDTO.description = opt.description;
         feedDTO.imagePath = urls;
         return this.feedService.writeFeed(user,feedDTO);
     }
@@ -59,21 +62,18 @@ export class FeedController {
     @Put("/:id")
     @UseInterceptors(FileFieldsInterceptor([
         { name: 'files', maxCount: 10 },
-      ],saveFeedImageToStorage))
+      ],saveFeedImageToStorage),BodyInterceptor)
     @UseGuards(IsFeedCreatorGuard)
     udpateFeed(
         @Param('id') id:number,
         @UploadedFiles() files: Array<Express.Multer.File>,
-        @Body('opt') raw:string
+        @Body() updateFeedDTO:UpdateFeedDTO
     ):Promise<UpdateResult>{
         const temp = JSON.parse(JSON.stringify(files))['files']
-        const addedUrls = temp?temp.map((file)=>file['publicUrl']):[];
-
-        const opt :{description:string,removedImagePath:string[]}= JSON.parse(raw);
+        updateFeedDTO.addedImagePath = temp?temp.map((file)=>file['publicUrl']):[];
         
-        const removedUrls = opt.removedImagePath;
         
-        return this.feedService.updateFeed(id,opt.description,addedUrls,removedUrls);
+        return this.feedService.updateFeed(id,updateFeedDTO);
     }
 
     @Delete("/:id")
