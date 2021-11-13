@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { User } from "src/auth/model/user.entity";
 import { UserService } from "src/auth/service/user.service";
@@ -28,6 +28,9 @@ export class IsCommentCreatorGuard implements CanActivate{
 
         return this.userService.findUserByUid(userUid).then((user:User)=>{
             return this.commentService.findCommentById(commentId).then((comment:Comment)=>{
+                if(!comment){
+                    return false;
+                }
                 if(comment.writer.id === user.id){
                     return true;
                 }

@@ -17,6 +17,7 @@ export class FeedService {
     findFeeds(take:number,skip:number):Promise<Feed[]>{
         return this.feedRepository.findAndCount({
             take,skip,
+            relations:['comments']
         }).then(([feeds])=>{
             if(feeds.length == 0){
                 throw new NotFoundException(`No Feeds`)

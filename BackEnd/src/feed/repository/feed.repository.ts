@@ -9,28 +9,16 @@ export class FeedRepository extends Repository<Feed>{
 
     async findById(id:number):Promise<Feed>{
         const feed:Feed  = await this.findOne(id,{
-            loadEagerRelations:false,
-            loadRelationIds:{
-                relations:["writer"],
-                disableMixedMap:true
-            }
+            // loadEagerRelations:false,
+            // loadRelationIds:{
+            //     relations:["writer"],
+            //     disableMixedMap:true
+            // }
         })
         if(!feed){
             throw new NotFoundException(`Not Found Feed with id : ${id}`)
         }
         return feed;
-    }
-
-    async findOneByIdWithComment(id:number):Promise<Feed>{
-        const feed:Feed = await this.findOne(id,{
-            loadRelationIds:{
-                relations:['comments']
-            }
-        })
-        if(!feed){
-            throw new NotFoundException(`Not Found Feed with id : ${id}`)
-        }
-        return feed
     }
 
     async writeFeed(user:User,feedDTO:FeedDTO):Promise<Feed>{
