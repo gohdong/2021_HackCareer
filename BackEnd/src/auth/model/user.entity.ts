@@ -1,21 +1,21 @@
 import { Feed } from 'src/feed/model/feed.entity';
-import {BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
+import {BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
 import { Department, Gender, Interest, Role } from './user.enum';
 import {Comment} from '../../feed/model/comment.entity'
 import { Club } from 'src/club/model/club.entity';
+import { Member } from 'src/club/model/member.entity';
 
 
 
 @Entity()
-@Unique(['uid','email'])
 export class User extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column({nullable:false})
+    @Column({nullable:false,unique:true})
     uid: string;
 
-    @Column({nullable:false})
+    @Column({nullable:false,unique:true})
     email: string;
 
     @Column({nullable:false})
@@ -58,6 +58,8 @@ export class User extends BaseEntity{
     comments: Comment[];
 
     @OneToMany(()=>Club,(club)=>club.leader,{lazy:true})
-    clubs: Club[]
+    createdClubs: Club[]
 
+    @OneToMany(()=>Member,(member)=>member.user,{lazy:true})
+    joinedClubs: Member[]
 }

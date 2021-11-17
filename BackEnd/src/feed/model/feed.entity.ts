@@ -24,7 +24,7 @@ export class Feed extends BaseEntity{
     @ManyToOne(()=>User, (user)=>user.feeds,{eager:true})
     writer:User;
 
-    @OneToMany(()=>Comment,(comment)=>comment.feed,{lazy:true,cascade:true})
+    @OneToMany(()=>Comment,(comment)=>comment.feed,{lazy:true,cascade:true,onDelete:"CASCADE"})
     comments :Comment[]
 
 }

@@ -1,5 +1,6 @@
 import { User } from "src/auth/model/user.entity";
-import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Member } from "./member.entity";
 
 @Entity()
 export class Club extends BaseEntity{
@@ -30,7 +31,10 @@ export class Club extends BaseEntity{
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?: Date;
 
-    @ManyToOne(()=>User,(user)=>user.clubs,{eager:true})
+    @ManyToOne(()=>User,(user)=>user.createdClubs,{eager:true})
     leader : User
+
+    @OneToMany(()=>Member,(member)=>member.club,{cascade:true,onDelete:"CASCADE"})
+    members : Member[]
 
 }

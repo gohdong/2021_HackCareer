@@ -4,14 +4,18 @@ import { AuthModule } from 'src/auth/auth.module';
 import { ClubController } from './controller/club.controller';
 import { ClubRepository } from './repository/club.repository';
 import { ClubService } from './service/club.service';
+import { MemberController } from './controller/member.controller';
+import { MemberService } from './service/member.service';
+import { MemberRepository } from './repository/member.repository';
+import { IsClubLeaderGuard } from './guard/is-club-leader.guard';
 
 @Module({
   imports:[
     AuthModule,
-    TypeOrmModule.forFeature([ClubRepository])
+    TypeOrmModule.forFeature([ClubRepository,MemberRepository])
   ],
-  controllers: [ClubController,
+  controllers: [ClubController, MemberController,
   ],
-  providers: [ClubService]
+  providers: [ClubService, MemberService,IsClubLeaderGuard]
 })
 export class ClubModule {}

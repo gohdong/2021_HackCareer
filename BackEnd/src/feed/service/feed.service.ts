@@ -54,9 +54,11 @@ export class FeedService {
         });
     }
 
-    deleteFeed(id:number):Promise<DeleteResult>{
-        this.findFeedById(id);
-        return this.feedRepository.softDelete(id);
+    async deleteFeed(id:number):Promise<Feed>{
+        const feed = await this.feedRepository.findOneOrFail({id},{
+            relations:['comments']
+        })
+        return this.feedRepository.softRemove(feed);
     }
     
 }

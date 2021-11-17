@@ -1,3 +1,4 @@
+import { NotFoundException } from "@nestjs/common";
 import { title } from "process";
 import { User } from "src/auth/model/user.entity";
 import { EntityRepository, Repository } from "typeorm";
@@ -27,6 +28,13 @@ export class ClubRepository extends Repository<Club>{
             leader:user
         })
         return this.save(club)
+    }
 
+    async findClubById(id:number):Promise<Club>{
+        const club = await this.findOne(id)
+        if(!club){
+            throw new NotFoundException(`No Club Found with Id: ${id}`)
+        }
+        return club;
     }
 }

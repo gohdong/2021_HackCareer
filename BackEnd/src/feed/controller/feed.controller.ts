@@ -80,7 +80,7 @@ export class FeedController {
     @UseGuards(IsFeedCreatorGuard)
     deleteFeed(
         @Param('id') id:number,
-    ):Promise<DeleteResult>{
+    ):Promise<Feed>{
         return this.feedService.deleteFeed(id);
     }
 
