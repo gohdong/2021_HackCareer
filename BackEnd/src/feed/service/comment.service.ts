@@ -5,6 +5,7 @@ import { CommentRepository } from '../repository/comment.repository';
 import { FeedRepository } from '../repository/feed.repository';
 import { Comment } from '../model/comment.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
+import { Feed } from '../model/feed.entity';
 
 @Injectable()
 export class CommentService {
@@ -16,21 +17,22 @@ export class CommentService {
     ){}
 
     async createComment(user:User,feedId:number,content:string):Promise<Comment>{
-        const feed = await this.feedRepository.findOne(feedId);
-        return this.commentRepository.createComment(user,feed,content);
+        return this.feedRepository.findOneOrFail(feedId).then((feed:Feed)=>{
+            return this.commentRepository.createComment(user,feed,content);
+        })
     }
 
     async findCommentById(id:number):Promise<Comment>{
-        return this.commentRepository.findOne(id);
+        return this.commentRepository.findOneOrFail(id);
     }
 
     async updateComment(feedId:number,commentId:number,content:string):Promise<UpdateResult>{
-        await this.feedRepository.findById(feedId);
+        await this.feedRepository.findOneOrFail(feedId);
         return this.commentRepository.updateComment(commentId,content)
     }
 
     async deleteComment(feedId:number,commentId:number,content:string):Promise<DeleteResult>{
-        await this.feedRepository.findById(feedId);
+        await this.feedRepository.findOneOrFail(feedId);
         return this.commentRepository.softDelete(commentId)
     }
 

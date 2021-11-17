@@ -7,14 +7,16 @@ import { UserRepository } from './repository/user.repository';
 import { AuthService } from './service/auth.service';
 import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
+import { LikeFeedRepository } from './repository/like-feed.repository';
+import { LikeFeedService } from './service/like-feed.service';
 
 
 @Module({
 
   imports:[PassportModule,
-    TypeOrmModule.forFeature([UserRepository])],
+    TypeOrmModule.forFeature([UserRepository,LikeFeedRepository])],
   controllers: [AuthController, UserController],
-  providers: [AuthStrategy,AuthService, UserService],
+  providers: [AuthStrategy,AuthService, UserService,LikeFeedService],
   exports:[AuthService,PassportModule,UserService]
 })
 export class AuthModule {}

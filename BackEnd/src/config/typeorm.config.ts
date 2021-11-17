@@ -11,5 +11,5 @@ export const typeORMConfig: TypeOrmModuleOptions = {
     password:process.env.RDS_PASSWORD || dbConfig.password,
     database:process.env.RDS_DB_NAME || dbConfig.database,
     entities:[__dirname+'/../**/*.entity.{js,ts}'],
-    synchronize:dbConfig.synchronize //dev는 true, product에서는 false
+    synchronize:dbConfig.synchronize ,//dev는 true, product에서는 false
 }

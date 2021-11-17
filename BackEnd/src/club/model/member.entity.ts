@@ -13,7 +13,7 @@ export class Member extends BaseEntity{
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?:Date;
 
-    @ManyToOne(()=>Club,(club)=>club.members,{eager:true})
+    @ManyToOne(()=>Club,(club)=>club.members,{eager:false,lazy:true})
     club:Club;
 
     @ManyToOne(()=>User,(user)=>user.joinedClubs,{eager:true})

@@ -4,6 +4,7 @@ import { Department, Gender, Interest, Role } from './user.enum';
 import {Comment} from '../../feed/model/comment.entity'
 import { Club } from 'src/club/model/club.entity';
 import { Member } from 'src/club/model/member.entity';
+import { LikeFeed } from './like-feed.entity';
 
 
 
@@ -51,15 +52,18 @@ export class User extends BaseEntity{
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
-    @OneToMany(() => Feed, (feed) => feed.writer, { lazy:true})
+    @OneToMany(() => Feed, (feed) => feed.writer, { lazy:true,eager:false})
     feeds: Feed[];
 
-    @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true})
+    @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true,eager:false})
     comments: Comment[];
 
-    @OneToMany(()=>Club,(club)=>club.leader,{lazy:true})
+    @OneToMany(()=>Club,(club)=>club.leader,{lazy:true,eager:false})
     createdClubs: Club[]
 
-    @OneToMany(()=>Member,(member)=>member.user,{lazy:true})
+    @OneToMany(()=>Member,(member)=>member.user,{lazy:true,eager:false})
     joinedClubs: Member[]
+
+    @OneToMany(()=>LikeFeed,(likeFeed)=>likeFeed.user,{lazy:true,eager:false})
+    likeFeeds:LikeFeed[]
 }

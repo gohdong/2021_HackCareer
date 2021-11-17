@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, Request, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decoration/get-user.decorator';
 import { User } from 'src/auth/model/user.entity';
@@ -14,6 +14,8 @@ import { saveFeedImageToStorage } from '../helper/feed-storage';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { BodyInterceptor } from '../helper/feed-opt.interceptor';
 import { UpdateFeedDTO } from '../model/update-feed.dto';
+// import { LikeFeedService } from 'src/auth/service/like-feed.service';
+// import { LikeFeed } from 'src/auth/model/like-feed.entity';
 
 
 @Controller('feed')
@@ -23,6 +25,7 @@ export class FeedController {
     constructor(
         private feedService : FeedService,
         private commentService : CommentService,
+        // private likeFeedService : LikeFeedService
     ){}
 
     @Get()
@@ -52,9 +55,6 @@ export class FeedController {
     ):Promise<Feed>{
         const temp = JSON.parse(JSON.stringify(files))['files']
         const urls = temp?temp.map((file)=>file['publicUrl']):[];
-        // const feedDTO :FeedDTO = new FeedDTO()
-        // const opt :{description:string}= JSON.parse(raw);
-        // feedDTO.description = opt.description;
         feedDTO.imagePath = urls;
         return this.feedService.writeFeed(user,feedDTO);
     }
@@ -83,6 +83,18 @@ export class FeedController {
     ):Promise<Feed>{
         return this.feedService.deleteFeed(id);
     }
+
+    //like --------------------------------
+
+    // @Post("/:feedId/like")
+    // createLike(
+    //     @GetUser() user:User,
+    //     @Param('feedId') feedId:number
+    // ):Promise<LikeFeed>{
+    //     return this.likeFeedService.createLike(user,feedId);
+    // }
+
+    // comment -----------------------------------------
 
     @Post("/:feedId/comment")
     createComment(

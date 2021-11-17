@@ -18,7 +18,10 @@ export class FeedService {
     findFeeds(take:number,skip:number):Promise<Feed[]>{
         return this.feedRepository.findAndCount({
             take,skip,
-            relations:['comments']
+            relations:['writer'],
+            loadRelationIds:{
+                relations:['comments']
+            },
         }).then(([feeds])=>{
             if(feeds.length == 0){
                 throw new NotFoundException(`No Feeds`)
@@ -28,7 +31,9 @@ export class FeedService {
     }
 
     findFeedById(id:number):Promise<Feed>{
-        return this.feedRepository.findById(id);
+        return this.feedRepository.findOneOrFail({id},{
+            relations:['writer','comments']
+        });
     }
 
     writeFeed(user:User, feedDTO:FeedDTO):Promise<Feed>{
@@ -37,7 +42,7 @@ export class FeedService {
 
     async updateFeed(id:number,updateFeedDTO:UpdateFeedDTO):Promise<UpdateResult>{
 
-        const feed:Feed = await this.feedRepository.findById(id)
+        const feed:Feed = await this.feedRepository.findOneOrFail(id)
         const {
             addedImagePath,
             removedImagePath,
@@ -46,7 +51,6 @@ export class FeedService {
         feed.description = description? description:feed.description;
         feed.imagePath = removedImagePath?feed.imagePath.filter((imagePath)=>!removedImagePath.includes(imagePath)):feed.imagePath;
         feed.imagePath = feed.imagePath.concat(addedImagePath)
-        console.log(feed);
         
         return this.feedRepository.update(id,feed).then((result)=>{
             // remove image in removedImagePath

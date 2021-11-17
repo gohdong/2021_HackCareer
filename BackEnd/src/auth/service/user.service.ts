@@ -20,7 +20,7 @@ export class UserService {
     }
 
     findUserByUid(uid:string):Promise<User>{
-        return this.userRepository.findOne({uid});
+        return this.userRepository.findOneOrFail({uid});
     }
 
 }

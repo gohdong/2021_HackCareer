@@ -27,10 +27,8 @@ export class IsFeedCreatorGuard implements CanActivate{
 
         return this.userService.findUserByUid(userUid).then((user:User)=>{
             return this.feedService.findFeedById(feedId).then((feed:Feed)=>{
-                console.log(user)
-                console.log(feed)
                 
-                if(feed.writer.id === user.id){
+                if(feed['__writer__'].id === user.id){
                     return true;
                 }
                 return false;

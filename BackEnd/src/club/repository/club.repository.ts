@@ -31,10 +31,8 @@ export class ClubRepository extends Repository<Club>{
     }
 
     async findClubById(id:number):Promise<Club>{
-        const club = await this.findOne(id)
-        if(!club){
-            throw new NotFoundException(`No Club Found with Id: ${id}`)
-        }
-        return club;
+        return this.findOneOrFail(id,{
+            relations:['leader','members']
+        })
     }
 }

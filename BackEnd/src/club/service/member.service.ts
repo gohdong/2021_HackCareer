@@ -18,9 +18,13 @@ export class MemberService {
     async joinClub(user:User,clubId:number):Promise<Member>{
         const club = await this.clubRepository.findClubById(clubId);
         
+        
         return this.memberRepository.findOne({user,club}).then((member:Member)=>{
             if(member){
                 throw new ForbiddenException(`Already joined`)
+            }
+            if(club.members.length >= club.numLimit){
+                throw new ConflictException(`Full Member`);
             }
             const create = this.memberRepository.create({user,club})
             return this.memberRepository.save(create);

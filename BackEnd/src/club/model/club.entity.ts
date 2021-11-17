@@ -31,10 +31,10 @@ export class Club extends BaseEntity{
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?: Date;
 
-    @ManyToOne(()=>User,(user)=>user.createdClubs,{eager:true})
+    @ManyToOne(()=>User,(user)=>user.createdClubs,{eager:false,lazy:true})
     leader : User
 
-    @OneToMany(()=>Member,(member)=>member.club,{cascade:true,onDelete:"CASCADE"})
+    @OneToMany(()=>Member,(member)=>member.club,{eager:false,lazy:true,cascade:true,onDelete:"CASCADE"})
     members : Member[]
 
 }

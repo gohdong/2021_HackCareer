@@ -7,19 +7,6 @@ import { NotFoundException } from "@nestjs/common";
 @EntityRepository(Feed)
 export class FeedRepository extends Repository<Feed>{
 
-    async findById(id:number):Promise<Feed>{
-        const feed:Feed  = await this.findOne(id,{
-            // loadEagerRelations:false,
-            // loadRelationIds:{
-            //     relations:["writer"],
-            //     disableMixedMap:true
-            // }
-        })
-        if(!feed){
-            throw new NotFoundException(`Not Found Feed with id : ${id}`)
-        }
-        return feed;
-    }
 
     async writeFeed(user:User,feedDTO:FeedDTO):Promise<Feed>{
         const {description,imagePath} = feedDTO;
@@ -34,10 +21,12 @@ export class FeedRepository extends Repository<Feed>{
 
     async updateFeed(id:number,feedDTO:FeedDTO):Promise<UpdateResult>{
         const {description,imagePath} = feedDTO;
-        const feed : Feed = await this.findById(id);
-        feed.description = description;
-        feed.imagePath = imagePath;
-        return this.update(id,feed);
+        return this.findOneOrFail({id}).then((feed:Feed)=>{
+            feed.description = description;
+            feed.imagePath = imagePath;
+            return this.update(id,feed);
+        })
+        
     }
     
 }

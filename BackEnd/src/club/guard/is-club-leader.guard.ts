@@ -29,9 +29,11 @@ export class IsClubLeaderGuard implements CanActivate{
 
         return this.userService.findUserByUid(userUid).then((user:User)=>{
             return this.clubService.findClubById(clubId).then((club:Club)=>{
+                console.log(user)
+                console.log(club)
                 
                 
-                if(club.leader.id === user.id){
+                if(club["__leader__"].id === user.id){
                     return true;
                 }
                 return false;
