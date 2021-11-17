@@ -1,8 +1,9 @@
 import { Feed } from "src/feed/model/feed.entity";
-import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Entity, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity()
+@Unique(['user','feed'])
 export class LikeFeed extends BaseEntity{
 
     @PrimaryGeneratedColumn()

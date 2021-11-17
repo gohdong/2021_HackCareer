@@ -2,13 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as config from 'config'
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { EntityNotFoundExceptionFilter } from './filter/entity-not-found-exception.filter';
+import { EntityNotFoundExceptionFilter, QueryFailedExceptionFilter } from './filter/entity-not-found-exception.filter';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe())
-  app.useGlobalFilters(new EntityNotFoundExceptionFilter());
+  app.useGlobalFilters(new EntityNotFoundExceptionFilter(),new QueryFailedExceptionFilter());
   
   const serverConfig = config.get('server')
   const port = serverConfig.port;

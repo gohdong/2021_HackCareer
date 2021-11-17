@@ -14,8 +14,8 @@ import { saveFeedImageToStorage } from '../helper/feed-storage';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { BodyInterceptor } from '../helper/feed-opt.interceptor';
 import { UpdateFeedDTO } from '../model/update-feed.dto';
-// import { LikeFeedService } from 'src/auth/service/like-feed.service';
-// import { LikeFeed } from 'src/auth/model/like-feed.entity';
+import { LikeFeedService } from 'src/auth/service/like-feed.service';
+import { LikeFeed } from 'src/auth/model/like-feed.entity';
 
 
 @Controller('feed')
@@ -25,7 +25,7 @@ export class FeedController {
     constructor(
         private feedService : FeedService,
         private commentService : CommentService,
-        // private likeFeedService : LikeFeedService
+        private likeFeedService : LikeFeedService
     ){}
 
     @Get()
@@ -86,13 +86,13 @@ export class FeedController {
 
     //like --------------------------------
 
-    // @Post("/:feedId/like")
-    // createLike(
-    //     @GetUser() user:User,
-    //     @Param('feedId') feedId:number
-    // ):Promise<LikeFeed>{
-    //     return this.likeFeedService.createLike(user,feedId);
-    // }
+    @Post("/:feedId/like")
+    createLike(
+        @GetUser() user:User,
+        @Param('feedId') feedId:number
+    ):Promise<LikeFeed>{
+        return this.likeFeedService.createLike(user,feedId);
+    }
 
     // comment -----------------------------------------
 

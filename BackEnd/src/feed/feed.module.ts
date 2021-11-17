@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { FeedController } from './controller/feed.controller';
@@ -12,10 +12,11 @@ import { IsCommentCreatorGuard } from './guard/is-comment-creator.guard';
 
 @Module({
   imports : [
-    AuthModule,
+    forwardRef(() => AuthModule),
     TypeOrmModule.forFeature([FeedRepository,CommentRepository])
   ],
   controllers: [FeedController, CommentController],
-  providers: [FeedService,IsFeedCreatorGuard,IsCommentCreatorGuard, CommentService]
+  providers: [FeedService,IsFeedCreatorGuard,IsCommentCreatorGuard, CommentService],
+  exports:[TypeOrmModule.forFeature([FeedRepository])]
 })
 export class FeedModule {}
