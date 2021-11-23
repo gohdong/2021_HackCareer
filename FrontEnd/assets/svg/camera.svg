@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26.338" height="27" viewBox="0 0 26.338 27">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_653" data-name="사각형 653" width="23.046" height="23.046" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="그룹_2305" data-name="그룹 2305" transform="translate(0 0.354)">
+    <path id="패스_3676" data-name="패스 3676" d="M1.1,1.1H25.242V25.242H1.1ZM0,26.338H26.338V0H0Z" transform="translate(0)" fill="none"/>
+    <g id="그룹_2303" data-name="그룹 2303" transform="translate(1.646 1.646)" opacity="0.36">
+      <g id="그룹_2302" data-name="그룹 2302" transform="translate(0 0)">
+        <g id="그룹_2301" data-name="그룹 2301" clip-path="url(#clip-path)">
+          <rect id="사각형_652" data-name="사각형 652" width="20.851" height="20.851" transform="translate(1.097 1.097)" fill="none"/>
+        </g>
+      </g>
+    </g>
+    <g id="그룹_2304" data-name="그룹 2304" transform="translate(3.623 5.977)">
+      <path id="패스_3677" data-name="패스 3677" d="M19.905,7.8H18.524a2.193,2.193,0,0,1-1.565-.65l-.973-.973a2.477,2.477,0,0,0-1.76-.729H11.468a2.47,2.47,0,0,0-1.759.73l-.975.973A2.2,2.2,0,0,1,7.171,7.8H5.79A2.491,2.491,0,0,0,3.3,10.287v7.057A2.492,2.492,0,0,0,5.79,19.832H19.905a2.492,2.492,0,0,0,2.489-2.489V10.287A2.491,2.491,0,0,0,19.905,7.8m1.036,9.545a1.039,1.039,0,0,1-1.036,1.038H5.789a1.04,1.04,0,0,1-1.038-1.038V10.285A1.04,1.04,0,0,1,5.789,9.248H7.168A3.644,3.644,0,0,0,9.759,8.174l.975-.973a1.047,1.047,0,0,1,.734-.305h2.757a1.036,1.036,0,0,1,.733.305l.976.973a3.641,3.641,0,0,0,2.59,1.073h1.382a1.041,1.041,0,0,1,1.036,1.039Z" transform="translate(-3.301 -5.446)" fill="#fff"/>
+      <path id="패스_3678" data-name="패스 3678" d="M12.378,8.66a4.254,4.254,0,1,0,0,8.507h.137v0a4.253,4.253,0,0,0-.137-8.5m2.8,4.253a2.8,2.8,0,1,1-2.8-2.8,2.806,2.806,0,0,1,2.8,2.8" transform="translate(-2.831 -5.133)" fill="#fff"/>
+      <path id="패스_3679" data-name="패스 3679" d="M6.168,9.732a.725.725,0,1,0,.725.725.725.725,0,0,0-.725-.725" transform="translate(-3.092 -5.028)" fill="#fff"/>
+    </g>
+    <rect id="사각형_654" data-name="사각형 654" width="26" height="27" transform="translate(0.051 -0.354)" fill="none"/>
+    <rect id="사각형_655" data-name="사각형 655" width="26" height="27" transform="translate(0.051 -0.354)" fill="none"/>
+  </g>
+</svg>

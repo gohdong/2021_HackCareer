@@ -2,8 +2,12 @@ import 'dart:io';
 
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
+import 'package:clu_b/components/big_card.dart';
+import 'package:clu_b/tab/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 enum tab {
   board,
@@ -30,18 +34,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return GetMaterialApp(
+      title: 'CluB',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Pretendard'),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      builder: (context, child) => ResponsiveWrapper.builder(
+        child,
+        maxWidth: 1200,
+        minWidth: 428,
+        defaultScale: true,
+        breakpoints: const [
+          ResponsiveBreakpoint.resize(428, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
+      ),
+      initialRoute: '/',
+      getPages: [
+        GetPage(name: '/', page: () => const MyHomePage()),
+      ],
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -60,39 +76,56 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).padding);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "한양대 ERICA",
-          style:
-              TextStyle(fontWeight: FontWeight.bold, color: Color(0xffC1C1FF)),
-        ),
-        elevation: 0,
-        backgroundColor: CluBColor.mainBackground,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(20),
-          child: Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              controller: test,
-              scrollDirection: Axis.horizontal,
-              itemCount: tabs.length,
-              itemBuilder: (context, index) {
-                return tabItem(tabs[index]);
-              },
+      primary: false,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(120),
+        child: Stack(
+          children: [
+            Container(
+              color: CluBColor.mainBackground,
             ),
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Colors.black, Colors.black.withOpacity(0)])),
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(top: 47),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[Colors.black, Colors.black.withOpacity(0)]),
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    "한양대 ERICA",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(0xffC1C1FF)),
+                  ),
+                  Expanded(child: Container(),),
+                  SizedBox(
+                    height: 40,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      controller: test,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: tabs.length,
+                      itemBuilder: (context, index) {
+                        return tabItem(tabs[index]);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
       body: Container(
         color: CluBColor.mainBackground,
+        child: tabBody(),
       ),
     );
   }
@@ -107,13 +140,12 @@ class _MyHomePageState extends State<MyHomePage> {
             tabs.removeAt(0);
           }
         }
-        if (gap < 0){
+        if (gap < 0) {
           for (int i = 0; i < -gap; i++) {
             tabs.insert(0, tabs.last);
-            tabs.removeAt(tabs.length-1);
+            tabs.removeAt(tabs.length - 1);
           }
         }
-
 
         test.jumpTo(40);
         setState(() {
@@ -138,13 +170,20 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text(
                 tabDict[title],
                 style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                     color: currentTab == title
                         ? CluBColor.mainColor
                         : CluBColor.lightGray),
               ),
             ),
     );
+  }
+
+  Widget tabBody(){
+    if (currentTab == tab.home){
+      return HomeTab();
+    }
+    return Container();
   }
 }
