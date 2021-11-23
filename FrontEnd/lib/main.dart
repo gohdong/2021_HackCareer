@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
 import 'package:clu_b/components/big_card.dart';
-import 'package:clu_b/tab/home.dart';
+import 'package:clu_b/tab/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -104,7 +104,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 16,
                         color: Color(0xffC1C1FF)),
                   ),
-                  Expanded(child: Container(),),
+                  Expanded(
+                    child: Container(),
+                  ),
                   SizedBox(
                     height: 40,
                     child: ListView.builder(
@@ -180,9 +182,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget tabBody(){
-    if (currentTab == tab.home){
-      return HomeTab();
+  Widget tabBody() {
+    if (currentTab == tab.home) {
+      return Home();
     }
     return Container();
   }

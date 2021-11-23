@@ -1,34 +1,18 @@
-import 'dart:io';
-import 'dart:ui';
-
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
-class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key}) : super(key: key);
+class HomeNowTab extends StatefulWidget {
+  const HomeNowTab({Key? key}) : super(key: key);
 
   @override
-  State<HomeTab> createState() => _HomeTabState();
+  State<HomeNowTab> createState() => _HomeNowTabState();
 }
 
-List<Map> dummyData = [
-  {
-    'category': '전시',
-    'leader': 'aa',
-    'leaderSchoolNum': 17,
-    'title': '4시에 요시고 사진전보러\n긱사에서 같이가실분~??',
-    'desc': '엣헴 선배랑 같이 보러가자',
-    'img': 'assets/img/',
-    'memberCount': 2,
-    'maxMemberCount': 4,
-    'time': DateTime.now().add(Duration(hours: 4))
-  },
-];
-
-class _HomeTabState extends State<HomeTab> {
+class _HomeNowTabState extends State<HomeNowTab> {
   int currentCardIndex = 0;
   double varTopPosition = 95;
   double varMidPosition = 20;
@@ -36,7 +20,6 @@ class _HomeTabState extends State<HomeTab> {
   final double constTopPosition = 95;
   final double constMidPosition = 20;
   final double constBottomPosition = 40;
-  String currentTab = "now";
 
   SwipableStackController test = SwipableStackController();
 
@@ -203,70 +186,9 @@ class _HomeTabState extends State<HomeTab> {
         ),
       ),
       body: Container(
-        color: CluBColor.mainBackground,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 35,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        currentTab = "now";
-                      });
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      width: 63,
-                      height: 26,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          color:
-                              currentTab == "now" ? CluBColor.mainColor : null),
-                      child: Text(
-                        "NOW",
-                        style: CluBTextTheme.semiBold18.copyWith(
-                            color: currentTab == "now"
-                                ? CluBColor.mainBackground
-                                : CluBColor.mainColor),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        currentTab = "club";
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 10),
-                      alignment: Alignment.center,
-                      width: 63,
-                      height: 26,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(13),
-                          color: currentTab == "club"
-                              ? CluBColor.mainColor
-                              : null),
-                      child: Text(
-                        "크루비",
-                        style: CluBTextTheme.semiBold18.copyWith(
-                            color: currentTab == "club"
-                                ? CluBColor.mainBackground
-                                : CluBColor.mainColor),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            currentTab == 'now' ? Expanded(child: newDeck()) : Container(),
-          ],
-        ),
-      ),
+          alignment: Alignment.center,
+          color: CluBColor.mainBackground,
+          child: newDeck()),
     );
   }
 
@@ -462,7 +384,7 @@ class _HomeTabState extends State<HomeTab> {
                       top: 467,
                       left: 79,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           test.next(swipeDirection: SwipeDirection.left);
                         },
                         child: Container(
@@ -492,7 +414,7 @@ class _HomeTabState extends State<HomeTab> {
                       top: 467,
                       right: 79,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           test.next(swipeDirection: SwipeDirection.right);
                         },
                         child: Container(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clu_b/club_theme.dart';
+import 'package:clu_b/components/common_components.dart';
 import 'package:flutter/material.dart';
 
 class BigCard extends StatefulWidget {
@@ -66,47 +67,8 @@ class _BigCardState extends State<BigCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Category
-              Container(
-                width: 65,
-                height: 27,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: CluBColor.subGreen,
-                    borderRadius: BorderRadius.circular(27)),
-                child: Text(
-                  widget.category,
-                  style: CluBTextTheme.bold18.copyWith(color: Colors.white),
-                ),
-              ),
-              Stack(
-                alignment: Alignment.centerLeft,
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    width: 64.3,
-                    height: 26.6,
-                    padding: EdgeInsets.only(right: 9),
-                    alignment: Alignment.centerRight,
-                    decoration: BoxDecoration(
-                        color: CluBColor.darkGray,
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Text(
-                      "${widget.leaderSchoolNum}",
-                      style: CluBTextTheme.bold16.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: CluBColor.mainColor),
-                    ),
-                  ),
-                  Positioned(
-                    left: -12,
-                    child: Container(
-                        width: 46,
-                        height: 46,
-                        decoration: BoxDecoration(
-                            color: CluBColor.gray, shape: BoxShape.circle)),
-                  )
-                ],
-              )
+              categoryIndicator(widget.category),
+              leaderIndicator(widget.leader,widget.leaderSchoolNum)
             ],
           ),
           const SizedBox(height: 40),
@@ -134,35 +96,8 @@ class _BigCardState extends State<BigCard> {
               width: 152,
               child: Column(
                 children: [
-                  timeIndicator(),
-                  Container(
-                    width: 83,
-                    height: 28,
-                    margin: EdgeInsets.only(top: 5.5),
-                    decoration: BoxDecoration(
-                        color: CluBColor.darkGray,
-                        borderRadius: BorderRadius.circular(14)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${widget.memberCount}",
-                          style: CluBTextTheme.extraBold18
-                              .copyWith(color: Colors.white),
-                        ),
-                        Text(
-                          "/",
-                          style: CluBTextTheme.extraBold18
-                              .copyWith(color: CluBColor.ultraLightGray),
-                        ),
-                        Text(
-                          "${widget.maxMemberCount}",
-                          style: CluBTextTheme.extraBold18
-                              .copyWith(color: CluBColor.ultraLightGray),
-                        ),
-                      ],
-                    ),
-                  )
+                  timeIndicator(widget.time),
+                  memberIndicator(widget.memberCount, widget.maxMemberCount)
                 ],
               ),
             ),
@@ -172,30 +107,5 @@ class _BigCardState extends State<BigCard> {
     );
   }
 
-  Widget timeIndicator() {
-    return Column(
-      children: [
-        Text(12 <= widget.time.hour && widget.time.hour <= 23 ? "오후" : "오전",
-            style: CluBTextTheme.extraBold14.copyWith(color: Colors.white)),
-        Text(
-            "${12 <= widget.time.hour && widget.time.hour <= 23 ? widget.time.hour - 12 : widget.time.hour}시",
-            style: CluBTextTheme.bold30.copyWith(color: Colors.white)),
-        SizedBox(
-          width: 48,
-          child: Divider(
-            color: CluBColor.subGreen,
-            thickness: 2,
-            height: 16,
-          ),
-        ),
-        Text("남은시간",
-            style:
-                CluBTextTheme.extraBold14.copyWith(color: CluBColor.subGreen)),
-        Text(
-          "${widget.time.difference(DateTime.now()).toString().split('.')[0]}",
-          style: CluBTextTheme.bold30.copyWith(color: CluBColor.subGreen),
-        ),
-      ],
-    );
-  }
+
 }
