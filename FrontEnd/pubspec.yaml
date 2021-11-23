@@ -51,6 +51,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   scroll_snap_list: ^0.8.4
   swipable_stack: ^0.7.1
+  sticky_headers: ^0.2.0
 
 dev_dependencies:
   flutter_test:

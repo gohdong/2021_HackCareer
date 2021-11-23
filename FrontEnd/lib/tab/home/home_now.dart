@@ -21,7 +21,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   final double constMidPosition = 20;
   final double constBottomPosition = 40;
 
-  SwipableStackController test = SwipableStackController();
+  SwipableStackController swipableStackController = SwipableStackController();
 
   bool turnOnCloseButton = false;
   bool turnOnLikedButton = false;
@@ -142,10 +142,10 @@ class _HomeNowTabState extends State<HomeNowTab> {
   @override
   void initState() {
     super.initState();
-    test.addListener(() {
-      if (test.currentSession != null) {
-        double direction = test.currentSession!.startPosition.dx -
-            test.currentSession!.currentPosition.dx;
+    swipableStackController.addListener(() {
+      if (swipableStackController.currentSession != null) {
+        double direction = swipableStackController.currentSession!.startPosition.dx -
+            swipableStackController.currentSession!.currentPosition.dx;
         if (direction < -30) {
           // swipe right
           setState(() {
@@ -170,7 +170,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   @override
   void dispose() {
     super.dispose();
-    test.dispose();
+    swipableStackController.dispose();
   }
 
   @override
@@ -332,7 +332,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                   width: MediaQuery.of(context).size.width,
                   height: 537,
                   child: SwipableStack(
-                    controller: test,
+                    controller: swipableStackController,
                     onSwipeCompleted: (index, direction) {
                       print(direction);
                       cardUp();
@@ -385,7 +385,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                       left: 79,
                       child: InkWell(
                         onTap: () {
-                          test.next(swipeDirection: SwipeDirection.left);
+                          swipableStackController.next(swipeDirection: SwipeDirection.left);
                         },
                         child: Container(
                           height: 65,
@@ -415,7 +415,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                       right: 79,
                       child: InkWell(
                         onTap: () {
-                          test.next(swipeDirection: SwipeDirection.right);
+                          swipableStackController.next(swipeDirection: SwipeDirection.right);
                         },
                         child: Container(
                           height: 65,

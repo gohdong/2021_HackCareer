@@ -1,8 +1,11 @@
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
+import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/components/small_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
 class HomeCluBTab extends StatefulWidget {
@@ -13,19 +16,18 @@ class HomeCluBTab extends StatefulWidget {
 }
 
 class _HomeCluBTabState extends State<HomeCluBTab> {
-  int currentCardIndex = 0;
-  double varTopPosition = 95;
-  double varMidPosition = 20;
-  double varBottomPosition = 40;
-  final double constTopPosition = 95;
-  final double constMidPosition = 20;
-  final double constBottomPosition = 40;
+  Map category = {
+    'all': '전체',
+    'game': '게임',
+    'drink': '술',
+    'study': '스터디',
+    'movie': '영화',
+    'reading': '독서',
+    'good_food': '맛집탐방',
+    'sport': '스포츠',
+  };
 
-  SwipableStackController test = SwipableStackController();
-
-  bool turnOnCloseButton = false;
-  bool turnOnLikedButton = false;
-
+  String currentCategory = 'all';
   List data = [
     {
       'category': '전시',
@@ -154,7 +156,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
     return Scaffold(
       floatingActionButton: InkWell(
         child: Container(
-          margin: EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 20),
           height: 68,
           width: 68,
           alignment: Alignment.center,
@@ -162,11 +164,92 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
         ),
       ),
       body: Container(
-          alignment: Alignment.center,
-          color: CluBColor.mainBackground,
-          child: Container()),
+        color: CluBColor.mainBackground,
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 26, top: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "안녕하세요, 크루님",
+                    style: CluBTextTheme.medium18.copyWith(color: Colors.white),
+                  ),
+                  Text(
+                    "오늘도 일상을 즐기세요!",
+                    style:
+                        CluBTextTheme.extraBold18.copyWith(color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 46,
+              margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 7),
+              padding: const EdgeInsets.all(13),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(7)),
+              child: Row(
+                children: [
+                  Text(
+                    "지금 오버워치 한판 어때요?",
+                    style: CluBTextTheme.medium18
+                        .copyWith(color: CluBColor.ultraLightGray),
+                  )
+                ],
+              ),
+            ),
+            StickyHeader(
+              header: Container(
+                height: 40,
+                width: MediaQuery.of(context).size.width,
+                color: CluBColor.mainBackground,
+                padding: const EdgeInsets.only(left: 26),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: category.length,
+                  itemBuilder: (context, index) {
+                    String key = category.keys.elementAt(index);
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 24),
+                        child: Text(
+                          "${category[key]}",
+                          style: CluBTextTheme.semiBold18.copyWith(
+                              color: currentCategory == key
+                                  ? CluBColor.mainColor
+                                  : CluBColor.gray),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              content: ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return SmallCard(
+                    title: data[index]['title'],
+                    category: data[index]['category'],
+                    desc: data[index]['desc'],
+                    img: data[index]['img'],
+                    leader: data[index]['leader'],
+                    leaderSchoolNum: data[index]['leaderSchoolNum'],
+                    maxMemberCount: data[index]['maxMemberCount'],
+                    memberCount: data[index]['memberCount'],
+                    time: data[index]['time'],
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) => verticalSpacer(6),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
-
-
 }
