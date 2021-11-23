@@ -3,10 +3,18 @@ import { AppModule } from './app.module';
 import * as config from 'config'
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { EntityNotFoundExceptionFilter, QueryFailedExceptionFilter } from './filter/entity-not-found-exception.filter';
+import * as fs from 'fs';
 
+
+// const httpsOptions = {
+//   key: fs.readFileSync('./ssl/https.key','utf-8'),
+//   cert: fs.readFileSync('./ssl/https.crt','utf-8'),
+// };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,{
+    // httpsOptions
+  });
   app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(new EntityNotFoundExceptionFilter(),new QueryFailedExceptionFilter());
   
