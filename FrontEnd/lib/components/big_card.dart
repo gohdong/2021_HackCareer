@@ -55,57 +55,80 @@ class _BigCardState extends State<BigCard> {
     return Container(
       width: (MediaQuery.of(context).size.width - 52),
       height: (MediaQuery.of(context).size.width - 52) * 1.43,
-      padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-          color: CluBColor.black,
-          borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
-              image: Image.asset('assets/img/IMG_4624.png').image)),
-      child: Column(
+        color: CluBColor.black,
+        borderRadius: BorderRadius.circular(20),
+        image: DecorationImage(
+            alignment: Alignment.centerLeft,
+            fit: BoxFit.fitHeight,
+            image: Image.asset('assets/img/IMG_4624.png').image),
+      ),
+      child: Stack(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Category
-              categoryIndicator(widget.category),
-              leaderIndicator(widget.leader,widget.leaderSchoolNum)
-            ],
-          ),
-          const SizedBox(height: 40),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.title,
-              style: CluBTextTheme.bold22_30.copyWith(color: Colors.white),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.desc,
-              style: CluBTextTheme.semiBold18.copyWith(color: Colors.white),
-            ),
-          ),
-          const SizedBox(
-            height: 70,
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: 152,
-              child: Column(
-                children: [
-                  timeIndicator(widget.time),
-                  memberIndicator(widget.memberCount, widget.maxMemberCount)
-                ],
+          Container(
+            width: (MediaQuery.of(context).size.width - 52),
+            height: (MediaQuery.of(context).size.width - 52) * 1.43,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: Image.asset(
+                  'assets/img/big_card_mask.png',
+                ).image,
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Category
+                    categoryIndicator(widget.category),
+                    leaderIndicator(widget.leader, widget.leaderSchoolNum)
+                  ],
+                ),
+                const SizedBox(height: 40),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.title,
+                    style:
+                        CluBTextTheme.bold22_30.copyWith(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.desc,
+                    style:
+                        CluBTextTheme.semiBold18.copyWith(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(
+                  height: 70,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 152,
+                    child: Column(
+                      children: [
+                        timeIndicator(widget.time),
+                        memberIndicator(
+                            widget.memberCount, widget.maxMemberCount)
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
   }
-
-
 }

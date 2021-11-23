@@ -8,6 +8,7 @@ class SmallCard extends StatefulWidget {
   final String category;
   final String leader;
   final int leaderSchoolNum;
+  final bool left;
 
   final String title;
   final String desc;
@@ -26,7 +27,8 @@ class SmallCard extends StatefulWidget {
       required this.img,
       required this.memberCount,
       required this.maxMemberCount,
-      required this.time})
+      required this.time,
+      required this.left})
       : super(key: key);
 
   @override
@@ -75,11 +77,11 @@ class _SmallCardState extends State<SmallCard> {
               Expanded(
                 child: Container(),
               ),
-              smallMemberIndicator(
-                  widget.memberCount, widget.maxMemberCount),
+              smallMemberIndicator(widget.memberCount, widget.maxMemberCount),
               Padding(
-                padding: const EdgeInsets.only(top: 20,bottom: 10),
-                child: smallLeaderIndicator(widget.leader, widget.leaderSchoolNum),
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child:
+                    smallLeaderIndicator(widget.leader, widget.leaderSchoolNum),
               )
             ],
           ),

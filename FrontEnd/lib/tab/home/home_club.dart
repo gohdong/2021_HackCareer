@@ -233,6 +233,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   return SmallCard(
+                    left: index % 2 == 1,
                     title: data[index]['title'],
                     category: data[index]['category'],
                     desc: data[index]['desc'],
