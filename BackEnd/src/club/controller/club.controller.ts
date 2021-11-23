@@ -7,7 +7,8 @@ import { UpdateResult } from 'typeorm';
 import { IsClubLeaderGuard } from '../guard/is-club-leader.guard';
 import { BodyInterceptor } from '../helper/club-opt.interceptor';
 import { saveClubImageToStorage } from '../helper/club-storage';
-import { ClubDTO } from '../model/club.dto';
+import { ClubCreateDTO } from '../model/club-create.dto';
+import { ClubUpdateDTO } from '../model/club-update.dto';
 import { Club } from '../model/club.entity';
 import { Member } from '../model/member.entity';
 import { ClubService } from '../service/club.service';
@@ -42,7 +43,7 @@ export class ClubController {
     createClub(
         @GetUser() user:User,
         @UploadedFile() file:Express.Multer.File,
-        @Body() clubDTO : ClubDTO
+        @Body() clubDTO : ClubCreateDTO
         ):Promise<Club>{
             clubDTO.imagePath = file?file['publicUrl']:null;
             return this.clubService.createClub(clubDTO,user);
@@ -54,9 +55,10 @@ export class ClubController {
     updateClub(
         @Param('id') id:number,
         @UploadedFile() file:Express.Multer.File,
-        @Body() clubDTO : ClubDTO
+        @Body() clubDTO : ClubUpdateDTO
         ):Promise<UpdateResult>{
-            clubDTO.imagePath = file?file['publicUrl']:null;
+            clubDTO.newImagePath = file?file['publicUrl']:null;
+            
             return this.clubService.updateClub(id,clubDTO);
         }
     

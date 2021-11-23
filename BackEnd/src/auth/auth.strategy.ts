@@ -22,7 +22,7 @@ export class AuthStrategy extends PassportStrategy(Strategy){
 
     async validate(payload){
         const {user_id,email} = payload;
-        const user:User = await this.userRepository.findOne({uid:user_id})
+        const user:User = await this.userRepository.findOneOrFail({uid:user_id})
         return user;
     }
 }

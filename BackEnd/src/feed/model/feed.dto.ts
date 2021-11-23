@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { FeedCategoryEnum } from "./feed.enum";
 
 
 export class FeedDTO {
@@ -10,4 +11,9 @@ export class FeedDTO {
     @IsOptional()
     @IsString({each:true})
     imagePath:string[];
+
+    @IsNotEmpty()
+    @IsEnum(FeedCategoryEnum)
+    category : FeedCategoryEnum;
+
 }

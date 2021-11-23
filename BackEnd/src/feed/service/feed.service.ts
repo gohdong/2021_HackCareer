@@ -5,7 +5,9 @@ import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
 import { DeleteResult, UpdateResult } from 'typeorm';
-import { UpdateFeedDTO } from '../model/update-feed.dto';
+import { FeedUpdateDTO } from '../model/feed-update.dto';
+import { FeedCategoryRepository } from '../repository/feed-category.repository';
+import { FeedCategory } from '../model/feed-category.entity';
 
 @Injectable()
 export class FeedService {
@@ -13,6 +15,8 @@ export class FeedService {
     constructor(
         @InjectRepository(FeedRepository)
         private feedRepository : FeedRepository,
+        @InjectRepository(FeedCategoryRepository)
+        private feedCategoryRepository : FeedCategoryRepository,
     ){}
 
     findFeeds(take:number,skip:number):Promise<Feed[]>{
@@ -37,10 +41,15 @@ export class FeedService {
     }
 
     writeFeed(user:User, feedDTO:FeedDTO):Promise<Feed>{
-        return this.feedRepository.writeFeed(user,feedDTO)
+        return this.feedCategoryRepository.findOneOrFail({categoryTitle:feedDTO.category})
+        .then((category:FeedCategory)=>{
+            return this.feedRepository.writeFeed(user,feedDTO,category)
+        })
+        
+        
     }
 
-    async updateFeed(id:number,updateFeedDTO:UpdateFeedDTO):Promise<UpdateResult>{
+    async updateFeed(id:number,updateFeedDTO:FeedUpdateDTO):Promise<UpdateResult>{
 
         const feed:Feed = await this.feedRepository.findOneOrFail(id)
         const {

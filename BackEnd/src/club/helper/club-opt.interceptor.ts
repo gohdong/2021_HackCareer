@@ -1,6 +1,6 @@
 import { CallHandler, createParamDecorator, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { ClubDTO } from "../model/club.dto";
+import { ClubCreateDTO } from "../model/club-create.dto";
 
 
 

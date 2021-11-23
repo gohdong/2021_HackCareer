@@ -1,7 +1,8 @@
-import { IsBoolean, IsDate, IsDateString, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsDateString, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { ClubCategoryEnum } from "./club.enum";
 
 
-export class ClubDTO{
+export class ClubCreateDTO{
 
     @IsString()
     title:string;
@@ -12,6 +13,9 @@ export class ClubDTO{
     @IsString()
     @IsOptional()
     imagePath:string;
+
+    @IsEnum(ClubCategoryEnum)
+    category:ClubCategoryEnum;
 
     @IsDateString()
     timeLimit:Date;

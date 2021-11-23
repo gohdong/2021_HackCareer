@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 
-export class UpdateFeedDTO {
+export class FeedUpdateDTO {
     @IsOptional()
     @IsString()
     description:string;

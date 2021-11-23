@@ -2,8 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
 import { UpdateResult } from 'typeorm';
-import { ClubDTO } from '../model/club.dto';
+import { ClubCatecory } from '../model/club-catecory.entity';
+import { ClubCreateDTO } from '../model/club-create.dto';
+import { ClubUpdateDTO } from '../model/club-update.dto';
 import { Club } from '../model/club.entity';
+import { ClubCatecoryRepository } from '../repository/club-category.repository';
 import { ClubRepository } from '../repository/club.repository';
 import { MemberRepository } from '../repository/member.repository';
 import { MemberService } from './member.service';
@@ -14,7 +17,9 @@ export class ClubService {
     constructor(
         @InjectRepository(ClubRepository)
         private clubRepository:ClubRepository,
-        private memberService : MemberService
+        private memberService : MemberService,
+        @InjectRepository(ClubCatecoryRepository)
+        private clubCategoryRepository : ClubCatecoryRepository,
     ){}
 
     findClubs(take:number,skip:number):Promise<Club[]>{
@@ -36,23 +41,27 @@ export class ClubService {
         return this.clubRepository.findClubById(id);
     }
 
-    async updateClub(id:number,clubDTO:ClubDTO):Promise<UpdateResult>{
+    async updateClub(id:number,clubDTO:ClubUpdateDTO):Promise<UpdateResult>{
         const {
             title,
             description,
-            imagePath,
+            newImagePath,
             timeLimit,
             numLimit,
-            isThunder} = clubDTO;
+            isThunder,
+        } = clubDTO;
+
+        const clubCategory = await this.clubCategoryRepository.findOneOrFail({categoryTitle:clubDTO.category})
 
         return this.clubRepository.findOneOrFail({id}).then((club:Club)=>{
-            const removedImage = imagePath===club.imagePath? club.imagePath:null;
+            const removedImage = newImagePath? club.imagePath:null;
             club.title = title;
             club.description = description;
-            club.imagePath = imagePath;
+            club.imagePath = newImagePath?? club.imagePath;
             club.timeLimit = timeLimit;
             club.numLimit = numLimit;
-            club.isThunder = isThunder
+            club.isThunder = isThunder;
+            club.category = clubCategory
             return this.clubRepository.update(club.id,club).then((result)=>{
                 if(removedImage){
                     // revomedImage 처리
@@ -63,14 +72,18 @@ export class ClubService {
 
     }
 
-    async createClub(clubDTO : ClubDTO,user:User):Promise<Club>{
+    async createClub(clubDTO : ClubCreateDTO,user:User):Promise<Club>{
         const {
             title,
             description,
             imagePath,
             timeLimit,
             numLimit,
-            isThunder} = clubDTO;
+            isThunder,
+        } = clubDTO;
+
+        const clubCategory = await this.clubCategoryRepository.findOneOrFail({categoryTitle:clubDTO.category})
+        
 
         const club =  Club.create({
             title,
@@ -79,8 +92,10 @@ export class ClubService {
             timeLimit,
             numLimit,
             isThunder,
-            leader:user
+            leader:user,
+            category:clubCategory
         })
+    
         return this.clubRepository.save(club).then((club:Club)=>{
             return  this.memberService.joinClub(user,club.id).then((_)=>{
                 return club

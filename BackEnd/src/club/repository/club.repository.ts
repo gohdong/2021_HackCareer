@@ -2,14 +2,14 @@ import { NotFoundException } from "@nestjs/common";
 import { title } from "process";
 import { User } from "src/auth/model/user.entity";
 import { EntityRepository, Repository } from "typeorm";
-import { ClubDTO } from "../model/club.dto";
+import { ClubCreateDTO } from "../model/club-create.dto";
 import { Club } from "../model/club.entity";
 
 
 @EntityRepository(Club)
 export class ClubRepository extends Repository<Club>{
 
-    createClub(clubDTO:ClubDTO,user:User):Promise<Club>{
+    createClub(clubDTO:ClubCreateDTO,user:User):Promise<Club>{
         const {
             title,
             description,

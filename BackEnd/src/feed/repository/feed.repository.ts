@@ -2,19 +2,20 @@ import { User } from "src/auth/model/user.entity";
 import { EntityRepository, Repository, UpdateResult } from "typeorm";
 import { Feed } from "../model/feed.entity";
 import { FeedDTO } from "../model/feed.dto";
-import { NotFoundException } from "@nestjs/common";
+import { FeedCategory } from "../model/feed-category.entity";
 
 @EntityRepository(Feed)
 export class FeedRepository extends Repository<Feed>{
 
 
-    async writeFeed(user:User,feedDTO:FeedDTO):Promise<Feed>{
+    async writeFeed(user:User,feedDTO:FeedDTO,category:FeedCategory):Promise<Feed>{
         const {description,imagePath} = feedDTO;
 
         const feed:Feed = this.create({
             writer:user,
             description,
-            imagePath
+            imagePath,
+            category
         })
         return await this.save(feed);
     }

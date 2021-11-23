@@ -8,11 +8,12 @@ import { MemberController } from './controller/member.controller';
 import { MemberService } from './service/member.service';
 import { MemberRepository } from './repository/member.repository';
 import { IsClubLeaderGuard } from './guard/is-club-leader.guard';
+import { ClubCatecoryRepository } from './repository/club-category.repository';
 
 @Module({
   imports:[
     AuthModule,
-    TypeOrmModule.forFeature([ClubRepository,MemberRepository])
+    TypeOrmModule.forFeature([ClubRepository,MemberRepository,ClubCatecoryRepository])
   ],
   controllers: [ClubController, MemberController,
   ],

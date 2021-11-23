@@ -13,7 +13,7 @@ import { IsCommentCreatorGuard } from '../guard/is-comment-creator.guard';
 import { saveFeedImageToStorage } from '../helper/feed-storage';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { BodyInterceptor } from '../helper/feed-opt.interceptor';
-import { UpdateFeedDTO } from '../model/update-feed.dto';
+import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { LikeFeedService } from 'src/auth/service/like-feed.service';
 import { LikeFeed } from 'src/auth/model/like-feed.entity';
 
@@ -67,7 +67,7 @@ export class FeedController {
     udpateFeed(
         @Param('id') id:number,
         @UploadedFiles() files: Array<Express.Multer.File>,
-        @Body() updateFeedDTO:UpdateFeedDTO
+        @Body() updateFeedDTO:FeedUpdateDTO
     ):Promise<UpdateResult>{
         const temp = JSON.parse(JSON.stringify(files))['files']
         updateFeedDTO.addedImagePath = temp?temp.map((file)=>file['publicUrl']):[];

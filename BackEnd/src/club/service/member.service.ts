@@ -1,5 +1,6 @@
 import { ConflictException, ForbiddenException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { buildMessage } from 'class-validator';
 import { User } from 'src/auth/model/user.entity';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { Member } from '../model/member.entity';
@@ -16,19 +17,21 @@ export class MemberService {
     ){}
 
     async joinClub(user:User,clubId:number):Promise<Member>{
-        const club = await this.clubRepository.findClubById(clubId);
-        
-        
-        return this.memberRepository.findOne({user,club}).then((member:Member)=>{
-            if(member){
-                throw new ForbiddenException(`Already joined`)
-            }
-            if(club.members.length >= club.numLimit){
-                throw new ConflictException(`Full Member`);
-            }
-            const create = this.memberRepository.create({user,club})
-            return this.memberRepository.save(create);
+        return this.clubRepository.findClubById(clubId).then((club)=>{
+            return this.memberRepository.findOne({user,club}).then((member:Member)=>{
+                if(member){
+                    throw new ForbiddenException(`Already joined`)
+                }
+                if(club['__members__'].length >= club.numLimit){
+                    throw new ConflictException(`Full Member`);
+                }
+                const create = this.memberRepository.create({user,club})
+                return this.memberRepository.save(create);
+            })
         })
+        
+        
+        
     }
 
     async leftClub(user:User,clubId:number):Promise<UpdateResult>{

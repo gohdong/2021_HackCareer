@@ -1,5 +1,7 @@
 import { User } from "src/auth/model/user.entity";
 import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ClubCatecory } from "./club-catecory.entity";
+import { ClubCategoryEnum } from "./club.enum";
 import { Member } from "./member.entity";
 
 @Entity()
@@ -24,6 +26,9 @@ export class Club extends BaseEntity{
 
     @Column({nullable:false})
     isThunder : boolean;
+
+    @ManyToOne(()=>ClubCatecory,(clubCatecory)=>clubCatecory.categoryTitle,{nullable:false})
+    category: ClubCatecory;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;

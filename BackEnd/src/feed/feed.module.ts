@@ -9,11 +9,12 @@ import { CommentController } from './controller/comment.controller';
 import { CommentService } from './service/comment.service';
 import { CommentRepository } from './repository/comment.repository';
 import { IsCommentCreatorGuard } from './guard/is-comment-creator.guard';
+import { FeedCategoryRepository } from './repository/feed-category.repository';
 
 @Module({
   imports : [
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([FeedRepository,CommentRepository])
+    TypeOrmModule.forFeature([FeedRepository,CommentRepository,FeedCategoryRepository])
   ],
   controllers: [FeedController, CommentController],
   providers: [FeedService,IsFeedCreatorGuard,IsCommentCreatorGuard, CommentService],
