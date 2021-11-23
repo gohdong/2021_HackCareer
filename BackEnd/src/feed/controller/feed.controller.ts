@@ -31,18 +31,30 @@ export class FeedController {
     @Get()
     findFeeds(
         @Query('take') take:number=1,
-        @Query('skip') skip:number
+        @Query('skip') skip:number,
+        @Query('category') category:string,
         ):Promise<Feed[]>{
             take = take>20 ?20 : take;
-            return this.feedService.findFeeds(take,skip)
+            return this.feedService.findFeeds(take,skip,category)
     }
 
-    @Get(":id")
+    @Get("/search")
+    findFeedByKeyword(
+        @Query('take') take:number=1,
+        @Query('skip') skip:number,
+        @Query('keyword') keyword:string,
+    ):Promise<Feed[]>{
+        take = take>20 ?20 : take;
+        return this.feedService.findByKeyword(take,skip,keyword)
+    }
+
+    @Get("/:id")
     findFeedById(
         @Param('id') id:number
     ):Promise<Feed>{
         return this.feedService.findFeedById(id)
     }
+    
 
     @Post()
     @UseInterceptors(FileFieldsInterceptor([

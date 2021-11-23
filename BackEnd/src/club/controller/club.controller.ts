@@ -25,10 +25,20 @@ export class ClubController {
     @Get()
     findClubs(
         @Query('take') take:number=1,
-        @Query('skip') skip:number
+        @Query('skip') skip:number,
+        @Query('category') category:string
         ):Promise<Club[]>{
             take = take>20 ?20 : take;
-            return this.clubService.findClubs(take,skip)
+            return this.clubService.findClubs(take,skip,category)
+    }
+    @Get("/search")
+    findClubByKeyword(
+        @Query('take') take:number=1,
+        @Query('skip') skip:number,
+        @Query('keyword') keyword:string
+        ):Promise<Club[]>{
+            take = take>20 ?20 : take;
+            return this.clubService.findClubByKeyword(take,skip,keyword)
     }
 
     @Get("/:id")

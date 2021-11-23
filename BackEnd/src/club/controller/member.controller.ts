@@ -12,12 +12,18 @@ export class MemberController {
         private memberService :MemberService
     ){}
 
-    // @Get('myLiveClub')
-    // getJoinedClub(
-    //     @GetUser() user:User
-    // ){
-    //     return this.memberService.getLiveClub(user);
-    // }
+    @Get('myLiveClub')
+    getJoinedClub(
+        @GetUser() user:User
+    ){
+        return this.memberService.getLiveClub(user);
+    }
+    @Get('myClubLog')
+    getClubLog(
+        @GetUser() user:User
+    ){
+        return this.memberService.getClubLog(user);
+    }
 
     
 }

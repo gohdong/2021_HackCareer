@@ -30,14 +30,17 @@ export class Club extends BaseEntity{
     @Column({nullable:false, default:false})
     isCanceled : boolean;
 
-    @ManyToOne(()=>ClubCategory,(clubCatecory)=>clubCatecory.categoryTitle,{nullable:false})
-    category: ClubCategory;
+    @Column("text", { array: true })
+    hashTags: string[];
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?: Date;
+
+    @ManyToOne(()=>ClubCategory,(clubCatecory)=>clubCatecory.categoryTitle,{nullable:false})
+    category: ClubCategory;
 
     @ManyToOne(()=>User,(user)=>user.createdClubs,{eager:false,lazy:true})
     leader : User

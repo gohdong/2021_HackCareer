@@ -23,7 +23,7 @@ export class Feed extends BaseEntity{
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?:Date;
 
-    @ManyToOne(()=>FeedCategory,(feedCategory)=>feedCategory.feeds,{eager:true})
+    @ManyToOne(()=>FeedCategory,(feedCategory)=>feedCategory.feeds,{lazy:true})
     category: FeedCategory;
 
     @ManyToOne(()=>User, (user)=>user.feeds,{lazy:true,eager:false})

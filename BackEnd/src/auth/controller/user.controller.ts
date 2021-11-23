@@ -22,20 +22,6 @@ export class UserController {
         return this.userService.getMyInfo(user);
     }
 
-    @Get('myClub')
-    getMyClub(
-        @GetUser() user:User
-    ){
-        return this.userService.getMyClub(user);
-    }
-
-    @Get('myClubLog')
-    getMyClubLog(
-        @GetUser() user:User
-    ){
-        return this.userService.getMyClubLog(user);
-    }
-
 
     @Post('/profile')
     @UseInterceptors(FileInterceptor('file',saveProfileImageToStorage))

@@ -34,17 +34,17 @@ export class UserService {
         });
     }
 
-    getMyClub(user:User){
-        return this.userRepository.findOneOrFail(user.id,{
-            relations:['joinedClubs']
-        })
-    }
+    // getMyClub(user:User){
+    //     return this.userRepository.findOneOrFail(user.id,{
+    //         relations:['joinedClubs']
+    //     })
+    // }
 
-    getMyClubLog(user:User){
-        return this.userRepository.findOneOrFail(user.id,{
-            relations:['joinedClubs','joinedClubs.club'],
-            withDeleted:true
-        })
-    }
+    // getMyClubLog(user:User){
+    //     return this.userRepository.findOneOrFail(user.id,{
+    //         relations:['joinedClubs','joinedClubs.club'],
+    //         withDeleted:true
+    //     })
+    // }
 
 }

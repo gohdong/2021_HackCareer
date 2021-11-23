@@ -4,7 +4,7 @@ import { User } from 'src/auth/model/user.entity';
 import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult, Like, UpdateResult } from 'typeorm';
 import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { FeedCategoryRepository } from '../repository/feed-category.repository';
 import { FeedCategory } from '../model/feed-category.entity';
@@ -19,25 +19,53 @@ export class FeedService {
         private feedCategoryRepository : FeedCategoryRepository,
     ){}
 
-    findFeeds(take:number,skip:number):Promise<Feed[]>{
-        return this.feedRepository.findAndCount({
+    findFeeds(take:number,skip:number,selectedCategory?:string):Promise<Feed[]>{
+        return selectedCategory?this.feedRepository.findAndCount({
             take,skip,
-            relations:['writer'],
+            relations:['writer','category'],
+            loadRelationIds:{
+                relations:['comments','likeUsers']
+            },
+            where:{
+                category:{categoryTitle:selectedCategory}
+            }
+        }).then(([feed])=>{
+            return feed;
+        }):this.feedRepository.findAndCount({
+            take,skip,
+            relations:['writer','category'],
             loadRelationIds:{
                 relations:['comments','likeUsers']
             },
         }).then(([feeds])=>{
-            if(feeds.length == 0){
-                throw new NotFoundException(`No Feeds`)
+            if(feeds.length === 0){
+                throw new NotFoundException(`No feeds`)
             }
-            return <Feed[]>feeds;
+            return feeds;
+        })
+    }
+
+    findByKeyword(take:number,skip:number,keyword:string):Promise<Feed[]>{
+        return this.feedRepository.findAndCount({
+            take,skip,
+            relations:['writer','category'],
+            loadRelationIds:{
+                relations:['comments','likeUsers']
+            },
+            where:{
+                description: Like(`%${keyword}%`)
+            }
+        }).then(([feeds])=>{
+            if(feeds.length === 0){
+                throw new NotFoundException(`No feeds`)
+            }
+            return feeds;
         })
     }
 
     findFeedById(id:number):Promise<Feed>{
         return this.feedRepository.findOneOrFail({id},{
-            relations:['writer','comments','comments.writer'],
-            
+            relations:['writer','comments','comments.writer','category','likeUsers','likeUsers.user'],
         });
     }
 
@@ -46,8 +74,6 @@ export class FeedService {
         .then((category:FeedCategory)=>{
             return this.feedRepository.writeFeed(user,feedDTO,category)
         })
-        
-        
     }
 
     async updateFeed(id:number,updateFeedDTO:FeedUpdateDTO):Promise<UpdateResult>{
