@@ -75,13 +75,11 @@ Widget smallMemberIndicator(int memberCount, int maxMemberCount) {
         ),
         Text(
           "/",
-          style: CluBTextTheme.bold16
-              .copyWith(color: CluBColor.ultraLightGray),
+          style: CluBTextTheme.bold16.copyWith(color: CluBColor.ultraLightGray),
         ),
         Text(
           "$maxMemberCount",
-          style: CluBTextTheme.bold16
-              .copyWith(color: CluBColor.ultraLightGray),
+          style: CluBTextTheme.bold16.copyWith(color: CluBColor.ultraLightGray),
         ),
       ],
     ),
@@ -204,7 +202,9 @@ Widget dateIndicator(DateTime date) {
   return Container(
     width: 60,
     height: 52,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(11)),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(11),
+        color: Colors.white.withOpacity(0.76)),
     child: BackdropFilter(
       filter: ImageFilter.blur(),
       child: Container(

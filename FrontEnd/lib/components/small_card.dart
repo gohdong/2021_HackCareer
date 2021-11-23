@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SmallCard extends StatefulWidget {
   final String category;
@@ -57,37 +58,60 @@ class _SmallCardState extends State<SmallCard> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width * 0.64,
-      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: CluBColor.black,
-        // image: DecorationImage(
-        //     image: Image.asset('assets/img/IMG_4624.png').image),
       ),
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              categoryIndicator('스포츠'),
-              verticalSpacer(18),
-              Text(
-                widget.title,
-                style: CluBTextTheme.bold18_28.copyWith(color: Colors.white),
-              ),
-              Expanded(
-                child: Container(),
-              ),
-              smallMemberIndicator(widget.memberCount, widget.maxMemberCount),
-              Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child:
-                    smallLeaderIndicator(widget.leader, widget.leaderSchoolNum),
-              )
-            ],
-          ),
           Positioned(
             right: 0,
-            top: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.width * 0.64,
+              width: MediaQuery.of(context).size.width / 2,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  alignment: Alignment.centerRight,
+                  fit: BoxFit.cover,
+                  image: Image.asset(
+                    'assets/img/IMG_4624.png',
+                  ).image,
+                ),
+              ),
+            ),
+          ),
+          SvgPicture.asset(
+            widget.left
+                ? 'assets/svg/small_card_left_mask.svg'
+                : 'assets/svg/small_card_right_mask.svg',
+            fit: BoxFit.fill,
+            height: MediaQuery.of(context).size.width * 0.64,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                categoryIndicator('스포츠'),
+                verticalSpacer(18),
+                Text(
+                  widget.title,
+                  style: CluBTextTheme.bold18_28.copyWith(color: Colors.white),
+                ),
+                Expanded(
+                  child: Container(),
+                ),
+                smallMemberIndicator(widget.memberCount, widget.maxMemberCount),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 10),
+                  child: smallLeaderIndicator(
+                      widget.leader, widget.leaderSchoolNum),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            right: 26,
+            top: 12,
             child: dateIndicator(widget.time),
           ),
         ],

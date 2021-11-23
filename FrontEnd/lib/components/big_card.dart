@@ -66,8 +66,6 @@ class _BigCardState extends State<BigCard> {
       child: Stack(
         children: [
           Container(
-            width: (MediaQuery.of(context).size.width - 52),
-            height: (MediaQuery.of(context).size.width - 52) * 1.43,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
