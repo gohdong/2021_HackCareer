@@ -50,7 +50,7 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   flutter_secure_storage: ^5.0.2
   scroll_snap_list: ^0.8.4
-  sums_inner: ^1.0.0+1
+  swipable_stack: ^0.7.1
 
 dev_dependencies:
   flutter_test:
