@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
 import { UpdateResult } from 'typeorm';
-import { ClubCatecory } from '../model/club-catecory.entity';
+import { ClubCategory } from '../model/club-catecory.entity';
 import { ClubCreateDTO } from '../model/club-create.dto';
 import { ClubUpdateDTO } from '../model/club-update.dto';
 import { Club } from '../model/club.entity';
@@ -107,8 +107,19 @@ export class ClubService {
     deleteClub(id:number):Promise<Club>{
         return this.clubRepository.findOneOrFail({id},{
             relations:['members']
-        }).then((member)=>{
-            return this.clubRepository.softRemove(member);
+        }).then((club)=>{
+            return this.clubRepository.softRemove(club);
+        })
+    }
+
+    cancelClub(id:number){
+        return this.clubRepository.findOneOrFail(id,{
+            relations:['members']
+        }).then((club)=>{
+            club.isCanceled = true;
+            return this.clubRepository.save(club).then((editedClub)=>{
+                return this.clubRepository.softRemove(editedClub);
+            })
         })
     }
 }

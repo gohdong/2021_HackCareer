@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateResult } from 'typeorm';
+import { timeStamp } from 'console';
+import { getRepository, MoreThan, Timestamp, UpdateResult } from 'typeorm';
 import { User } from '../model/user.entity';
 import { UserRepository } from '../repository/user.repository';
 
@@ -21,6 +22,29 @@ export class UserService {
 
     findUserByUid(uid:string):Promise<User>{
         return this.userRepository.findOneOrFail({uid});
+    }
+
+    getUserProfile(id:number):Promise<User>{
+        return this.userRepository.findOneOrFail({id})
+    }
+
+    getMyInfo(user:User):Promise<User>{
+        return this.userRepository.findOneOrFail(user.id,{
+            relations:['feeds','comments','joinedClubs','likeFeeds','likeFeeds.feed','joinedClubs.club']
+        });
+    }
+
+    getMyClub(user:User){
+        return this.userRepository.findOneOrFail(user.id,{
+            relations:['joinedClubs']
+        })
+    }
+
+    getMyClubLog(user:User){
+        return this.userRepository.findOneOrFail(user.id,{
+            relations:['joinedClubs','joinedClubs.club'],
+            withDeleted:true
+        })
     }
 
 }

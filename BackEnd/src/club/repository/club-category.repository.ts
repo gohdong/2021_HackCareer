@@ -1,8 +1,8 @@
 import { EntityRepository, Repository } from "typeorm";
-import { ClubCatecory } from "../model/club-catecory.entity";
+import { ClubCategory } from "../model/club-catecory.entity";
 
-@EntityRepository(ClubCatecory)
-export class ClubCatecoryRepository extends Repository<ClubCatecory>{
+@EntityRepository(ClubCategory)
+export class ClubCatecoryRepository extends Repository<ClubCategory>{
 
     
 }

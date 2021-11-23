@@ -4,7 +4,7 @@ import { ClubCategoryEnum } from "./club.enum";
 
 
 @Entity()
-export class ClubCatecory extends BaseEntity{
+export class ClubCategory extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id:number;

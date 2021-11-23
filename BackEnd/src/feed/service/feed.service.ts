@@ -24,7 +24,7 @@ export class FeedService {
             take,skip,
             relations:['writer'],
             loadRelationIds:{
-                relations:['comments']
+                relations:['comments','likeUsers']
             },
         }).then(([feeds])=>{
             if(feeds.length == 0){
@@ -36,7 +36,8 @@ export class FeedService {
 
     findFeedById(id:number):Promise<Feed>{
         return this.feedRepository.findOneOrFail({id},{
-            relations:['writer','comments']
+            relations:['writer','comments','comments.writer'],
+            
         });
     }
 

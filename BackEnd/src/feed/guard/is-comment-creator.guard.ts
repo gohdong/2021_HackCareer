@@ -28,10 +28,11 @@ export class IsCommentCreatorGuard implements CanActivate{
 
         return this.userService.findUserByUid(userUid).then((user:User)=>{
             return this.commentService.findCommentById(commentId).then((comment:Comment)=>{
+                
                 if(!comment){
                     return false;
                 }
-                if(comment.writer.id === user.id){
+                if(comment['__writer__'].id === user.id){
                     return true;
                 }
                 return false;

@@ -32,7 +32,7 @@ export class ClubRepository extends Repository<Club>{
 
     async findClubById(id:number):Promise<Club>{
         return this.findOneOrFail(id,{
-            relations:['leader','members']
+            relations:['leader','members','members.user']
         })
     }
 }

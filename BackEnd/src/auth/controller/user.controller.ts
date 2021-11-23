@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateResult } from 'typeorm';
@@ -15,10 +15,39 @@ export class UserController {
         private userService : UserService
     ){}
 
+    @Get('my')
+    getMyInfo(
+        @GetUser() user:User
+    ){
+        return this.userService.getMyInfo(user);
+    }
+
+    @Get('myClub')
+    getMyClub(
+        @GetUser() user:User
+    ){
+        return this.userService.getMyClub(user);
+    }
+
+    @Get('myClubLog')
+    getMyClubLog(
+        @GetUser() user:User
+    ){
+        return this.userService.getMyClubLog(user);
+    }
+
+
     @Post('/profile')
     @UseInterceptors(FileInterceptor('file',saveProfileImageToStorage))
     async uploadProfile(@GetUser() user:User, @UploadedFile() file:Express.Multer.File): Promise<UpdateResult | {error:string}>{
         return this.userService.updateProfile(user.id,file['publicUrl'])
+    }
+
+    @Get('/:id/profile')
+    getProfile(
+        @Param("id") id:number
+    ):Promise<User>{
+        return this.userService.getUserProfile(id);
     }
 
     @Get("/:uid")

@@ -13,7 +13,7 @@ export class Comment extends BaseEntity{
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
-    @ManyToOne(()=>User, (user)=>user.comments,{eager:true})
+    @ManyToOne(()=>User, (user)=>user.comments,{lazy:true})
     writer: User;
 
     @ManyToOne(()=>Feed, (feed)=>feed.comments,{lazy:true})

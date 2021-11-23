@@ -71,6 +71,14 @@ export class ClubController {
         return this.clubService.deleteClub(id);
     }
 
+    @Put("/:id/cancel")
+    @UseGuards(IsClubLeaderGuard)
+    cancelClub(
+        @Param('id') id:number,
+    ){
+        return this.clubService.cancelClub(id);
+    }
+
 
     // member =============================================
 

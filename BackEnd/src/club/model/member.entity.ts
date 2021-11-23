@@ -3,6 +3,7 @@ import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToO
 import { Club } from "./club.entity";
 
 @Entity()
+@Unique(['club','user'])
 export class Member extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
@@ -13,9 +14,9 @@ export class Member extends BaseEntity{
     @DeleteDateColumn({type:'timestamp'})
     deletedAt?:Date;
 
-    @ManyToOne(()=>Club,(club)=>club.members,{eager:false,lazy:true})
+    @ManyToOne(()=>Club,(club)=>club.members,{lazy:true})
     club:Club;
 
-    @ManyToOne(()=>User,(user)=>user.joinedClubs,{eager:true})
+    @ManyToOne(()=>User,(user)=>user.joinedClubs,{lazy:true})
     user:User;
 }

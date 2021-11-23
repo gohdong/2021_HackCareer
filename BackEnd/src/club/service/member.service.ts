@@ -2,7 +2,7 @@ import { ConflictException, ForbiddenException, Injectable, InternalServerErrorE
 import { InjectRepository } from '@nestjs/typeorm';
 import { buildMessage } from 'class-validator';
 import { User } from 'src/auth/model/user.entity';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult, MoreThanOrEqual, UpdateResult } from 'typeorm';
 import { Member } from '../model/member.entity';
 import { ClubRepository } from '../repository/club.repository';
 import { MemberRepository } from '../repository/member.repository';
@@ -45,4 +45,19 @@ export class MemberService {
             return this.memberRepository.softDelete(member.id);
         })
     }
+
+    // getLiveClub(user:User){
+    //     return this.memberRepository.find({
+    //         relations:['user','club'],
+    //         where:{
+    //             user: {uid : user.uid},
+    //             club : {timeLimit: MoreThanOrEqual(new Date())}
+    //         }
+    //     })
+    // }
+
+
+
+
+
 }

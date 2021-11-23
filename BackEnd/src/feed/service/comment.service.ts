@@ -23,7 +23,9 @@ export class CommentService {
     }
 
     async findCommentById(id:number):Promise<Comment>{
-        return this.commentRepository.findOneOrFail(id);
+        return this.commentRepository.findOneOrFail(id,{
+            relations:['writer']
+        });
     }
 
     async updateComment(feedId:number,commentId:number,content:string):Promise<UpdateResult>{

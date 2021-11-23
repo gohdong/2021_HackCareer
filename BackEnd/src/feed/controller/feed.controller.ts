@@ -116,6 +116,7 @@ export class FeedController {
     }
 
     @Delete("/:feedId/comment/:commentId")
+    @UseGuards(IsCommentCreatorGuard)
     deleteComment(
         @Param("feedId") feedId :number,
         @Param("commentId") commentId:number,
