@@ -195,8 +195,9 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       floatingActionButton: InkWell(
         child: Container(
-          height: 80,
-          width: 80,
+          margin: EdgeInsets.only(bottom: 20),
+          height: 68,
+          width: 68,
           alignment: Alignment.center,
           child: Image.asset('assets/img/floatbutton.png'),
         ),
@@ -270,10 +271,48 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget newDeck() {
+    if (currentCardIndex >= data.length) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/svg/luby_gray.svg',
+            width: 100,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            "지금은 NOW 모임이 없어요!",
+            style: CluBTextTheme.medium18.copyWith(color: CluBColor.lightGray),
+          ),
+          SizedBox(
+            height: 100,
+          ),
+        ],
+      );
+    }
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        Padding(
+          padding: EdgeInsets.only(left: 26, bottom: 20, top: 18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "NOW 크루비",
+                style: CluBTextTheme.extraBold18.copyWith(color: Colors.white),
+              ),
+              Text(
+                "3시간 이내의 모임",
+                style: CluBTextTheme.medium18.copyWith(color: Colors.white),
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: Stack(
             alignment: Alignment.center,
@@ -422,23 +461,28 @@ class _HomeTabState extends State<HomeTab> {
                   ? Positioned(
                       top: 467,
                       left: 79,
-                      child: Container(
-                        height: 65,
-                        width: 65,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                      child: InkWell(
+                        onTap: (){
+                          test.next(swipeDirection: SwipeDirection.left);
+                        },
+                        child: Container(
+                          height: 65,
+                          width: 65,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: turnOnCloseButton
+                                  ? CluBColor.subPurple
+                                  : CluBColor.black,
+                              border: Border.all(
+                                  color: CluBColor.subPurple, width: 1.5)),
+                          child: SvgPicture.asset(
+                            'assets/svg/close.svg',
+                            width: 35,
                             color: turnOnCloseButton
-                                ? CluBColor.subPurple
-                                : CluBColor.black,
-                            border: Border.all(
-                                color: CluBColor.subPurple, width: 1.5)),
-                        child: SvgPicture.asset(
-                          'assets/svg/close.svg',
-                          width: 35,
-                          color: turnOnCloseButton
-                              ? Colors.white
-                              : CluBColor.subPurple,
+                                ? Colors.white
+                                : CluBColor.subPurple,
+                          ),
                         ),
                       ),
                     )
@@ -447,23 +491,28 @@ class _HomeTabState extends State<HomeTab> {
                   ? Positioned(
                       top: 467,
                       right: 79,
-                      child: Container(
-                        height: 65,
-                        width: 65,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
+                      child: InkWell(
+                        onTap: (){
+                          test.next(swipeDirection: SwipeDirection.right);
+                        },
+                        child: Container(
+                          height: 65,
+                          width: 65,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: turnOnLikedButton
+                                  ? CluBColor.subGreen
+                                  : CluBColor.black,
+                              border: Border.all(
+                                  color: CluBColor.subGreen, width: 1.5)),
+                          child: SvgPicture.asset(
+                            'assets/svg/heart.svg',
+                            width: 35,
                             color: turnOnLikedButton
-                                ? CluBColor.subGreen
-                                : CluBColor.black,
-                            border: Border.all(
-                                color: CluBColor.subGreen, width: 1.5)),
-                        child: SvgPicture.asset(
-                          'assets/svg/heart.svg',
-                          width: 35,
-                          color: turnOnLikedButton
-                              ? Colors.white
-                              : CluBColor.subGreen,
+                                ? Colors.white
+                                : CluBColor.subGreen,
+                          ),
                         ),
                       ),
                     )
