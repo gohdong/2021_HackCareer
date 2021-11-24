@@ -6,6 +6,7 @@ import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/get_controller.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -27,6 +28,11 @@ Map tabDict = {
 };
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Colors.white, // Color for Android
+      statusBarBrightness:
+          Brightness.dark // Dark == white status bar -- for IOS.
+      ));
   runApp(const MyApp());
 }
 
@@ -37,6 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'CluB',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Pretendard'),
       builder: (context, child) => ResponsiveWrapper.builder(
         child,
@@ -84,7 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
         preferredSize: Size.fromHeight(120),
         child: Stack(
           children: [
-
             Container(
               color: CluBColor.mainBackground,
             ),

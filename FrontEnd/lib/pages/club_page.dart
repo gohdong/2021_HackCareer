@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/get_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ClubPage extends StatefulWidget {
@@ -24,12 +27,16 @@ class _ClubPageState extends State<ClubPage> {
         children: [
           Container(
             color: CluBColor.mainBackground,
+            padding: const EdgeInsets.only(bottom: 90),
             child: ListView(
               padding: const EdgeInsets.all(0),
               children: [
                 Container(
                   height: 352,
-                  color: Colors.yellow,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: Image.asset('assets/img/IMG_4624.png').image)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25, left: 26, right: 26),
@@ -62,7 +69,7 @@ class _ClubPageState extends State<ClubPage> {
                         ],
                       ),
                       verticalSpacer(20),
-                      Divider(
+                      const Divider(
                         height: 0,
                         thickness: 2,
                         color: CluBColor.darkGray,
@@ -73,7 +80,7 @@ class _ClubPageState extends State<ClubPage> {
                         style: CluBTextTheme.semiBold16_26,
                       ),
                       verticalSpacer(50),
-                      Divider(
+                      const Divider(
                         height: 0,
                         thickness: 2,
                         color: CluBColor.darkGray,
@@ -116,6 +123,130 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                 )
               ],
+            ),
+          ),
+          Container(
+            // 상단 앱바
+            height: 110,
+            padding: EdgeInsets.symmetric(horizontal: 26),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.black, Colors.black.withOpacity(0)],
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/arrow_back.svg',
+                    width: 27,
+                  ),
+                ),
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/svg/share.svg',
+                        width: 27,
+                      ),
+                    ),
+                    horizontalSpacer(18),
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/svg/heart_outlined.svg',
+                        width: 27,
+                      ),
+                    ),
+                    horizontalSpacer(18),
+                    InkWell(
+                      onTap: () {},
+                      child: SvgPicture.asset(
+                        'assets/svg/more.svg',
+                        color: CluBColor.ultraLightGray,
+                        width: 27,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 27,
+            child: Container(
+              height: 60,
+              width: MediaQuery.of(context).size.width - 52,
+              margin: const EdgeInsets.symmetric(horizontal: 26),
+              padding: const EdgeInsets.all(13),
+              decoration: BoxDecoration(
+                color: CluBColor.black,
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withOpacity(0.63),
+                      offset: const Offset(6, 6),
+                      blurRadius: 12)
+                ],
+                border: Border.all(
+                    color: CluBColor.mainColor.withOpacity(0.11), width: 1.5),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: 103,
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: CluBColor.gray,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/svg/people.svg'),
+                        horizontalSpacer(5.5),
+                        Text(
+                          "${clubController.dummyData[widget.clubID]!.memberCount}",
+                          style: CluBTextTheme.bold16.copyWith(color: Colors.white),
+                        ),
+                        Text(
+                          "/",
+                          style: CluBTextTheme.bold16
+                              .copyWith(color: CluBColor.ultraLightGray),
+                        ),
+                        Text(
+                          "${clubController.dummyData[widget.clubID]!.maxMemberCount}",
+                          style: CluBTextTheme.bold16
+                              .copyWith(color: CluBColor.ultraLightGray),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 103,
+                    height: 35,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        border:
+                            Border.all(color: CluBColor.mainColor, width: 2)),
+                    child: Center(
+                      child: Text(
+                        "참여하기",
+                        style: CluBTextTheme.bold16
+                            .copyWith(color: CluBColor.mainColor),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           )
         ],
