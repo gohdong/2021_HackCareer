@@ -1,7 +1,7 @@
 import 'package:clu_b/data/club.dart';
 import 'package:get/get.dart';
 
-class ReactiveController extends GetxController {
+class ClubController extends GetxController {
   List test = [1, 2, 3].obs;
 
   List data = [

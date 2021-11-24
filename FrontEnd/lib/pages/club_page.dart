@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/data/club.dart';
-import 'package:clu_b/get_controller.dart';
+import 'package:clu_b/club_controller.dart';
+import 'package:clu_b/pages/chatting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class ClubPage extends StatefulWidget {
 }
 
 class _ClubPageState extends State<ClubPage> {
-  final ReactiveController clubController = Get.find();
+  final ClubController clubController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -136,47 +137,45 @@ class _ClubPageState extends State<ClubPage> {
                 colors: <Color>[Colors.black, Colors.black.withOpacity(0)],
               ),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: SvgPicture.asset(
-                    'assets/svg/arrow_back.svg',
-                    width: 27,
-                  ),
+            child: appBarContent(
+              left:InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: SvgPicture.asset(
+                  'assets/svg/arrow_back.svg',
+                  width: 27,
                 ),
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(
-                        'assets/svg/share.svg',
-                        width: 27,
-                      ),
+              ),
+              right : Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () {},
+                    child: SvgPicture.asset(
+                      'assets/svg/share.svg',
+                      width: 27,
                     ),
-                    horizontalSpacer(18),
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(
-                        'assets/svg/heart_outlined.svg',
-                        width: 27,
-                      ),
+                  ),
+                  horizontalSpacer(18),
+                  InkWell(
+                    onTap: () {},
+                    child: SvgPicture.asset(
+                      'assets/svg/heart_outlined.svg',
+                      width: 27,
                     ),
-                    horizontalSpacer(18),
-                    InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset(
-                        'assets/svg/more.svg',
-                        color: CluBColor.ultraLightGray,
-                        width: 27,
-                      ),
+                  ),
+                  horizontalSpacer(18),
+                  InkWell(
+                    onTap: () {},
+                    child: SvgPicture.asset(
+                      'assets/svg/more.svg',
+                      color: CluBColor.ultraLightGray,
+                      width: 27,
                     ),
-                  ],
-                )
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -215,7 +214,8 @@ class _ClubPageState extends State<ClubPage> {
                         horizontalSpacer(5.5),
                         Text(
                           "${clubController.dummyData[widget.clubID]!.memberCount}",
-                          style: CluBTextTheme.bold16.copyWith(color: Colors.white),
+                          style: CluBTextTheme.bold16
+                              .copyWith(color: Colors.white),
                         ),
                         Text(
                           "/",
@@ -230,18 +230,23 @@ class _ClubPageState extends State<ClubPage> {
                       ],
                     ),
                   ),
-                  Container(
-                    width: 103,
-                    height: 35,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border:
-                            Border.all(color: CluBColor.mainColor, width: 2)),
-                    child: Center(
-                      child: Text(
-                        "참여하기",
-                        style: CluBTextTheme.bold16
-                            .copyWith(color: CluBColor.mainColor),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => ChattingRoom(clubID: widget.clubID,));
+                    },
+                    child: Container(
+                      width: 103,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border:
+                              Border.all(color: CluBColor.mainColor, width: 2)),
+                      child: Center(
+                        child: Text(
+                          "참여하기",
+                          style: CluBTextTheme.bold16
+                              .copyWith(color: CluBColor.mainColor),
+                        ),
                       ),
                     ),
                   )

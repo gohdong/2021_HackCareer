@@ -1,0 +1,23 @@
+<svg id="그룹_2260" data-name="그룹 2260" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_609" data-name="사각형 609" width="21" height="21" transform="translate(1.5 1.5)" fill="none"/>
+    </clipPath>
+  </defs>
+  <path id="패스_3660" data-name="패스 3660" d="M1,1H23V23H1ZM0,24H24V0H0Z" fill="none"/>
+  <g id="그룹_2259" data-name="그룹 2259">
+    <g id="그룹_2257" data-name="그룹 2257" opacity="0.36">
+      <g id="그룹_2256" data-name="그룹 2256">
+        <g id="그룹_2255" data-name="그룹 2255" clip-path="url(#clip-path)">
+          <rect id="사각형_608" data-name="사각형 608" width="19" height="19" transform="translate(2.5 2.5)" fill="none"/>
+        </g>
+      </g>
+    </g>
+    <rect id="사각형_610" data-name="사각형 610" width="24" height="24" fill="none"/>
+    <g id="그룹_2261" data-name="그룹 2261">
+      <line id="선_43" data-name="선 43" x2="16.782" transform="translate(3.609 5.5)" fill="none" stroke="#b5b5b5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line id="선_44" data-name="선 44" x2="16.782" transform="translate(3.609 12)" fill="none" stroke="#b5b5b5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <line id="선_45" data-name="선 45" x2="16.782" transform="translate(3.609 18.5)" fill="none" stroke="#b5b5b5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

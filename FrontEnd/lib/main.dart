@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
 import 'package:clu_b/components/big_card.dart';
-import 'package:clu_b/get_controller.dart';
+import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/tab/home/home.dart';
+import 'package:clu_b/user_controller.dart';
+import 'package:clu_b/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,7 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final ReactiveController controller = Get.put(ReactiveController());
+    final ClubController clubController = Get.put(ClubController());
+    final UserController userController = Get.put(UserController());
     return Scaffold(
       primary: false,
       appBar: PreferredSize(

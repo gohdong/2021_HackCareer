@@ -1,7 +1,7 @@
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
-import 'package:clu_b/get_controller.dart';
+import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/pages/club_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   bool turnOnCloseButton = false;
   bool turnOnLikedButton = false;
 
-  final ReactiveController c = Get.find();
+  final ClubController c = Get.find();
 
 
   @override

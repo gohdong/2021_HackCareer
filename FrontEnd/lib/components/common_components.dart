@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
 
 Widget horizontalSpacer(double width) {
@@ -268,7 +269,7 @@ Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
               overflow: eclipseTitle ? TextOverflow.ellipsis : null,
               maxLines: eclipseTitle ? 1 : null,
             ),
-            verticalSpacer(4),
+            verticalSpacer(8),
             Row(
               children: [
                 categoryIndicator(club.category),
@@ -325,6 +326,60 @@ Widget userProfileImg(double width, double height, {String? img}) {
       image: img != null
           ? DecorationImage(image: Image.asset(img).image, fit: BoxFit.contain)
           : null,
+    ),
+  );
+}
+
+Widget userProfileInChat(User? user) {
+  //TODO USER
+  return Row(
+    children: [
+      userProfileImg(36, 36, img: user!.img),
+      horizontalSpacer(8),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            user.nickName,
+            style: CluBTextTheme.semiBold14_20.copyWith(height: 1),
+          ),
+          Text(
+            "${user.major} ${user.schoolNum}",
+            style: CluBTextTheme.medium12.copyWith(color: CluBColor.mainColor),
+          )
+        ],
+      )
+    ],
+  );
+}
+
+Widget appBarContent({Widget? left, Widget? right, String? title}) {
+  return SizedBox(
+    height: 30,
+    child: Row(
+      children: [
+        Expanded(
+          child: Align(alignment: Alignment.centerLeft, child: left),
+        ),
+        Expanded(
+          child: title != null
+              ? Center(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Color(0xffC1C1FF),
+                    ),
+                  ),
+                )
+              : Container(),
+        ),
+        Expanded(
+          child: Align(alignment: Alignment.centerRight, child: right),
+        ),
+      ],
     ),
   );
 }
