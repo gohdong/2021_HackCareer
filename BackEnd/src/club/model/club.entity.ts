@@ -1,4 +1,5 @@
 import { User } from "src/auth/model/user.entity";
+import { Message } from "src/chat/model/message.entity";
 import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ClubCategory } from "./club-catecory.entity";
 import { ClubCategoryEnum } from "./club.enum";
@@ -48,4 +49,6 @@ export class Club extends BaseEntity{
     @OneToMany(()=>Member,(member)=>member.club,{eager:false,lazy:true,cascade:true,onDelete:"CASCADE"})
     members : Member[]
 
+    @OneToMany(()=>Message,(message)=>message.club)
+    messages : Message[]
 }

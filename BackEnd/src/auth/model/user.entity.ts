@@ -5,6 +5,7 @@ import {Comment} from '../../feed/model/comment.entity'
 import { Club } from 'src/club/model/club.entity';
 import { Member } from 'src/club/model/member.entity';
 import { LikeFeed } from './like-feed.entity';
+import { Message } from 'src/chat/model/message.entity';
 
 
 
@@ -66,4 +67,8 @@ export class User extends BaseEntity{
 
     @OneToMany(()=>LikeFeed,(likeFeed)=>likeFeed.user,{lazy:true,eager:false})
     likeFeeds:LikeFeed[]
+
+    @OneToMany(()=>Message, (message)=>message.sender,{lazy:true})
+    messages : Message[]
+
 }

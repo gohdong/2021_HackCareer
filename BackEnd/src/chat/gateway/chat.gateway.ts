@@ -1,23 +1,42 @@
-import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
+import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
 import {Server, Socket} from 'socket.io'
-@WebSocketGateway({cors:{origin:['http://localhost:8100']}})
+@WebSocketGateway(4000,{cors:{origin:'*'} ,namespace:'/chat'})
 // @WebSocketGateway(81, { namespace: 'chat' })
-export class ChatGateway implements OnGatewayConnection,OnGatewayDisconnect{
+export class ChatGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayDisconnect{
+
+  private logger:Logger = new Logger('ChatGateway')
 
   @WebSocketServer()
-  server :Server;
+  wss :Server;
 
+  afterInit(server: any) {
+    this.logger.log('Init Gateway')
+  }
 
   handleConnection(client: any, ...args: any[]) {
-    console.log('connection made')
+    console.log(`connection made ${client.id}`);
   }
 
   handleDisconnect(client: any) {
-    console.log('disconnected')
+    console.log(`disconnected ${client.id}`)
   }
 
-  @SubscribeMessage('sendMessage')
-  handleMessage(socket:Socket, message:String) {
-    this.server.emit('newMessage',message)
+  @SubscribeMessage('chatToServer')
+  handleMessage(socket:Socket, message:{sender:string, room:string, message:string}):void{
+    // console.log(`${socket.id}: `,message)
+    this.wss.to(message.room).emit('chatToClient',message);
+  }
+
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(client:Socket, room:string){
+    client.join(room);
+    client.emit('joinedRoom',room);
+  }
+
+  @SubscribeMessage('leaveRoom')
+  handleLeaveRoom(client:Socket, room:string){
+    client.leave(room);
+    client.emit('leftRoom',room);
   }
 }
