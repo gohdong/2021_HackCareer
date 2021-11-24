@@ -5,6 +5,7 @@ import 'package:clu_b/components/small_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
@@ -139,7 +140,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
       'maxMemberCount': 4,
       'time': DateTime.now().add(Duration(hours: 4))
     },
-  ];
+  ].obs;
 
   @override
   void initState() {
@@ -215,12 +216,19 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 24),
-                        child: Text(
-                          "${category[key]}",
-                          style: CluBTextTheme.semiBold18.copyWith(
-                              color: currentCategory == key
-                                  ? CluBColor.mainColor
-                                  : CluBColor.gray),
+                        child: InkWell(
+                          onTap: (){
+                            setState(() {
+                              currentCategory = key;
+                            });
+                          },
+                          child: Text(
+                            "${category[key]}",
+                            style: CluBTextTheme.semiBold18.copyWith(
+                                color: currentCategory == key
+                                    ? CluBColor.mainColor
+                                    : CluBColor.gray),
+                          ),
                         ),
                       ),
                     );

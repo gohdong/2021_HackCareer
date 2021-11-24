@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
 
 class CluBColor {
   static const Color mainColor = Color(0xff9596ff);
@@ -17,19 +17,44 @@ class CluBColor {
 }
 
 class CluBTextTheme {
-  static const TextStyle bold30 = TextStyle(fontWeight: FontWeight.w700,fontSize: 30);
-  static const TextStyle bold22_30 = TextStyle(fontWeight: FontWeight.w700,fontSize: 22,height: 1.3636);
-  static const TextStyle bold20 = TextStyle(fontSize: 20,fontWeight: FontWeight.w700);
-  static const TextStyle bold18 = TextStyle(fontSize: 18,fontWeight: FontWeight.w700);
-  static const TextStyle bold18_28 = TextStyle(fontSize: 18,fontWeight: FontWeight.w700,height: 1.56);
-  static const TextStyle extraBold18 = TextStyle(fontSize: 18,fontWeight: FontWeight.w800);
-  static const TextStyle medium18 = TextStyle(fontSize: 18,fontWeight: FontWeight.w500);
-  static const TextStyle semiBold18 = TextStyle(fontSize: 18,fontWeight: FontWeight.w600);
-  static const TextStyle bold16 = TextStyle(fontSize: 16,fontWeight: FontWeight.w700);
-  static const TextStyle semiBold16_26 = TextStyle(fontSize: 16,fontWeight: FontWeight.w600,height: 1.625);
-  static const TextStyle semiBold14_20 = TextStyle(fontSize: 14,fontWeight: FontWeight.w600,height: 1.43);
-  static const TextStyle extraBold26= TextStyle(fontSize: 26,fontWeight: FontWeight.w800);
-  static const TextStyle extraBold14= TextStyle(fontSize: 14,fontWeight: FontWeight.w800);
-  static const TextStyle medium12= TextStyle(fontWeight: FontWeight.w500,fontSize: 12);
-
+  static const TextStyle bold30 =
+      TextStyle(fontWeight: FontWeight.w700, fontSize: 30, color: Colors.white);
+  static const TextStyle bold22_30 = TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: 22,
+      height: 1.3636,
+      color: Colors.white);
+  static const TextStyle bold20 =
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white);
+  static const TextStyle bold18 =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white);
+  static const TextStyle bold18_28 = TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      height: 1.56,
+      color: Colors.white);
+  static const TextStyle extraBold18 =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white);
+  static const TextStyle medium18 =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white);
+  static const TextStyle semiBold18 =
+      TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white);
+  static const TextStyle bold16 =
+      TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white);
+  static const TextStyle semiBold16_26 = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      height: 1.625,
+      color: Colors.white);
+  static const TextStyle semiBold14_20 = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      height: 1.43,
+      color: Colors.white);
+  static const TextStyle extraBold26 =
+      TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: Colors.white);
+  static const TextStyle extraBold14 =
+      TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white);
+  static const TextStyle medium12 =
+      TextStyle(fontWeight: FontWeight.w500, fontSize: 12, color: Colors.white);
 }

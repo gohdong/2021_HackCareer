@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:flutter/material.dart';
 
 Widget horizontalSpacer(double width) {
@@ -63,7 +64,6 @@ Widget smallMemberIndicator(int memberCount, int maxMemberCount) {
   return Container(
     width: 58,
     height: 23,
-    margin: const EdgeInsets.only(top: 5.5),
     decoration: BoxDecoration(
         color: CluBColor.darkGray, borderRadius: BorderRadius.circular(14)),
     child: Row(
@@ -86,7 +86,7 @@ Widget smallMemberIndicator(int memberCount, int maxMemberCount) {
   );
 }
 
-Widget leaderIndicator(String imgPath, int leaderSchoolNum) {
+Widget leaderIndicatorSummary(String imgPath, int leaderSchoolNum) {
   return Stack(
     alignment: Alignment.centerLeft,
     clipBehavior: Clip.none,
@@ -228,6 +228,103 @@ Widget dateIndicator(DateTime date) {
           ],
         ),
       ),
+    ),
+  );
+}
+
+Widget dateIndicatorGray(DateTime date) {
+  return Container(
+    width: 56,
+    height: 52,
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(11), color: CluBColor.gray),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          weekDayToString(date.weekday),
+          style: CluBTextTheme.extraBold14.copyWith(color: CluBColor.mainColor),
+        ),
+        Text(
+          "${date.day}",
+          style: CluBTextTheme.extraBold26.copyWith(color: CluBColor.mainColor),
+        )
+      ],
+    ),
+  );
+}
+
+Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              club!.title,
+              style: CluBTextTheme.bold22_30,
+              overflow: eclipseTitle ? TextOverflow.ellipsis : null,
+              maxLines: eclipseTitle ? 1 : null,
+            ),
+            verticalSpacer(4),
+            Row(
+              children: [
+                categoryIndicator(club.category),
+                horizontalSpacer(8),
+                Expanded(
+                  child: SizedBox(
+                    height: 23,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount:
+                          club.hashTag.length > 3 ? 3 : club.hashTag.length,
+                      itemBuilder: (context, index) => Center(
+                        child: Text(
+                          "#${club.hashTag[index]}",
+                          style: CluBTextTheme.bold16
+                              .copyWith(color: CluBColor.subGreen),
+                        ),
+                      ),
+                      separatorBuilder: (context, index) => horizontalSpacer(8),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            smallMemberIndicator(club.memberCount, club.maxMemberCount),
+            horizontalSpacer(12),
+            dateIndicatorGray(
+              club.time,
+            )
+          ],
+        ),
+      )
+    ],
+  );
+}
+
+Widget userProfileImg(double width, double height, {String? img}) {
+  return Container(
+    width: width,
+    height: height,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: CluBColor.darkGray,
+      image: img != null
+          ? DecorationImage(image: Image.asset(img).image, fit: BoxFit.contain)
+          : null,
     ),
   );
 }

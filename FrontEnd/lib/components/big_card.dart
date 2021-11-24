@@ -85,7 +85,7 @@ class _BigCardState extends State<BigCard> {
                   children: [
                     // Category
                     categoryIndicator(widget.category),
-                    leaderIndicator(widget.leader, widget.leaderSchoolNum)
+                    leaderIndicatorSummary(widget.leader, widget.leaderSchoolNum)
                   ],
                 ),
                 const SizedBox(height: 40),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SmallCard extends StatefulWidget {
   final String category;
@@ -79,12 +79,20 @@ class _SmallCardState extends State<SmallCard> {
               ),
             ),
           ),
-          SvgPicture.asset(
-            widget.left
-                ? 'assets/svg/small_card_left_mask.svg'
-                : 'assets/svg/small_card_right_mask.svg',
-            fit: BoxFit.fill,
+          Container(
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 0.64,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.fitHeight,
+                image: Image.asset(
+                  widget.left
+                      ? 'assets/img/small_card_left_mask.png'
+                      : 'assets/img/small_card_right_mask.png',
+                ).image
+              )
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),

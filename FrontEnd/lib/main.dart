@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
 import 'package:clu_b/components/big_card.dart';
+import 'package:clu_b/get_controller.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,13 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).padding);
+    final ReactiveController controller = Get.put(ReactiveController());
     return Scaffold(
       primary: false,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(120),
         child: Stack(
           children: [
+
             Container(
               color: CluBColor.mainBackground,
             ),
