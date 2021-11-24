@@ -243,11 +243,11 @@ Widget dateIndicatorGray(DateTime date) {
       children: [
         Text(
           weekDayToString(date.weekday),
-          style: CluBTextTheme.extraBold14.copyWith(color: CluBColor.mainColor),
+          style: CluBTextTheme.extraBold14.copyWith(color: CluBColor.subGreen),
         ),
         Text(
           "${date.day}",
-          style: CluBTextTheme.extraBold26.copyWith(color: CluBColor.mainColor),
+          style: CluBTextTheme.extraBold26.copyWith(color: CluBColor.subGreen),
         )
       ],
     ),
