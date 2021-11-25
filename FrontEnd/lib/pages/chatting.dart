@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ChattingRoom extends StatefulWidget {
-  final String clubID;
+  final int clubID;
 
   const ChattingRoom({Key? key, required this.clubID}) : super(key: key);
 
@@ -102,7 +102,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
                       title: "채팅",
                     ),
                     verticalSpacer(10),
-                    clubInfo(clubController.dummyData[widget.clubID]),
+                    // clubInfo(clubController.dummyData[widget.clubID]),
                     const Divider(
                       height: 16,
                       thickness: 2,

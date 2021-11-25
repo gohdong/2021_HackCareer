@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
 
 class BigCard extends StatefulWidget {
   final String category;
-  final String leader;
-  final int leaderSchoolNum;
+  final User leader;
 
   final String title;
   final String desc;
@@ -20,7 +20,6 @@ class BigCard extends StatefulWidget {
       {Key? key,
       required this.category,
       required this.leader,
-      required this.leaderSchoolNum,
       required this.title,
       required this.desc,
       required this.img,
@@ -85,7 +84,7 @@ class _BigCardState extends State<BigCard> {
                   children: [
                     // Category
                     categoryIndicator(widget.category),
-                    leaderIndicatorSummary(widget.leader, widget.leaderSchoolNum)
+                    leaderIndicatorSummary(widget.leader)
                   ],
                 ),
                 const SizedBox(height: 40),

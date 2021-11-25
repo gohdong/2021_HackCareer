@@ -1,18 +1,22 @@
 import 'dart:ui';
 
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/club_controller.dart';
+import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:clu_b/pages/chatting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ClubPage extends StatefulWidget {
-  final String clubID;
+  final Club2 club;
 
-  const ClubPage({Key? key, this.clubID = '1'}) : super(key: key);
+  const ClubPage({Key? key, required this.club}) : super(key: key);
 
   @override
   State<ClubPage> createState() => _ClubPageState();
@@ -44,24 +48,24 @@ class _ClubPageState extends State<ClubPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      clubInfo(clubController.dummyData[widget.clubID],
-                          eclipseTitle: false),
+                      clubInfo(widget.club, eclipseTitle: false),
                       verticalSpacer(30),
                       //TODO USER INDICATOR
                       Row(
                         children: [
-                          userProfileImg(48, 48, img: 'assets/img/jiwu.png'),
+                          userProfileImg(48, 48,
+                              img: widget.club.leader.imgPath),
                           horizontalSpacer(8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "귀여운곰돌이",
+                                widget.club.leader.nickName,
                                 style: CluBTextTheme.bold16,
                               ),
                               Text(
-                                "ICT융합학부 17",
+                                "${widget.club.leader.major} ${extractYearOnStudentNumber(widget.club.leader.studentNum)}",
                                 style: CluBTextTheme.semiBold14_20
                                     .copyWith(color: CluBColor.mainColor),
                               )
@@ -77,7 +81,7 @@ class _ClubPageState extends State<ClubPage> {
                       ),
                       verticalSpacer(12),
                       Text(
-                        clubController.dummyData[widget.clubID]!.desc,
+                        widget.club.description,
                         style: CluBTextTheme.semiBold16_26,
                       ),
                       verticalSpacer(50),
@@ -95,30 +99,39 @@ class _ClubPageState extends State<ClubPage> {
                       verticalSpacer(8),
                       SizedBox(
                         height: 36,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 3,
-                          reverse: true,
-                          itemBuilder: (context, index) {
-                            return Align(
-                              widthFactor: 0.75,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.5),
-                                        offset: const Offset(0, 3),
-                                        blurRadius: 6)
-                                  ],
-                                ),
-                                child: userProfileImg(36, 36),
-                              ),
-                            );
-                          },
-                        ),
+                        child: FutureBuilder<List<User>>(
+                            future: getClubMembers(widget.club.id),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return Container();
+                              }
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.length,
+                                reverse: true,
+                                itemBuilder: (context, index) {
+                                  return Align(
+                                    widthFactor: 0.75,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              offset: const Offset(0, 3),
+                                              blurRadius: 6)
+                                        ],
+                                      ),
+                                      child: userProfileImg(36, 36,
+                                          img: snapshot.data![index].imgPath),
+                                    ),
+                                  );
+                                },
+                              );
+                            }),
                       )
                     ],
                   ),
@@ -138,7 +151,7 @@ class _ClubPageState extends State<ClubPage> {
               ),
             ),
             child: appBarContent(
-              left:InkWell(
+              left: InkWell(
                 onTap: () {
                   Get.back();
                 },
@@ -147,7 +160,7 @@ class _ClubPageState extends State<ClubPage> {
                   width: 27,
                 ),
               ),
-              right : Row(
+              right: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
@@ -213,7 +226,7 @@ class _ClubPageState extends State<ClubPage> {
                         SvgPicture.asset('assets/svg/people.svg'),
                         horizontalSpacer(5.5),
                         Text(
-                          "${clubController.dummyData[widget.clubID]!.memberCount}",
+                          "${widget.club.memberCount}",
                           style: CluBTextTheme.bold16
                               .copyWith(color: Colors.white),
                         ),
@@ -223,7 +236,7 @@ class _ClubPageState extends State<ClubPage> {
                               .copyWith(color: CluBColor.ultraLightGray),
                         ),
                         Text(
-                          "${clubController.dummyData[widget.clubID]!.maxMemberCount}",
+                          "${widget.club.numLimit}",
                           style: CluBTextTheme.bold16
                               .copyWith(color: CluBColor.ultraLightGray),
                         ),
@@ -232,7 +245,9 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => ChattingRoom(clubID: widget.clubID,));
+                      Get.to(() => ChattingRoom(
+                            clubID: widget.club.id,
+                          ));
                     },
                     child: Container(
                       width: 103,
