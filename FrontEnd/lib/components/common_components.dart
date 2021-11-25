@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
+import 'package:clu_b/data/club2.dart';
 import 'package:clu_b/data/my_info.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -102,7 +104,7 @@ Widget smallMemberIndicator(int memberCount, int maxMemberCount) {
   );
 }
 
-Widget leaderIndicatorSummary(String imgPath, int leaderSchoolNum) {
+Widget leaderIndicatorSummary(User leader) {
   return Stack(
     alignment: Alignment.centerLeft,
     clipBehavior: Clip.none,
@@ -120,24 +122,20 @@ Widget leaderIndicatorSummary(String imgPath, int leaderSchoolNum) {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          "$leaderSchoolNum",
+          extractYearOnStudentNumber(leader.studentNum),
           style: CluBTextTheme.bold16.copyWith(
               fontWeight: FontWeight.w800, color: CluBColor.mainColor),
         ),
       ),
       Positioned(
         left: -12,
-        child: Container(
-            width: 46,
-            height: 46,
-            decoration: const BoxDecoration(
-                color: CluBColor.gray, shape: BoxShape.circle)),
-      )
+        child: userProfileImg(46, 46, img: leader.imgPath),
+      ),
     ],
   );
 }
 
-Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
+Widget smallLeaderIndicator(User leader) {
   return Stack(
     alignment: Alignment.centerLeft,
     clipBehavior: Clip.none,
@@ -145,6 +143,7 @@ Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
       Container(
         width: 63,
         height: 26,
+        margin: const EdgeInsets.only(left: 5),
         padding: const EdgeInsets.only(right: 9),
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
@@ -155,18 +154,14 @@ Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          "$leaderSchoolNum",
+          extractYearOnStudentNumber(leader.studentNum),
           style: CluBTextTheme.bold16.copyWith(
               fontWeight: FontWeight.w800, color: CluBColor.mainColor),
         ),
       ),
       Positioned(
         left: 0,
-        child: Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(
-                color: CluBColor.gray, shape: BoxShape.circle)),
+        child: userProfileImg(36, 36, img: leader.imgPath),
       )
     ],
   );
@@ -270,7 +265,7 @@ Widget dateIndicatorGray(DateTime date) {
   );
 }
 
-Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
+Widget clubInfo(Club2? club, {bool eclipseTitle = true}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -297,10 +292,10 @@ Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
                       scrollDirection: Axis.horizontal,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount:
-                          club.hashTag.length > 3 ? 3 : club.hashTag.length,
+                          club.hashTags.length > 3 ? 3 : club.hashTags.length,
                       itemBuilder: (context, index) => Center(
                         child: Text(
-                          "#${club.hashTag[index]}",
+                          "#${club.hashTags[index]}",
                           style: CluBTextTheme.bold16
                               .copyWith(color: CluBColor.subGreen),
                         ),
@@ -319,10 +314,10 @@ Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            smallMemberIndicator(club.memberCount, club.maxMemberCount),
+            smallMemberIndicator(club.memberCount, club.numLimit),
             horizontalSpacer(12),
             dateIndicatorGray(
-              club.time,
+              club.timeLimit,
             )
           ],
         ),

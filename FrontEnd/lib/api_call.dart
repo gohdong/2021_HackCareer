@@ -53,7 +53,7 @@ Future<List<Feed>> getFeeds({take = 20, skip = 0, category = ''}) async {
 }
 
 // http://www.funani.tk:3000/club?take=20&skip=0&isNow=false&category=영화
-Future<List> getClubs({take=20,skip=0,category='',isNow=false}) async{
+Future<List<Club2>> getClubs({take=20,skip=0,category='',isNow=false}) async{
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> clubs = [];

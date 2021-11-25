@@ -9,6 +9,7 @@ import 'package:clu_b/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -47,16 +48,18 @@ class _BoardAllTabState extends State<BoardAllTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: InkWell(
+        onTap: () {
+
+        },
         child: Container(
           margin: const EdgeInsets.only(bottom: 20),
           height: 68,
           width: 68,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: CluBColor.black,
-            shape: BoxShape.circle,
-            border: Border.all(color: CluBColor.mainColor,width: 1.5)
-          ),
+              color: CluBColor.black,
+              shape: BoxShape.circle,
+              border: Border.all(color: CluBColor.mainColor, width: 1.5)),
           child: Image.asset('assets/img/floatbutton.png'),
         ),
       ),
@@ -89,11 +92,14 @@ class _BoardAllTabState extends State<BoardAllTab> {
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 children: [
-                  Text(
-                    "지금 오버워치 한판 어때요?",
-                    style: CluBTextTheme.medium18
-                        .copyWith(color: CluBColor.ultraLightGray),
-                  )
+                  Expanded(
+                    child: Text(
+                      "지금 오버워치 한판 어때요?",
+                      style: CluBTextTheme.medium18
+                          .copyWith(color: CluBColor.ultraLightGray),
+                    ),
+                  ),
+                  SvgPicture.asset('assets/svg/search.svg')
                 ],
               ),
             ),

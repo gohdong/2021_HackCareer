@@ -1,7 +1,9 @@
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/components/small_card.dart';
+import 'package:clu_b/data/club2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +28,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
     'reading': '독서',
     'good_food': '맛집탐방',
     'sport': '스포츠',
+    'display' : '전시'
   };
 
   String currentCategory = 'all';
@@ -169,7 +172,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
         child: ListView(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 26, top: 18),
+              padding: const EdgeInsets.only(left: 26, top: 22,bottom: 22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -187,17 +190,20 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
             ),
             Container(
               height: 46,
-              margin: const EdgeInsets.symmetric(horizontal: 26, vertical: 7),
+              margin: const EdgeInsets.only(left: 26,right: 26, bottom: 14),
               padding: const EdgeInsets.all(13),
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(7)),
+                  color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 children: [
-                  Text(
-                    "지금 오버워치 한판 어때요?",
-                    style: CluBTextTheme.medium18
-                        .copyWith(color: CluBColor.ultraLightGray),
-                  )
+                  Expanded(
+                    child: Text(
+                      "지금 오버워치 한판 어때요?",
+                      style: CluBTextTheme.medium18
+                          .copyWith(color: CluBColor.ultraLightGray),
+                    ),
+                  ),
+                  SvgPicture.asset('assets/svg/search.svg')
                 ],
               ),
             ),
@@ -217,7 +223,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 24),
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             setState(() {
                               currentCategory = key;
                             });
@@ -235,26 +241,64 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                   },
                 ),
               ),
-              content: ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return SmallCard(
-                    left: index % 2 == 1,
-                    title: data[index]['title'],
-                    category: data[index]['category'],
-                    desc: data[index]['desc'],
-                    img: data[index]['img'],
-                    leader: data[index]['leader'],
-                    leaderSchoolNum: data[index]['leaderSchoolNum'],
-                    maxMemberCount: data[index]['maxMemberCount'],
-                    memberCount: data[index]['memberCount'],
-                    time: data[index]['time'],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) => verticalSpacer(6),
-              ),
+              content: FutureBuilder<List<Club2>>(
+                  future: getClubs(
+                    category: currentCategory != "all"
+                        ? category[currentCategory]
+                        : "",
+                  ),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            verticalSpacer(40),
+                            SvgPicture.asset(
+                              'assets/svg/luby_gray.svg',
+                              width: 100,
+                            ),
+                            verticalSpacer(
+                              20,
+                            ),
+                            Text(
+                              "지금은 모임이 없어요!",
+                              style: CluBTextTheme.medium18
+                                  .copyWith(color: CluBColor.lightGray),
+                            ),
+                            verticalSpacer(
+                              100,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return SmallCard(
+                          left: index % 2 == 1,
+                          title: snapshot.data![index].title,
+                          category: snapshot.data![index].category,
+                          desc: snapshot.data![index].description,
+                          img: snapshot.data![index].imagePath,
+                          leader: snapshot.data![index].leader,
+                          maxMemberCount: snapshot.data![index].numLimit,
+                          memberCount: snapshot.data![index].memberCount,
+                          time: snapshot.data![index].timeLimit,
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          verticalSpacer(6),
+                    );
+                  }),
             )
           ],
         ),

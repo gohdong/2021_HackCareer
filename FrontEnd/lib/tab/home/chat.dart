@@ -71,7 +71,8 @@ class _ChattingTabState extends State<ChattingTab> {
         itemCount: clubController.dummyData.length,
         itemBuilder: (context, index) {
           String key = clubController.dummyData.keys.elementAt(index);
-          return clubInfo(clubController.dummyData[key]);
+          // return clubInfo(clubController.dummyData[key]);
+          return Container();
         },
         separatorBuilder: (context, index) {
           return Divider(
