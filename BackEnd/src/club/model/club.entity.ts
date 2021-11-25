@@ -1,3 +1,4 @@
+import { LikeClub } from "src/auth/model/like-club.entity";
 import { User } from "src/auth/model/user.entity";
 import { Message } from "src/chat/model/message.entity";
 import { BaseEntity, Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -51,4 +52,7 @@ export class Club extends BaseEntity{
 
     @OneToMany(()=>Message,(message)=>message.club)
     messages : Message[]
+
+    @OneToMany(()=>LikeClub, (likeClub)=>likeClub.club,{lazy:true,eager:false})
+    likeUsers : LikeClub[]
 }

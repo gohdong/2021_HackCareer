@@ -2,8 +2,10 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, U
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { GetUser } from 'src/auth/decoration/get-user.decorator';
+import { LikeClub } from 'src/auth/model/like-club.entity';
 import { User } from 'src/auth/model/user.entity';
-import { UpdateResult } from 'typeorm';
+import { LikeClubService } from 'src/auth/service/like-club.service';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { IsClubLeaderGuard } from '../guard/is-club-leader.guard';
 import { BodyInterceptor } from '../helper/club-opt.interceptor';
 import { saveClubImageToStorage } from '../helper/club-storage';
@@ -19,7 +21,8 @@ import { MemberService } from '../service/member.service';
 export class ClubController {
     constructor(
         private clubService : ClubService,
-        private memberService: MemberService
+        private memberService: MemberService,
+        private likeClubService : LikeClubService,
     ){}
 
     @Get()
@@ -93,6 +96,24 @@ export class ClubController {
         @Param('id') id:number,
     ){
         return this.clubService.cancelClub(id);
+    }
+
+    // like =========================================
+
+    @Post("/:clubId/like")
+    createLike(
+        @GetUser() user:User,
+        @Param('clubId') clubId:number
+    ):Promise<LikeClub>{
+        return this.likeClubService.createLike(user,clubId);
+    }
+
+    @Post("/:clubId/unlike")
+    deleteLike(
+        @GetUser() user:User,
+        @Param('clubId') clubId:number
+    ):Promise<DeleteResult>{
+        return this.likeClubService.deleteLike(user,clubId);
     }
 
 

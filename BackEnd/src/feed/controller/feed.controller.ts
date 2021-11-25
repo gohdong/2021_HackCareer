@@ -106,6 +106,14 @@ export class FeedController {
         return this.likeFeedService.createLike(user,feedId);
     }
 
+    @Post("/:feedId/unlike")
+    deleteLike(
+        @GetUser() user:User,
+        @Param('feedId') feedId:number
+    ):Promise<DeleteResult>{
+        return this.likeFeedService.deleteLike(user,feedId);
+    }
+
     // comment -----------------------------------------
 
     @Post("/:feedId/comment")

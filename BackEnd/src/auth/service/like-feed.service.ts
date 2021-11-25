@@ -2,6 +2,7 @@ import { ConflictException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Feed } from "src/feed/model/feed.entity";
 import { FeedRepository } from "src/feed/repository/feed.repository";
+import { DeleteResult } from "typeorm";
 import { LikeFeed } from "../model/like-feed.entity";
 import { User } from "../model/user.entity";
 import { LikeFeedRepository } from "../repository/like-feed.repository";
@@ -25,6 +26,16 @@ export class LikeFeedService {
         } catch (error) {
             throw new ConflictException(`Already Liked`)
             
+        }
+    }
+
+    async deleteLike(user:User,feedId:number):Promise<DeleteResult>{
+        try {
+            return this.feedRepository.findOneOrFail(feedId).then((feed:Feed)=>{
+                return this.likeFeedRepository.delete({user,feed});
+            })
+        } catch (error) {
+            throw new ConflictException(`${error}`)
         }
     }
 
