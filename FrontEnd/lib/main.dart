@@ -1,13 +1,11 @@
 import 'dart:io';
 
 import 'package:clu_b/club_theme.dart';
-import 'package:clu_b/components/appbar.dart';
-import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/pages/user_profile.dart';
 import 'package:clu_b/splash_screen.dart';
 import 'package:clu_b/tab/home/home.dart';
-import 'package:clu_b/user_controller.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -132,11 +130,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       primary: false,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(120),
+        preferredSize: const Size.fromHeight(120),
         child: Stack(
           children: [
             Container(
@@ -144,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
               alignment: Alignment.center,
-              padding: EdgeInsets.only(top: 47),
+              padding: const EdgeInsets.only(top: 47),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -153,12 +150,34 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: Column(
                 children: [
-                  const Text(
-                    "한양대 ERICA",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Color(0xffC1C1FF)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 26),
+                    child: appBarContent(
+                      title: "한양대 ERICA",
+                      left: InkWell(
+                        onTap: () {},
+                        child: notificationIndicator(true),
+                      ),
+                      right: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: SvgPicture.asset('assets/svg/search.svg'),
+                          ),
+                          horizontalSpacer(12),
+                          InkWell(
+                            onTap: () {
+                              Get.to(
+                                () => UserProfile(userID: userController.myID),
+                              );
+                            },
+                            child: userProfileImg(24, 24,
+                                img: userController.me()!.imgPath),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Container(),
@@ -240,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget tabBody() {
     if (currentTab == tab.home) {
-      return Home();
+      return const Home();
     }
     return Container();
   }

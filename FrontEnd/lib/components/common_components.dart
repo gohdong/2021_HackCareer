@@ -5,6 +5,7 @@ import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Widget horizontalSpacer(double width) {
   return SizedBox(
@@ -325,7 +326,9 @@ Widget userProfileImg(double width, double height, {String? img}) {
       color: CluBColor.darkGray,
       image: img != null
           ? DecorationImage(image: Image.asset(img).image, fit: BoxFit.contain)
-          : null,
+          : DecorationImage(
+              image: Image.asset('assets/img/default_profile.png').image,
+              fit: BoxFit.contain),
     ),
   );
 }
@@ -381,5 +384,27 @@ Widget appBarContent({Widget? left, Widget? right, String? title}) {
         ),
       ],
     ),
+  );
+}
+
+Widget notificationIndicator(bool gotNew) {
+  return Stack(
+    children: [
+      SvgPicture.asset('assets/svg/bell.svg'),
+      gotNew
+          ? Positioned(
+              top: 0,
+              right: 0,
+              child: Container(
+                width: 5.5,
+                height: 5.5,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: CluBColor.subGreen,
+                ),
+              ),
+            )
+          : Container()
+    ],
   );
 }

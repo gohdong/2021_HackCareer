@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 class UserController extends GetxController {
   int myID = -1.obs;
-
   Map<int, CluBUser> users = <int, CluBUser>{}.obs;
 
   // Map<String, User> dummyData = {
@@ -12,6 +11,10 @@ class UserController extends GetxController {
   //   '2': User(nickName: "귀여운돔돌이", major: 'ICT융합학부', schoolNum: 17, img: "assets/img/jiwu.png"),
   //   '3': User(nickName: "고동", major: '소프트웨어학부', schoolNum: 16, img: "assets/img/default_profile.png"),
   // }.obs;
+
+  CluBUser? me() {
+    return users[myID];
+  }
 
   void setMyID(int id) {
     myID = id;
