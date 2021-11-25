@@ -57,6 +57,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final ClubController clubController = Get.put(ClubController());
+    final UserController userController = Get.put(UserController());
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
@@ -120,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late ScrollController test;
   tab currentTab = tab.home;
   List tabs = [tab.board, tab.myClub, tab.home, tab.chatting, tab.liked];
+  final UserController userController = Get.find();
 
   @override
   void initState() {

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,8 +21,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final ClubController clubController = Get.put(ClubController());
-  final UserController userController = Get.put(UserController());
+  final UserController userController = Get.find();
+
   // final UserController userController = Get.find();
   late Timer _everySecond;
 
@@ -88,9 +89,26 @@ class _SplashScreenState extends State<SplashScreen> {
             headers: {"Authorization": 'Bearer $token'},
           ).then(
             (res) {
-              Map temp = jsonDecode(res.body);
-              userController.setMyID(temp['id']);
+              Map resJson = jsonDecode(res.body);
+              userController.updateData(
+                CluBUser(
+                    nickName: resJson['nickname'],
+                    id: int.parse(resJson['id'].toString()),
+                    major: resJson['department'],
+                    studentNum: int.parse(resJson['studentNum'].toString()),
+                    imgPath: resJson['imgPath'],
+                    intro: resJson['intro'],
+                    badges: resJson['badges'],
+                    interest: resJson['interest'],
+                    gender: resJson['gender'],
+                    level: int.parse(resJson['level'].toString()),
+                    birth: DateTime.parse(resJson['birth']),
+                    joinedClubs: resJson['__joinedClubs__'],
+                    createdClubs: resJson['__createdClubs__']),
+              );
 
+              print(userController.users);
+              userController.setMyID(resJson['id'].toInt());
             },
           );
         });

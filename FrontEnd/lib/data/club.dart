@@ -11,7 +11,7 @@ class Club {
   final int maxMemberCount;
   final DateTime time;
   final List hashTag;
-  final List<User> participants;
+  final List<CluBUser> participants;
 
   const Club(
       {required this.category,

@@ -159,7 +159,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
                                   chatLog[index].senderID !=
                                       chatLog[index - 1].senderID
                               ? userProfileInChat(userController
-                                  .dummyData[chatLog[index].senderID])
+                                  .users[chatLog[index].senderID])
                               : Container(),
                           verticalSpacer(6),
                           Container(

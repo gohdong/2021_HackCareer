@@ -1,19 +1,30 @@
-class User {
-  late String nickName;
-  late String major;
-  late int schoolNum;
-  late String img;
+class CluBUser {
+  final int id;
+  final String nickName;
+  final String major;
+  final int studentNum;
+  final String? imgPath;
+  final String intro;
+  final List badges;
+  final List interest;
+  final String gender;
+  final int level;
+  final DateTime birth;
+  final List joinedClubs;
+  final List createdClubs;
 
-  User(
+  CluBUser(
       {required this.nickName,
+      required this.id,
       required this.major,
-      required this.schoolNum,
-      required this.img});
-
-  User.fromJson(Map json) {
-    nickName = json['nick'];
-    major = "";
-    schoolNum = 17;
-    img = "";
-  }
+      required this.studentNum,
+      required this.imgPath,
+      required this.intro,
+      required this.badges,
+      required this.interest,
+      required this.gender,
+      required this.level,
+      required this.birth,
+      required this.joinedClubs,
+      required this.createdClubs});
 }

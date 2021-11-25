@@ -330,11 +330,11 @@ Widget userProfileImg(double width, double height, {String? img}) {
   );
 }
 
-Widget userProfileInChat(User? user) {
+Widget userProfileInChat(CluBUser? user) {
   //TODO USER
   return Row(
     children: [
-      userProfileImg(36, 36, img: user!.img),
+      userProfileImg(36, 36, img: user!.imgPath),
       horizontalSpacer(8),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -345,7 +345,7 @@ Widget userProfileInChat(User? user) {
             style: CluBTextTheme.semiBold14_20.copyWith(height: 1),
           ),
           Text(
-            "${user.major} ${user.schoolNum}",
+            "${user.major} ${user.studentNum}",
             style: CluBTextTheme.medium12.copyWith(color: CluBColor.mainColor),
           )
         ],
