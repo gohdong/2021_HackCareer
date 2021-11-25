@@ -21,7 +21,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
   final ClubController clubController = Get.find();
   final UserController userController = Get.find();
   final ScrollController _scrollController = ScrollController();
-  late String me;
+  late int me;
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _textEditingController = TextEditingController();
@@ -30,37 +30,37 @@ class _ChattingRoomState extends State<ChattingRoom> {
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 10)),
         contents: "안녕하세용?",
-        senderID: '2'),
+        senderID: 2),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 9)),
         contents: "안녕하세요. 고학번도 참여되나요?",
-        senderID: '1'),
+        senderID: 1),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 8)),
         contents: "안녕하세용~ 혹시 시간조정 가능한가요 긴텍스트트트트ㅏㅇㄴ러ㅗ미ㅓㅏㅗㄴㅇㄹ ?",
-        senderID: '3'),
+        senderID: 3),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 7)),
         contents: "네넵~전가능해요.?",
-        senderID: '2'),
+        senderID: 2),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 6)),
         contents: "30분만 늦출수있을까용??",
-        senderID: '3'),
+        senderID: 3),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 5)),
         contents: "좋아요",
-        senderID: '1'),
+        senderID: 1),
     Chat(
         sendAt: DateTime.now().subtract(const Duration(minutes: 4)),
         contents: "3시 30분으로 하죱?",
-        senderID: '1'),
+        senderID: 1),
   ];
 
   @override
   void initState() {
     super.initState();
-    me = userController.myID.value;
+    me = userController.myID;
   }
 
   @override

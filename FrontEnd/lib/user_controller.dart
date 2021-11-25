@@ -3,7 +3,7 @@ import 'package:clu_b/data/user.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
-  RxString myID = '3'.obs;
+  int myID = -1.obs;
   Map<String, User> dummyData = {
     '1': User(nickName: "페이퍼왕", major: '소프트웨어학부', schoolNum: 16, img: "assets/img/default_profile.png"),
     '2': User(nickName: "귀여운돔돌이", major: 'ICT융합학부', schoolNum: 17, img: "assets/img/jiwu.png"),

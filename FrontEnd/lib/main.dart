@@ -4,6 +4,7 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/club_controller.dart';
+import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/splash_screen.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
@@ -84,9 +85,24 @@ class _MyAppState extends State<MyApp> {
           );
         }
         return Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: Size.infinite.width,
+          height: Size.infinite.height,
           color: CluBColor.mainBackground,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/svg/luby_colored.svg',
+                width: 110,
+              ),
+              verticalSpacer(22),
+              SvgPicture.asset(
+                'assets/svg/logo.svg',
+                width: 85,
+              ),
+            ],
+          ),
         );
       },
     );
@@ -113,8 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final ClubController clubController = Get.put(ClubController());
-    final UserController userController = Get.put(UserController());
+
     return Scaffold(
       primary: false,
       appBar: PreferredSize(
