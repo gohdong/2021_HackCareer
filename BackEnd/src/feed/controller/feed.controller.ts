@@ -38,6 +38,13 @@ export class FeedController {
             return this.feedService.findFeeds(take,skip,category)
     }
 
+    @Get('/my')
+    getMyFeed(
+        @GetUser() user:User,
+    ){
+        return this.feedService.getMyFeed(user);    
+    }
+
     @Get("/search")
     findFeedByKeyword(
         @Query('take') take:number=1,

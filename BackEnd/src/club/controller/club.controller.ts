@@ -34,6 +34,20 @@ export class ClubController {
             take = take>20 ?20 : take;
             return this.clubService.findClubs(take,skip,category)
     }
+
+    @Get('my')
+    getMyClub(
+        @GetUser() user:User
+    ){
+        return this.clubService.getMyClub(user);
+    }
+    @Get('my/log')
+    getMyClubLog(
+        @GetUser() user:User
+    ){
+        return this.clubService.getMyClubLog(user);
+    }
+
     @Get("/search")
     findClubByKeyword(
         @Query('take') take:number=1,

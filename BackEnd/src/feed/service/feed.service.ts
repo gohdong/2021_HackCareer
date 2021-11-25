@@ -19,6 +19,15 @@ export class FeedService {
         private feedCategoryRepository : FeedCategoryRepository,
     ){}
 
+    getMyFeed(user:User){
+        return this.feedRepository.find({
+            loadRelationIds:{
+                relations:['comments','likeUsers']
+            },
+            where:{writer:user}
+        })
+    }
+
     findFeeds(take:number,skip:number,selectedCategory?:string):Promise<Feed[]>{
         return selectedCategory?this.feedRepository.findAndCount({
             take,skip,

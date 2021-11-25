@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { ClubController } from './controller/club.controller';
@@ -12,7 +12,7 @@ import {MemberController} from './controller/member.controller'
 
 @Module({
   imports:[
-    AuthModule,
+    forwardRef(() => AuthModule),
     TypeOrmModule.forFeature([ClubRepository,MemberRepository,ClubCatecoryRepository])
   ],
   controllers: [ClubController, MemberController,

@@ -48,20 +48,25 @@ export class MemberService {
 
     getLiveClub(user:User){
         return this.memberRepository.find({
-            relations:['user','club','club.members'],
-            
+            loadRelationIds:{
+                relations:['user'],
+            },
+            relations:['club','club.members'],
             where:{
-                user: {uid : user.uid},
+                user: {id : user.id},
                 club : {timeLimit: MoreThanOrEqual(new Date())}
             }
         })
     }
     getClubLog(user:User){
         return this.memberRepository.find({
-            relations:['user','club'],
+            loadRelationIds:{
+                relations:['user'],
+            },
+            relations:['club'],
             withDeleted:true,
             where:{
-                user: {uid : user.uid},
+                user: {id : user.id},
                 club : {timeLimit: LessThanOrEqual(new Date())}
             }
         })

@@ -12,10 +12,12 @@ import { LikeFeedService } from './service/like-feed.service';
 import { FeedModule } from 'src/feed/feed.module';
 import { LikeClubRepository } from './repository/like-club.repository';
 import { LikeClubService } from './service/like-club.service';
+import { ClubModule } from 'src/club/club.module';
 
 @Module({
   imports:[
     forwardRef(() => FeedModule),
+    forwardRef(() => ClubModule),
     PassportModule,
     TypeOrmModule.forFeature([UserRepository,LikeFeedRepository,LikeClubRepository])],
   controllers: [AuthController, UserController],

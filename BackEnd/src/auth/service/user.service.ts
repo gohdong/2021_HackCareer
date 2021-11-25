@@ -29,22 +29,13 @@ export class UserService {
     }
 
     getMyInfo(user:User):Promise<User>{
-        return this.userRepository.findOneOrFail(user.id,{
-            relations:['feeds','comments','joinedClubs','likeFeeds','likeFeeds.feed','joinedClubs.club']
-        });
+        return this.userRepository.createQueryBuilder('user')
+        .leftJoinAndSelect('user.joinedClubs',"member")
+        .withDeleted()
+        .leftJoinAndSelect('user.createdClubs','club')
+        .withDeleted()
+        
+        .getOne();
     }
-
-    // getMyClub(user:User){
-    //     return this.userRepository.findOneOrFail(user.id,{
-    //         relations:['joinedClubs']
-    //     })
-    // }
-
-    // getMyClubLog(user:User){
-    //     return this.userRepository.findOneOrFail(user.id,{
-    //         relations:['joinedClubs','joinedClubs.club'],
-    //         withDeleted:true
-    //     })
-    // }
 
 }

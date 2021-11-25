@@ -18,6 +18,7 @@ export class MemberController {
     ){
         return this.memberService.getLiveClub(user);
     }
+    
     @Get('myClubLog')
     getClubLog(
         @GetUser() user:User

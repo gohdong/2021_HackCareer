@@ -7,7 +7,6 @@ import { Message } from "../model/message.entity";
 export class MessageRepository extends Repository<Message>{
 
     saveMessage(user:User,club:Club,content:string){
-        console.log('repositroy==============')
         const message : Message = this.create({
             sender:user,
             club,

@@ -1,6 +1,6 @@
 import { Feed } from 'src/feed/model/feed.entity';
 import {BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique} from 'typeorm'
-import { Department, Gender, Interest, Role } from './user.enum';
+import { Badge, Department, Gender, Interest, Role } from './user.enum';
 import {Comment} from '../../feed/model/comment.entity'
 import { Club } from 'src/club/model/club.entity';
 import { Member } from 'src/club/model/member.entity';
@@ -36,8 +36,15 @@ export class User extends BaseEntity{
     @Column({type:"float",default:0.0})
     score_2 : number;
 
-    @Column({nullable:false,array:true,type:"enum",enum:Interest})
-    interest : Interest[]; //이게 배열 가능 ??
+    @Column({type:'text'})
+    intro: string;
+
+    @Column({array:true,type:'enum',enum:Badge,default:[]})
+    badges : Badge[]
+
+    // @Column({nullable:false,array:true,type:"enum",enum:Interest})
+    @Column({nullable:false,array:true,type:"text"})
+    interest : string[]; //이게 배열 가능 ??
 
     @Column({nullable:false, type:"enum", enum:Department})
     department : Department;
@@ -48,31 +55,34 @@ export class User extends BaseEntity{
     @Column({type:'enum',enum:Role, default:Role.NORMAL})
     role : Role;
 
+    @Column({type:'numeric'})
+    level : number;
+
     @Column({nullable:false})
     birth : Date;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt : Date;
 
-    @OneToMany(() => Feed, (feed) => feed.writer, { lazy:true,eager:false})
+    @OneToMany(() => Feed, (feed) => feed.writer, { lazy:true})
     feeds: Feed[];
 
-    @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true,eager:false})
+    @OneToMany(()=>Comment,(comment)=>comment.writer,{lazy:true,})
     comments: Comment[];
 
-    @OneToMany(()=>Club,(club)=>club.leader,{lazy:true,eager:false})
+    @OneToMany(()=>Club,(club)=>club.leader,{lazy:true})
     createdClubs: Club[]
 
-    @OneToMany(()=>Member,(member)=>member.user,{lazy:true,eager:false})
+    @OneToMany(()=>Member,(member)=>member.user,{lazy:true})
     joinedClubs: Member[]
 
-    @OneToMany(()=>LikeFeed,(likeFeed)=>likeFeed.user,{lazy:true,eager:false})
+    @OneToMany(()=>LikeFeed,(likeFeed)=>likeFeed.user,{lazy:true})
     likeFeeds:LikeFeed[]
 
     @OneToMany(()=>Message, (message)=>message.sender,{lazy:true})
     messages : Message[]
 
-    @OneToMany(()=>LikeClub, (likeClub)=>likeClub.user,{lazy:true,eager:false})
+    @OneToMany(()=>LikeClub, (likeClub)=>likeClub.user,{lazy:true})
     likeClubs : LikeClub[]
 
 }

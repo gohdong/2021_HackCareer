@@ -22,6 +22,23 @@ export class ClubService {
         private clubCategoryRepository : ClubCatecoryRepository,
     ){}
 
+    getMyClub(user:User){
+        return this.clubRepository.createQueryBuilder('club')
+        .innerJoinAndSelect('club.members','member')
+        .where('member.user.id = :id',{id:user.id})
+        .andWhere('club.deletedAt IS NULL')
+        .getMany()
+    }
+
+    getMyClubLog(user:User){
+        return this.clubRepository.createQueryBuilder('club')
+        .innerJoinAndSelect('club.members','member')
+        .where('member.user.id = :id',{id:user.id})
+        .getMany()
+    }
+
+    
+
     getClubChat(id:number){
         return this.clubRepository.findOneOrFail(id,{
             relations:['messages','messages.sender']
