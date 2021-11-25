@@ -20,3 +20,17 @@ String weekDayToString(int dateNum) {
 
   return "일요일";
 }
+
+String extractYearOnStudentNumber(int studentNum) {
+  return studentNum.toString().substring(2, 4);
+}
+
+String convertInteresetToHashTag(List interest) {
+  String temp = "";
+
+  interest.forEach((element) {
+    temp += "#$element ";
+  });
+
+  return temp;
+}
