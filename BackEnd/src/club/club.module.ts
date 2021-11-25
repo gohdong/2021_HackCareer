@@ -17,6 +17,7 @@ import {MemberController} from './controller/member.controller'
   ],
   controllers: [ClubController, MemberController,
   ],
-  providers: [ClubService, MemberService,IsClubLeaderGuard]
+  providers: [ClubService, MemberService,IsClubLeaderGuard],
+  exports:[TypeOrmModule.forFeature([ClubRepository])]
 })
 export class ClubModule {}

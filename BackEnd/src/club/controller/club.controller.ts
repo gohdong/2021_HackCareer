@@ -40,6 +40,12 @@ export class ClubController {
             take = take>20 ?20 : take;
             return this.clubService.findClubByKeyword(take,skip,keyword)
     }
+    @Get("/:id/chat")
+    getClubChat(
+        @Param("id") id:number
+    ){
+        return this.clubService.getClubChat(id);
+    }
 
     @Get("/:id")
     findClubById(

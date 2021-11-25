@@ -1,9 +1,13 @@
 import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
 import {Server, Socket} from 'socket.io'
+import { ChatService } from '../service/chat.service';
 @WebSocketGateway(4000,{cors:{origin:'*'} ,namespace:'/chat'})
 // @WebSocketGateway(81, { namespace: 'chat' })
 export class ChatGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayDisconnect{
+  constructor(
+    private chatService :ChatService,
+  ){}
 
   private logger:Logger = new Logger('ChatGateway')
 
@@ -23,20 +27,24 @@ export class ChatGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayD
   }
 
   @SubscribeMessage('chatToServer')
-  handleMessage(socket:Socket, message:{sender:string, room:string, message:string}):void{
-    // console.log(`${socket.id}: `,message)
-    this.wss.to(message.room).emit('chatToClient',message);
+  handleMessage(socket:Socket, message:{sender:number, room:number, content:string}):Promise<any>{
+    console.log(message);
+    return this.chatService.saveMessage(message.sender,message.room,message.content).then((_)=>{
+      this.wss.to(String(message.room)).emit('chatToClient',message);
+    })
   }
 
   @SubscribeMessage('joinRoom')
-  handleJoinRoom(client:Socket, room:string){
-    client.join(room);
-    client.emit('joinedRoom',room);
+  handleJoinRoom(client:Socket, room:number){
+    client.join(String(room));
+    return this.chatService.loadMessage(room).then((data)=>{
+      client.emit('joinedRoom',data);
+    })
   }
 
   @SubscribeMessage('leaveRoom')
-  handleLeaveRoom(client:Socket, room:string){
-    client.leave(room);
+  handleLeaveRoom(client:Socket, room:number){
+    client.leave(String(room));
     client.emit('leftRoom',room);
   }
 }

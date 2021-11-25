@@ -22,6 +22,12 @@ export class ClubService {
         private clubCategoryRepository : ClubCatecoryRepository,
     ){}
 
+    getClubChat(id:number){
+        return this.clubRepository.findOneOrFail(id,{
+            relations:['messages','messages.sender']
+        });
+    }
+
     findClubs(take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
         return selectedCategory?this.clubRepository.findAndCount({
             take,skip,

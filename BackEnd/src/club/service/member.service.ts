@@ -48,7 +48,8 @@ export class MemberService {
 
     getLiveClub(user:User){
         return this.memberRepository.find({
-            relations:['user','club'],
+            relations:['user','club','club.members'],
+            
             where:{
                 user: {uid : user.uid},
                 club : {timeLimit: MoreThanOrEqual(new Date())}

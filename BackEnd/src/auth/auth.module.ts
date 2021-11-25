@@ -20,6 +20,6 @@ import { FeedModule } from 'src/feed/feed.module';
     TypeOrmModule.forFeature([UserRepository,LikeFeedRepository])],
   controllers: [AuthController, UserController],
   providers: [AuthStrategy,AuthService, UserService,LikeFeedService],
-  exports:[AuthService,PassportModule,UserService,LikeFeedService]
+  exports:[AuthService,PassportModule,UserService,LikeFeedService,TypeOrmModule.forFeature([UserRepository])]
 })
 export class AuthModule {}
