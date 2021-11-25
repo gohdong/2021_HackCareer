@@ -27,7 +27,6 @@ Future<Map<int, Club>> getNowClub() async {
       }));
     },
   );
-
   return <int, Club>{};
 }
 
@@ -84,20 +83,18 @@ Future<List<User>> getClubMembers(clubId)async{
       for (Map i in resJson) {
         members.add(User.fromJson(i['__user__']));
       }
-
   });
   return members;
 }
 
 // http://www.funani.tk:3000/user/my/likeClubs
-Future<List<Club2>> getMyLikeClubs()async{
+Future<List<Club2>> getMyLikeClubs(isNow)async{
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> likeClubs = [];
   await http.get(
-    Uri.parse(url+'/user/my/likeClubs'),
+    Uri.parse('http://www.funani.tk:3000/user/my/likeClubs?isNow=false'),
     headers: {"Authorization": 'Bearer $token'},).then((res){
-
     List resJson = jsonDecode(res.body);
     for (Map i in resJson) {
       likeClubs.add(Club2.fromJson(i['__club__']));
