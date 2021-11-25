@@ -289,12 +289,17 @@ class _ChattingRoomState extends State<ChattingRoom> {
 
   void sendMessage() {
     if (_textEditingController.text.isNotEmpty) {
-      setState(() {
+      socket.emit('chatToServer',{
+        'room' : widget.club.id,
+        'sender' : me,
+        'content' : _textEditingController.text
+      });
+      // setState(() {
         // chatLog.add(Chat(
         //     contents: _textEditingController.text,
         //     sendAt: DateTime.now(),
         //     sender: userController.me()));
-      });
+      // });
       _textEditingController.clear();
       Future.delayed(const Duration(milliseconds: 100), () {}).then((value) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -324,6 +329,17 @@ class _ChattingRoomState extends State<ChattingRoom> {
               sender: tempSender!),
         );
       });
+      setState(() {});
+    });
+
+    socket.on('chatToClient',(data){
+      User? tempSender = chatMembers[data['sender']['id']];
+      chatLog.add(
+        Chat(
+            sendAt: DateTime.parse(data['createdAt']),
+            contents: data['content'],
+            sender: tempSender!),
+      );
       setState(() {});
     });
 
