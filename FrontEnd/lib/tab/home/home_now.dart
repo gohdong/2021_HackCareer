@@ -74,7 +74,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
     return Scaffold(
       floatingActionButton: InkWell(
         onTap: () async {
-          getNowClub();
+          getMyLikeClubs(true);
         },
         child: Container(
           margin: EdgeInsets.only(bottom: 20),
