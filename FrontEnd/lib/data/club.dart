@@ -1,4 +1,4 @@
-import 'package:clu_b/data/user.dart';
+import 'package:clu_b/data/my_info.dart';
 
 class Club {
   final String category;
@@ -11,7 +11,7 @@ class Club {
   final int maxMemberCount;
   final DateTime time;
   final List hashTag;
-  final List<CluBUser> participants;
+  final List<MyInfo> participants;
 
   const Club(
       {required this.category,

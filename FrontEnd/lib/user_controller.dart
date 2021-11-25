@@ -1,10 +1,10 @@
 import 'package:clu_b/data/club.dart';
-import 'package:clu_b/data/user.dart';
+import 'package:clu_b/data/my_info.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
   int myID = -1.obs;
-  Map<int, CluBUser> users = <int, CluBUser>{}.obs;
+  Map<int, MyInfo> users = <int, MyInfo>{}.obs;
 
   // Map<String, User> dummyData = {
   //   '1': User(nickName: "페이퍼왕", major: '소프트웨어학부', schoolNum: 16, img: "assets/img/default_profile.png"),
@@ -12,7 +12,7 @@ class UserController extends GetxController {
   //   '3': User(nickName: "고동", major: '소프트웨어학부', schoolNum: 16, img: "assets/img/default_profile.png"),
   // }.obs;
 
-  CluBUser? me() {
+  MyInfo? me() {
     return users[myID];
   }
 
@@ -24,7 +24,7 @@ class UserController extends GetxController {
   }
 
 //
-  void updateData(CluBUser newUser) {
+  void updateData(MyInfo newUser) {
     users[newUser.id] = newUser;
   }
 }

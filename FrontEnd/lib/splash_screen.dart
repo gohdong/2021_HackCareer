@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
-import 'package:clu_b/data/user.dart';
+import 'package:clu_b/data/my_info.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen> {
             (res) {
               Map resJson = jsonDecode(res.body);
               userController.updateData(
-                CluBUser(
+                MyInfo(
                     token : token,
                     nickName: resJson['nickname'],
                     id: int.parse(resJson['id'].toString()),

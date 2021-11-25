@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
-import 'package:clu_b/data/user.dart';
+import 'package:clu_b/data/my_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -333,7 +333,7 @@ Widget userProfileImg(double width, double height, {String? img}) {
   );
 }
 
-Widget userProfileInChat(CluBUser? user) {
+Widget userProfileInChat(MyInfo? user) {
   //TODO USER
   return Row(
     children: [

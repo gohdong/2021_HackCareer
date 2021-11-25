@@ -1,9 +1,9 @@
-import 'package:clu_b/data/user.dart';
+import 'package:clu_b/data/my_info.dart';
 
 class Feed {
   final int id;
   final String description;
-  final List<dynamic> imagePath;
+  final List imagePath;
   final DateTime createdAt;
   // final CluBUser writer;
   final String category;
