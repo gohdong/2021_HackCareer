@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
               children: [
                 InkWell(
                   onTap: () {
-                    getClubMembers(1).then((value){
+                    getMyClubLog(false).then((value){
                       print(value.length);
                     });
                     setState(() {

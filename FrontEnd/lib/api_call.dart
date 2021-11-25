@@ -87,7 +87,56 @@ Future<List<User>> getClubMembers(clubId)async{
 
   });
   return members;
-
 }
+
+// http://www.funani.tk:3000/user/my/likeClubs
+Future<List<Club2>> getMyLikeClubs()async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Club2> likeClubs = [];
+  await http.get(
+    Uri.parse(url+'/user/my/likeClubs'),
+    headers: {"Authorization": 'Bearer $token'},).then((res){
+
+    List resJson = jsonDecode(res.body);
+    for (Map i in resJson) {
+      likeClubs.add(Club2.fromJson(i['__club__']));
+    }
+  });
+  return likeClubs;
+}
+
+Future<List<Club2>> getMyClubLog(bool isNow)async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Club2> deadClubs = [];
+  await http.get(
+    Uri.parse(url+'/member/myClubLog?isNow=${isNow.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},).then((res){
+
+    List resJson = jsonDecode(res.body);
+    for (Map i in resJson) {
+      deadClubs.add(Club2.fromJson(i['__club__']));
+    }
+  });
+  return deadClubs;
+}
+
+Future<List<Club2>> getMyLiveClubs(bool isNow)async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Club2> liveClubs = [];
+  await http.get(
+    Uri.parse(url+'/member/myLiveClub?isNow=${isNow.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},).then((res){
+
+    List resJson = jsonDecode(res.body);
+    for (Map i in resJson) {
+      liveClubs.add(Club2.fromJson(i['__club__']));
+    }
+  });
+  return liveClubs;
+}
+
 
 
