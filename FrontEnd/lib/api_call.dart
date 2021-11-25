@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:clu_b/data/club.dart';
+import 'package:clu_b/data/club2.dart';
 import 'package:clu_b/data/feed.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:http/http.dart' as http;
+
+import 'data/user.dart';
 
 const String url = 'http://www.funani.tk:3000';
 
@@ -48,3 +51,43 @@ Future<List<Feed>> getFeeds({take = 20, skip = 0, category = ''}) async {
   });
   return feeds;
 }
+
+// http://www.funani.tk:3000/club?take=20&skip=0&isNow=false&category=영화
+Future<List> getClubs({take=20,skip=0,category='',isNow=false}) async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Club2> clubs = [];
+  await http.get(
+      Uri.parse(url+'/club?take=${take.toString()}&skip=${skip.toString()}&category=$category&isNow=$isNow'),
+      headers: {"Authorization": 'Bearer $token'},).then((res){
+        try{
+          List<dynamic> resJson = jsonDecode(res.body);
+          for (Map i in resJson) {
+            clubs.add(Club2.fromJson(i));
+          }
+        }catch(e){
+          clubs = [];
+        }
+  });
+  return clubs;
+}
+
+Future<List> getClubMembers(clubId)async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<User> members = [];
+  await http.get(
+    Uri.parse(url+'/member/${clubId.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},).then((res){
+
+      List resJson = jsonDecode(res.body);
+      for (Map i in resJson) {
+        members.add(User.fromJson(i['__user__']));
+      }
+
+  });
+  return members;
+
+}
+
+
