@@ -45,7 +45,4 @@ class MyInfo {
       joinedClubs = json['joinedClubs'],
       token = '',
       createdClubs = json['createdClubs'];
-
-
-
 }
