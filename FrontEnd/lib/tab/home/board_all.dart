@@ -89,11 +89,14 @@ class _BoardAllTabState extends State<BoardAllTab> {
                   color: Colors.white, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 children: [
-                  Text(
-                    "지금 오버워치 한판 어때요?",
-                    style: CluBTextTheme.medium18
-                        .copyWith(color: CluBColor.ultraLightGray),
-                  )
+                  Expanded(
+                    child: Text(
+                      "지금 오버워치 한판 어때요?",
+                      style: CluBTextTheme.medium18
+                          .copyWith(color: CluBColor.ultraLightGray),
+                    ),
+                  ),
+                  SvgPicture.asset('assets/svg/search.svg')
                 ],
               ),
             ),

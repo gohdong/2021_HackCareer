@@ -2,6 +2,7 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/data/chat.dart';
+import 'package:clu_b/data/club2.dart';
 import 'package:clu_b/main.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 class ChattingRoom extends StatefulWidget {
-  final int clubID;
+  final Club2 club;
 
-  const ChattingRoom({Key? key, required this.clubID}) : super(key: key);
+  const ChattingRoom({Key? key, required this.club}) : super(key: key);
 
   @override
   State<ChattingRoom> createState() => _ChattingRoomState();
@@ -27,34 +28,34 @@ class _ChattingRoomState extends State<ChattingRoom> {
   final TextEditingController _textEditingController = TextEditingController();
 
   List<Chat> chatLog = [
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 10)),
-        contents: "안녕하세용?",
-        senderID: 2),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 9)),
-        contents: "안녕하세요. 고학번도 참여되나요?",
-        senderID: 1),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 8)),
-        contents: "안녕하세용~ 혹시 시간조정 가능한가요 긴텍스트트트트ㅏㅇㄴ러ㅗ미ㅓㅏㅗㄴㅇㄹ ?",
-        senderID: 3),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 7)),
-        contents: "네넵~전가능해요.?",
-        senderID: 2),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 6)),
-        contents: "30분만 늦출수있을까용??",
-        senderID: 3),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 5)),
-        contents: "좋아요",
-        senderID: 1),
-    Chat(
-        sendAt: DateTime.now().subtract(const Duration(minutes: 4)),
-        contents: "3시 30분으로 하죱?",
-        senderID: 1),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 10)),
+    //     contents: "안녕하세용?",
+    //     senderID: 2),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 9)),
+    //     contents: "안녕하세요. 고학번도 참여되나요?",
+    //     senderID: 1),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 8)),
+    //     contents: "안녕하세용~ 혹시 시간조정 가능한가요 긴텍스트트트트ㅏㅇㄴ러ㅗ미ㅓㅏㅗㄴㅇㄹ ?",
+    //     senderID: 3),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 7)),
+    //     contents: "네넵~전가능해요.?",
+    //     senderID: 2),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 6)),
+    //     contents: "30분만 늦출수있을까용??",
+    //     senderID: 3),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 5)),
+    //     contents: "좋아요",
+    //     senderID: 1),
+    // Chat(
+    //     sendAt: DateTime.now().subtract(const Duration(minutes: 4)),
+    //     contents: "3시 30분으로 하죱?",
+    //     senderID: 1),
   ];
 
   @override
@@ -102,7 +103,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
                       title: "채팅",
                     ),
                     verticalSpacer(10),
-                    // clubInfo(clubController.dummyData[widget.clubID]),
+                    clubInfo(widget.club),
                     const Divider(
                       height: 16,
                       thickness: 2,

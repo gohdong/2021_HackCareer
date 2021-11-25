@@ -245,9 +245,11 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => ChattingRoom(
-                            clubID: widget.club.id,
-                          ));
+                      Get.to(
+                        () => ChattingRoom(
+                          club: widget.club,
+                        ),
+                      );
                     },
                     child: Container(
                       width: 103,

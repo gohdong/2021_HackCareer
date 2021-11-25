@@ -21,7 +21,7 @@ enum tab {
   liked,
   home,
   chatting,
-  myClub,
+  history,
 }
 
 Map tabDict = {
@@ -29,7 +29,7 @@ Map tabDict = {
   tab.liked: "관심모임",
   tab.home: "홈",
   tab.chatting: "채팅",
-  tab.myClub: "내 모임",
+  tab.history: "크루기록",
 };
 
 Future<void> main() async {
@@ -121,7 +121,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController test;
   tab currentTab = tab.home;
-  List tabs = [tab.board, tab.myClub, tab.home, tab.chatting, tab.liked];
+  List tabs = [tab.board, tab.history, tab.home, tab.chatting, tab.liked];
   final UserController userController = Get.find();
 
   @override

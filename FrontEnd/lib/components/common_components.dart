@@ -135,7 +135,7 @@ Widget leaderIndicatorSummary(User leader) {
   );
 }
 
-Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
+Widget smallLeaderIndicator(User leader) {
   return Stack(
     alignment: Alignment.centerLeft,
     clipBehavior: Clip.none,
@@ -143,6 +143,7 @@ Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
       Container(
         width: 63,
         height: 26,
+        margin: const EdgeInsets.only(left: 5),
         padding: const EdgeInsets.only(right: 9),
         alignment: Alignment.centerRight,
         decoration: BoxDecoration(
@@ -153,18 +154,14 @@ Widget smallLeaderIndicator(String imgPath, int leaderSchoolNum) {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
-          "$leaderSchoolNum",
+          extractYearOnStudentNumber(leader.studentNum),
           style: CluBTextTheme.bold16.copyWith(
               fontWeight: FontWeight.w800, color: CluBColor.mainColor),
         ),
       ),
       Positioned(
         left: 0,
-        child: Container(
-            width: 36,
-            height: 36,
-            decoration: const BoxDecoration(
-                color: CluBColor.gray, shape: BoxShape.circle)),
+        child: userProfileImg(36, 36, img: leader.imgPath),
       )
     ],
   );

@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SmallCard extends StatefulWidget {
   final String category;
-  final String leader;
-  final int leaderSchoolNum;
+  final User leader;
   final bool left;
 
   final String title;
@@ -22,7 +22,6 @@ class SmallCard extends StatefulWidget {
       {Key? key,
       required this.category,
       required this.leader,
-      required this.leaderSchoolNum,
       required this.title,
       required this.desc,
       required this.img,
@@ -72,9 +71,11 @@ class _SmallCardState extends State<SmallCard> {
                 image: DecorationImage(
                   alignment: Alignment.centerRight,
                   fit: BoxFit.cover,
-                  image: Image.asset(
-                    'assets/img/IMG_4624.png',
-                  ).image,
+                  image: widget.img != ""
+                      ? NetworkImage(widget.img)
+                      : Image.asset(
+                          'assets/img/default_img.png',
+                        ).image,
                 ),
               ),
             ),
@@ -83,24 +84,22 @@ class _SmallCardState extends State<SmallCard> {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.width * 0.64,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                alignment: Alignment.centerLeft,
-                fit: BoxFit.fitHeight,
-                image: Image.asset(
-                  widget.left
-                      ? 'assets/img/small_card_left_mask.png'
-                      : 'assets/img/small_card_right_mask.png',
-                ).image
-              )
-            ),
+                image: DecorationImage(
+                    alignment: Alignment.centerLeft,
+                    fit: BoxFit.fitHeight,
+                    image: Image.asset(
+                      widget.left
+                          ? 'assets/img/small_card_left_mask.png'
+                          : 'assets/img/small_card_right_mask.png',
+                    ).image)),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 22),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                categoryIndicator('스포츠'),
-                verticalSpacer(18),
+                categoryIndicator(widget.category),
+                verticalSpacer(8),
                 Text(
                   widget.title,
                   style: CluBTextTheme.bold18_28.copyWith(color: Colors.white),
@@ -109,10 +108,10 @@ class _SmallCardState extends State<SmallCard> {
                   child: Container(),
                 ),
                 smallMemberIndicator(widget.memberCount, widget.maxMemberCount),
+                verticalSpacer(34),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 10),
-                  child: smallLeaderIndicator(
-                      widget.leader, widget.leaderSchoolNum),
+                  padding: const EdgeInsets.only(top: 20, bottom: 10, left: 12),
+                  child: leaderIndicatorSummary(widget.leader),
                 )
               ],
             ),

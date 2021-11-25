@@ -60,7 +60,11 @@ class _BigCardState extends State<BigCard> {
         image: DecorationImage(
             alignment: Alignment.centerLeft,
             fit: BoxFit.fitHeight,
-            image: Image.asset('assets/img/IMG_4624.png').image),
+          image: widget.img != ""
+              ? NetworkImage(widget.img)
+              : Image.asset(
+            'assets/img/default_img.png',
+          ).image,),
       ),
       child: Stack(
         children: [
