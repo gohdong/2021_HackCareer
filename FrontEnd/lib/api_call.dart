@@ -93,7 +93,7 @@ Future<List<Club2>> getMyLikeClubs(isNow)async{
   String token = userController.getMyToken();
   List<Club2> likeClubs = [];
   await http.get(
-    Uri.parse('http://www.funani.tk:3000/user/my/likeClubs?isNow=false'),
+    Uri.parse(url+'/user/my/likeClubs?isNow=${isNow.toString()}'),
     headers: {"Authorization": 'Bearer $token'},).then((res){
     List resJson = jsonDecode(res.body);
     for (Map i in resJson) {
