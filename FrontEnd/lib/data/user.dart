@@ -10,7 +10,6 @@ class User {
   final String gender;
   final int level;
   final DateTime birth;
-  final String token;
 
   User(
       {required this.nickName,
@@ -24,20 +23,19 @@ class User {
         required this.gender,
         required this.level,
         required this.birth,
-
-        this.token = ''});
+      });
 
   User.fromJson(Map json):
         id=json['id'],
         nickName = json['nickname'],
         major = json['department'],
-        studentNum = json['studentNum'],
+        studentNum = int.parse(json['studentNum']),
         intro = json['intro'],
         imgPath = json['imagePath'],
         badges = json['badges'],
         interest = json['interest'],
         gender = json['gender'],
-        level = json['level'],
+        level = int.parse(json['level']),
         birth = DateTime.parse(json['birth']);
 
 

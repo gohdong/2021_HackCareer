@@ -7,25 +7,33 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:http/http.dart' as http;
 
+const String url = 'http://www.funani.tk:3000';
+
 Future<Map<int, Club>> getNowClub() async {
   // http.get(url)
   return <int,Club>{};
 }
 
-Future<dynamic> getFeeds(take,skip) async{
+Future<List> getFeeds({take=20,skip=0,category=''}) async{
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   return http.get(
-    Uri.parse('http://www.funani.tk:3000/feed?take=20'),
+    Uri.parse(url+'/feed?take=${take.toString()}&skip=${skip.toString()}&category=$category'),
     headers: {"Authorization": 'Bearer $token'},
   ).then((res) {
+    try {
       List<dynamic> resJson = jsonDecode(res.body);
       List<Feed> feeds = [];
-      for(Map i in resJson){
+      for (Map i in resJson) {
         feeds.add(Feed.fromJson(i));
       }
+      return feeds;
+    } catch (e) {
+      // feed Not found;
+      return [];
+    }
+
 
   });
-
 }
 

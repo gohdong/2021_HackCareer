@@ -34,9 +34,11 @@ class _HomeState extends State<Home> {
               children: [
                 InkWell(
                   onTap: () {
+                    getFeeds(take:20,skip: 0,category:"ss").then((value){
+                      print(value.length);
+                    });
                     setState(() {
                       currentTab = "now";
-                      getFeeds(1,2);
                     });
                   },
                   child: smallTabIndicator(currentTab == "now", "NOW"),
