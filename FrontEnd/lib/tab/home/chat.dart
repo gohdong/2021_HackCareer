@@ -2,7 +2,6 @@ import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
-import 'package:clu_b/tab/home/chat_now.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +37,11 @@ class _ChattingTabState extends State<ChattingTab> {
               children: [
                 InkWell(
                   onTap: () {
+
                     setState(() {
+
                       currentTab = "now";
-                      getFeeds(1, 2);
+                      getFeeds(category: 1, skip: 2,take:10);
                     });
                   },
                   child: smallTabIndicator(currentTab == "now", "NOW"),
@@ -65,6 +66,7 @@ class _ChattingTabState extends State<ChattingTab> {
 
   Widget chatBody(bool isNow) {
     return Container(
+      padding: const EdgeInsets.only(top: 22, left: 26, right: 26, bottom: 20),
       child: ListView.separated(
         itemCount: clubController.dummyData.length,
         itemBuilder: (context, index) {
@@ -72,7 +74,11 @@ class _ChattingTabState extends State<ChattingTab> {
           return clubInfo(clubController.dummyData[key]);
         },
         separatorBuilder: (context, index) {
-          return Divider();
+          return Divider(
+            height: 20,
+            color: CluBColor.darkGray,
+            thickness: 2,
+          );
         },
       ),
     );

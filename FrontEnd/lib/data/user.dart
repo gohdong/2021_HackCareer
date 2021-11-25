@@ -29,13 +29,13 @@ class User {
         id=json['id'],
         nickName = json['nickname'],
         major = json['department'],
-        studentNum = json['studentNum'],
+        studentNum = int.parse(json['studentNum']),
         intro = json['intro'],
         imgPath = json['imagePath'],
         badges = json['badges'],
         interest = json['interest'],
         gender = json['gender'],
-        level = json['level'],
+        level = int.parse(json['level']),
         birth = DateTime.parse(json['birth']);
 
 }

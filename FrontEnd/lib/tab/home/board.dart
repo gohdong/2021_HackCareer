@@ -1,19 +1,20 @@
 import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/tab/home/board_all.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class BoardTab extends StatefulWidget {
+  const BoardTab({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<BoardTab> createState() => _BoardTabState();
 }
 
-class _HomeState extends State<Home> {
-  String currentTab = "now";
+class _BoardTabState extends State<BoardTab> {
+  String currentTab = "all";
 
   @override
   void initState() {
@@ -38,10 +39,10 @@ class _HomeState extends State<Home> {
                       print(value.length);
                     });
                     setState(() {
-                      currentTab = "now";
+                      currentTab = "all";
                     });
                   },
-                  child: smallTabIndicator(currentTab == "now", "NOW"),
+                  child: smallTabIndicator(currentTab == "all", "ALL"),
                 ),
                 horizontalSpacer(10),
                 InkWell(
@@ -50,14 +51,14 @@ class _HomeState extends State<Home> {
                       currentTab = "club";
                     });
                   },
-                  child: smallTabIndicator(currentTab == "club", "크루비"),
+                  child: smallTabIndicator(currentTab == "club", "MY"),
                 )
               ],
             ),
           ),
           Expanded(
             child:
-                currentTab == 'now' ? const HomeNowTab() : const HomeCluBTab(),
+            currentTab == 'all' ? const BoardAllTab() : Container(),
           )
         ],
       ),

@@ -34,3 +34,13 @@ String convertInterestToHashTag(List interest) {
 
   return temp;
 }
+
+String timeFromNow(DateTime date) {
+  DateTime now = DateTime.now();
+  if (now.difference(date).inMinutes <= 60) {
+    return "${now.difference(date).inMinutes}분 전";
+  } else if (now.difference(date).inHours <= 24) {
+    return "${now.difference(date).inHours}시간 전";
+  }
+  return date.toString().split(' ')[0].replaceAll('-', '.');
+}
