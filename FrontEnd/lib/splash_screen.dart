@@ -90,6 +90,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ).then(
             (res) {
               Map resJson = jsonDecode(res.body);
+              print(res);
               userController.updateData(
                 MyInfo(
                     token : token,

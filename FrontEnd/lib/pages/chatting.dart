@@ -8,6 +8,7 @@ import 'package:clu_b/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChattingRoom extends StatefulWidget {
   final Club2 club;
@@ -61,12 +62,27 @@ class _ChattingRoomState extends State<ChattingRoom> {
   @override
   void initState() {
     super.initState();
+    // channel.stream.listen((message) {
+    //   channel.sink.add('received!');
+    //   channel.sink.close(status.goingAway);
+    // });
+    IO.Socket socket = IO.io('ws://www.funani.tk:4000/chat', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('msg', 'test');
+    });
+    socket.on('event', (data) => print(data));
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.on('fromServer', (_) => print(_));
     me = userController.myID;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(me);
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -159,8 +175,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
                           index == 0 ||
                                   chatLog[index].senderID !=
                                       chatLog[index - 1].senderID
-                              ? userProfileInChat(userController
-                                  .users[chatLog[index].senderID])
+                              ? userProfileInChat(
+                                  userController.users[chatLog[index].senderID])
                               : Container(),
                           verticalSpacer(6),
                           Container(
@@ -259,7 +275,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

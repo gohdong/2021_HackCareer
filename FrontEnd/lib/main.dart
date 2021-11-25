@@ -39,7 +39,7 @@ Future<void> main() async {
             Brightness.dark // Dark == white status bar -- for IOS.
         ),
   );
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
