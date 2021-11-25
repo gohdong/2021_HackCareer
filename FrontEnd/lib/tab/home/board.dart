@@ -35,9 +35,6 @@ class _BoardTabState extends State<BoardTab> {
               children: [
                 InkWell(
                   onTap: () {
-                    getFeeds(take:20,skip: 0,category:"ss").then((value){
-                      print(value.length);
-                    });
                     setState(() {
                       currentTab = "all";
                     });

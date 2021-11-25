@@ -16,13 +16,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
-enum tab {
-  board,
-  liked,
-  home,
-  chatting,
-  history,
-}
+enum tab { board, liked, home, chatting, history, myClub }
 
 Map tabDict = {
   tab.board: "학교생활",
@@ -30,6 +24,7 @@ Map tabDict = {
   tab.home: "홈",
   tab.chatting: "채팅",
   tab.history: "크루기록",
+  tab.myClub: "내 모임",
 };
 
 Future<void> main() async {
@@ -121,7 +116,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController test;
   tab currentTab = tab.home;
-  List tabs = [tab.board, tab.history, tab.home, tab.chatting, tab.liked];
+  List tabs = [tab.board, tab.history, tab.home, tab.chatting, tab.liked, tab.myClub];
   final UserController userController = Get.find();
 
   @override
