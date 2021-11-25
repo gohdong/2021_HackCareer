@@ -1,4 +1,5 @@
 import 'package:clu_b/club_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -49,14 +50,61 @@ String timeFromNow(DateTime date) {
   return date.toString().split(' ')[0].replaceAll('-', '.');
 }
 
-void customDialog({required String title}) {
-  Get.defaultDialog(
-    backgroundColor: Color(0xff272727),
-    title: "ad",
-    titleStyle: CluBTextTheme.bold22_30,
-    confirm: Text("예"),
-    cancel: Text("아니요"),
-    content: Text("ㅁㄴㅇㅇ"),
-    contentPadding: EdgeInsets.all(30),
+void customDialog({
+  required String title,
+  required String content,
+  required String confirm,
+  required String cancel,
+  required BuildContext context,
+  void Function()? onConfirm,
+  void Function()? onCancel,
+}) {
+  // Get.defaultDialog(
+  //   backgroundColor: Color(0xff272727),
+  //   title: "ad",
+  //   titleStyle: CluBTextTheme.bold22_30,
+  //   // confirm: Text("예"),
+  //   cancel: Text("아니요"),
+  //   content: Text("ㅁㄴㅇㅇ"),
+  //   // buttonColor: Colors.yellow,
+  //
+  //   contentPadding: EdgeInsets.all(30),
+  //   onCancel: (){
+  //     print("!!");
+  //   },
+  //   onConfirm: () {
+  //     print("asd");
+  //   },
+  // );
+  showCupertinoDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return Theme(
+        data: ThemeData.dark(),
+        child: CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text(cancel),
+              onPressed: onCancel ??
+                  () {
+                    Get.back();
+                  },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text(confirm),
+              onPressed: onConfirm ??
+                  () {
+                    Get.back();
+                  },
+            ),
+          ],
+        ),
+      );
+    },
   );
 }

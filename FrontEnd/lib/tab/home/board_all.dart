@@ -49,7 +49,12 @@ class _BoardAllTabState extends State<BoardAllTab> {
     return Scaffold(
       floatingActionButton: InkWell(
         onTap: () {
-
+          customDialog(
+              context: context,
+              title: "테스트",
+              content: "내용",
+              confirm: "예",
+              cancel: "아니오");
         },
         child: Container(
           margin: const EdgeInsets.only(bottom: 20),
