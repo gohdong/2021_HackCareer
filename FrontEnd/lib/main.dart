@@ -7,7 +7,9 @@ import 'package:clu_b/pages/user_profile.dart';
 import 'package:clu_b/splash_screen.dart';
 import 'package:clu_b/tab/home/board.dart';
 import 'package:clu_b/tab/home/chat.dart';
+import 'package:clu_b/tab/home/club_history.dart';
 import 'package:clu_b/tab/home/home.dart';
+import 'package:clu_b/tab/home/interested_club.dart';
 import 'package:clu_b/tab/home/my_club.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -117,7 +119,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late ScrollController test;
   tab currentTab = tab.home;
-  List tabs = [tab.board, tab.history, tab.home, tab.chatting, tab.liked, tab.myClub];
+  List tabs = [
+    tab.board,
+    tab.history,
+    tab.home,
+    tab.chatting,
+    tab.liked,
+    tab.myClub
+  ];
   final UserController userController = Get.find();
 
   @override
@@ -264,8 +273,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return const ChattingTab();
     } else if (currentTab == tab.board) {
       return const BoardTab();
-    } else if (currentTab == tab.myClub){
+    } else if (currentTab == tab.myClub) {
       return const MyClubTab();
+    } else if (currentTab == tab.liked) {
+      return const InterestedClubTab();
+    } else if (currentTab == tab.history) {
+      return const ClubHistoryTab();
     }
 
     return Container();

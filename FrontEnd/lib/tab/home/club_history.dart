@@ -12,14 +12,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class InterestedClubTab extends StatefulWidget {
-  const InterestedClubTab({Key? key}) : super(key: key);
+class ClubHistoryTab extends StatefulWidget {
+  const ClubHistoryTab({Key? key}) : super(key: key);
 
   @override
-  State<InterestedClubTab> createState() => _InterestedClubTabState();
+  State<ClubHistoryTab> createState() => _ClubHistoryTabState();
 }
 
-class _InterestedClubTabState extends State<InterestedClubTab> {
+class _ClubHistoryTabState extends State<ClubHistoryTab> {
   String currentTab = "now";
   UserController userController = Get.find();
 
@@ -75,7 +75,7 @@ class _InterestedClubTabState extends State<InterestedClubTab> {
     return Container(
       padding: const EdgeInsets.only(top: 22, bottom: 20),
       child: FutureBuilder<List<Club2>>(
-          future: getMyLikeClubs(isNow),
+          future: getMyClubLog(isNow),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Container();
@@ -120,7 +120,7 @@ class _InterestedClubTabState extends State<InterestedClubTab> {
                       ),
                       verticalSpacer(8),
                       Text(
-                        "관심있는 ${currentTab == "now"?"NOW":"크루비"}입니다!",
+                        "${currentTab == "now"?"NOW":"크루비"} 기록입니다!",
                         style: CluBTextTheme.extraBold18
                             .copyWith(color: Colors.white),
                       ),

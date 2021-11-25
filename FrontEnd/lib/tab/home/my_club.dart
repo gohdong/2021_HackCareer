@@ -120,7 +120,7 @@ class _MyClubTabState extends State<MyClubTab> {
                       ),
                       verticalSpacer(8),
                       Text(
-                        "${currentTab == "now"?"NOW":"크루비"} 기록입니다!",
+                        "참여 중인 ${currentTab == "now"?"NOW":"크루비"} 기록입니다!",
                         style: CluBTextTheme.extraBold18
                             .copyWith(color: Colors.white),
                       ),

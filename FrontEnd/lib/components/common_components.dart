@@ -186,8 +186,13 @@ Widget timeIndicator(DateTime time) {
       Text("남은시간",
           style: CluBTextTheme.extraBold14.copyWith(color: CluBColor.subGreen)),
       Text(
-        time.difference(DateTime.now()).toString().split('.')[0],
-        style: CluBTextTheme.bold30.copyWith(color: CluBColor.subGreen),
+        time.difference(DateTime.now()).isNegative
+            ? "종료됨"
+            : time.difference(DateTime.now()).toString().split('.')[0],
+        style: CluBTextTheme.bold30.copyWith(
+            color: time.difference(DateTime.now()).isNegative
+                ? CluBColor.gray
+                : CluBColor.subGreen),
       ),
     ],
   );
