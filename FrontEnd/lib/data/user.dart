@@ -12,6 +12,7 @@ class CluBUser {
   final DateTime birth;
   final List joinedClubs;
   final List createdClubs;
+  final String token;
 
   CluBUser(
       {required this.nickName,
@@ -26,5 +27,9 @@ class CluBUser {
       required this.level,
       required this.birth,
       required this.joinedClubs,
-      required this.createdClubs});
+      required this.createdClubs,
+      this.token = ''});
+
+  CluBUser.writerFromJson(Map Json):
+
 }

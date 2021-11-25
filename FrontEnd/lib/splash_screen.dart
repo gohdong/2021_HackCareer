@@ -92,6 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Map resJson = jsonDecode(res.body);
               userController.updateData(
                 CluBUser(
+                    token : token,
                     nickName: resJson['nickname'],
                     id: int.parse(resJson['id'].toString()),
                     major: resJson['department'],

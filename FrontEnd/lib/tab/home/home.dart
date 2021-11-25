@@ -1,3 +1,4 @@
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/tab/home/home_club.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     setState(() {
                       currentTab = "now";
+                      getFeeds(1,2);
                     });
                   },
                   child: smallTabIndicator(currentTab == "now", "NOW"),

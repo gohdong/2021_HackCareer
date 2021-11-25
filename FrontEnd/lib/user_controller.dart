@@ -19,6 +19,9 @@ class UserController extends GetxController {
   void setMyID(int id) {
     myID = id;
   }
+  String getMyToken(){
+    return users[myID]!.token;
+  }
 
 //
   void updateData(CluBUser newUser) {
