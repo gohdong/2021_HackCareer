@@ -175,7 +175,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                             child: userProfileImg(24, 24,
-                                img: userController.me()!.imgPath),
+                                img: userController.me() != null
+                                    ? userController.me()!.imgPath
+                                    : null),
                           ),
                         ],
                       ),
@@ -262,11 +264,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget tabBody() {
     if (currentTab == tab.home) {
       return const Home();
-    }
-    else if (currentTab == tab.chatting){
+    } else if (currentTab == tab.chatting) {
       return const ChattingTab();
-    }
-    else if (currentTab == tab.board){
+    } else if (currentTab == tab.board) {
       return const BoardTab();
     }
 
