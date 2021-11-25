@@ -36,19 +36,14 @@ class SmallCard extends StatefulWidget {
 }
 
 class _SmallCardState extends State<SmallCard> {
-  late Timer _timer;
 
   @override
   void initState() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
     super.dispose();
   }
 

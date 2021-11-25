@@ -38,7 +38,9 @@ class _BigCardState extends State<BigCard> {
   @override
   void initState() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
     super.initState();
   }
@@ -58,13 +60,14 @@ class _BigCardState extends State<BigCard> {
         color: CluBColor.black,
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
-            alignment: Alignment.centerLeft,
-            fit: BoxFit.fitHeight,
+          alignment: Alignment.centerLeft,
+          fit: BoxFit.fitHeight,
           image: widget.img != ""
               ? NetworkImage(widget.img)
               : Image.asset(
-            'assets/img/default_img.png',
-          ).image,),
+                  'assets/img/default_img.png',
+                ).image,
+        ),
       ),
       child: Stack(
         children: [
