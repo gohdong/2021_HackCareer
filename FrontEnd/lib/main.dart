@@ -35,7 +35,7 @@ Map tabDict = {
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: Colors.black,
+        statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light, // Color for Android
         statusBarBrightness:
             Brightness.dark // Dark == white status bar -- for IOS.
