@@ -2,7 +2,7 @@ import { ConflictException, ForbiddenException, Injectable, InternalServerErrorE
 import { InjectRepository } from '@nestjs/typeorm';
 import { buildMessage } from 'class-validator';
 import { User } from 'src/auth/model/user.entity';
-import { DeleteResult, LessThanOrEqual, MoreThanOrEqual, UpdateResult } from 'typeorm';
+import { DeleteResult, LessThanOrEqual, MoreThanOrEqual, Not, UpdateResult } from 'typeorm';
 import { Member } from '../model/member.entity';
 import { ClubRepository } from '../repository/club.repository';
 import { MemberRepository } from '../repository/member.repository';
@@ -15,6 +15,18 @@ export class MemberService {
         @InjectRepository(ClubRepository)
         private clubRepository : ClubRepository
     ){}
+
+    getMembers(clubId:number):Promise<Member[]>{
+        return this.memberRepository.find({
+            loadRelationIds:{
+                relations:['club']
+            },
+            where:{
+                club:{id:clubId}
+            },
+            relations:['user']
+        })
+    }
 
     async joinClub(user:User,clubId:number):Promise<Member>{
         return this.clubRepository.findClubById(clubId).then((club)=>{
@@ -29,9 +41,6 @@ export class MemberService {
                 return this.memberRepository.save(create);
             })
         })
-        
-        
-        
     }
 
     async leftClub(user:User,clubId:number):Promise<UpdateResult>{
@@ -46,29 +55,50 @@ export class MemberService {
         })
     }
 
-    getLiveClub(user:User){
-        return this.memberRepository.find({
+    getLiveClub(user:User,isNow:boolean){
+        return isNow?this.memberRepository.find({
             loadRelationIds:{
                 relations:['user'],
             },
-            relations:['club','club.members'],
+            relations:['club','club.members','club.leader','club.category'],
             where:{
                 user: {id : user.id},
-                club : {timeLimit: MoreThanOrEqual(new Date())}
+                club : {timeLimit: MoreThanOrEqual(new Date()), isCanceled:false,isThunder:true},
+            }
+        }):this.memberRepository.find({
+            loadRelationIds:{
+                relations:['user'],
+            },
+            relations:['club','club.members','club.leader','club.category'],
+            where:{
+                user: {id : user.id},
+                club : {timeLimit: MoreThanOrEqual(new Date()), isCanceled:false,isThunder:false},
             }
         })
     }
-    getClubLog(user:User){
-        return this.memberRepository.find({
+    getClubLog(user:User,isNow:boolean){
+        return isNow?this.memberRepository.find({
             loadRelationIds:{
                 relations:['user'],
             },
-            relations:['club'],
+            relations:['club','club.members','club.leader','club.category'],
             withDeleted:true,
-            where:{
-                user: {id : user.id},
-                club : {timeLimit: LessThanOrEqual(new Date())}
-            }
+            where:[
+                {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:false,isThunder:true}},
+                {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:true,isThunder:true}}
+            ]
+            
+        }):this.memberRepository.find({
+            loadRelationIds:{
+                relations:['user'],
+            },
+            relations:['club','club.members','club.leader','club.category'],
+            withDeleted:true,
+            where:[
+                {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:false,isThunder:false}},
+                {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:true,isThunder:false}}
+            ]
+            
         })
     }
     

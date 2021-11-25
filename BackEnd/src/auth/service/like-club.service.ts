@@ -2,7 +2,7 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Club } from 'src/club/model/club.entity';
 import { ClubRepository } from 'src/club/repository/club.repository';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, MoreThanOrEqual } from 'typeorm';
 import { LikeClub } from '../model/like-club.entity';
 import { User } from '../model/user.entity';
 import { LikeClubRepository } from '../repository/like-club.repository';
@@ -15,6 +15,31 @@ export class LikeClubService {
         @InjectRepository(ClubRepository)
         private clubRepository : ClubRepository
     ){
+    }
+
+    getLikeClubs(user:User,isNow:boolean):Promise<LikeClub[]>{
+        return isNow?this.likeClubRepository.find({
+            relations:['club','club.leader','club.members','club.category'],
+            loadRelationIds:{
+                relations:['user']
+            },
+            where:{
+                user:{id:user.id},
+                club:{isThunder:true,timeLimit: MoreThanOrEqual(new Date()), isCanceled:false}
+                
+            },
+        }):
+        this.likeClubRepository.find({
+            relations:['club','club.leader','club.members','club.category'],
+            loadRelationIds:{
+                relations:['user']
+            },
+            where:{
+                user:{id:user.id},
+                club:{isThunder:false,timeLimit: MoreThanOrEqual(new Date()), isCanceled:false}
+                
+            },
+        })
     }
 
     async createLike(user:User,clubId:number):Promise<LikeClub>{

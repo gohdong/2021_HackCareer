@@ -4,7 +4,7 @@ import { User } from 'src/auth/model/user.entity';
 import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
-import { DeleteResult, Like, UpdateResult } from 'typeorm';
+import { DeleteResult, LessThan, Like, UpdateResult } from 'typeorm';
 import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { FeedCategoryRepository } from '../repository/feed-category.repository';
 import { FeedCategory } from '../model/feed-category.entity';
@@ -71,6 +71,16 @@ export class FeedService {
             return feeds;
         })
     }
+
+    // getHotFeed(){
+    //     return this.feedRepository.createQueryBuilder('feed')
+    //     .innerJoinAndSelect('feed.comments','comments')
+    //     .select("SUM(comments)", "sum")
+    //     .getRawOne(); 
+        // .getCount('comments',)
+        // .select('feed.comments AS comments')
+        // .getMany();
+    // }
 
     findFeedById(id:number):Promise<Feed>{
         return this.feedRepository.findOneOrFail({id},{

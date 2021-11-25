@@ -29,10 +29,13 @@ export class ClubController {
     findClubs(
         @Query('take') take:number=1,
         @Query('skip') skip:number,
-        @Query('category') category:string
+        @Query('category') category:string,
+        @Query('isNow') now:string,
         ):Promise<Club[]>{
             take = take>20 ?20 : take;
-            return this.clubService.findClubs(take,skip,category)
+            const isNow = now=='false'?false:true;
+            
+            return Boolean(isNow)?this.clubService.findNows(take,skip,category):this.clubService.findClubs(take,skip,category)
     }
 
     @Get('my')
@@ -57,6 +60,7 @@ export class ClubController {
             take = take>20 ?20 : take;
             return this.clubService.findClubByKeyword(take,skip,keyword)
     }
+
     @Get("/:id/chat")
     getClubChat(
         @Param("id") id:number

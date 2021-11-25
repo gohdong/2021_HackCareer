@@ -37,6 +37,10 @@ export class FeedController {
             take = take>20 ?20 : take;
             return this.feedService.findFeeds(take,skip,category)
     }
+    // @Get('hot')
+    // getHotFeed(){
+    //     return this.feedService.getHotFeed()
+    // }
 
     @Get('/my')
     getMyFeed(
