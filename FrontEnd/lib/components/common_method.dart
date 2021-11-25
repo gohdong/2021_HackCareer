@@ -25,7 +25,7 @@ String extractYearOnStudentNumber(int studentNum) {
   return studentNum.toString().substring(2, 4);
 }
 
-String convertInteresetToHashTag(List interest) {
+String convertInterestToHashTag(List interest) {
   String temp = "";
 
   interest.forEach((element) {

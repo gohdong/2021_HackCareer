@@ -5,6 +5,7 @@ import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/pages/user_profile.dart';
 import 'package:clu_b/splash_screen.dart';
+import 'package:clu_b/tab/home/chat.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -260,6 +261,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget tabBody() {
     if (currentTab == tab.home) {
       return const Home();
+    }
+
+    if (currentTab == tab.chatting){
+      return const ChattingTab();
     }
     return Container();
   }

@@ -112,7 +112,7 @@ class _UserProfileState extends State<UserProfile> {
                                       .copyWith(color: CluBColor.mainColor)),
                               verticalSpacer(10),
                               Text(
-                                convertInteresetToHashTag(userController
+                                convertInterestToHashTag(userController
                                     .users[widget.userID]!.interest),
                                 style: CluBTextTheme.semiBold14_20
                                     .copyWith(color: CluBColor.black),

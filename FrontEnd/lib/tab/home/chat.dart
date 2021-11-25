@@ -1,19 +1,23 @@
 import 'package:clu_b/api_call.dart';
+import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/tab/home/chat_now.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class ChattingTab extends StatefulWidget {
+  const ChattingTab({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<ChattingTab> createState() => _ChattingTabState();
 }
 
-class _HomeState extends State<Home> {
+class _ChattingTabState extends State<ChattingTab> {
   String currentTab = "now";
+  ClubController clubController = Get.find();
 
   @override
   void initState() {
@@ -36,7 +40,7 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     setState(() {
                       currentTab = "now";
-                      getFeeds(1,2);
+                      getFeeds(1, 2);
                     });
                   },
                   child: smallTabIndicator(currentTab == "now", "NOW"),
@@ -53,11 +57,23 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          Expanded(
-            child:
-                currentTab == 'now' ? const HomeNowTab() : const HomeCluBTab(),
-          )
+          Expanded(child: chatBody(currentTab == "now"))
         ],
+      ),
+    );
+  }
+
+  Widget chatBody(bool isNow) {
+    return Container(
+      child: ListView.separated(
+        itemCount: clubController.dummyData.length,
+        itemBuilder: (context, index) {
+          String key = clubController.dummyData.keys.elementAt(index);
+          return clubInfo(clubController.dummyData[key]);
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
       ),
     );
   }
