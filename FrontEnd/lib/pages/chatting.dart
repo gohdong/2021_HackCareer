@@ -1,8 +1,10 @@
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/data/chat.dart';
 import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:clu_b/main.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TextEditingController _textEditingController = TextEditingController();
+
+  Map<int, User> chatMembers = {};
 
   List<Chat> chatLog = [
     // Chat(
@@ -59,26 +63,27 @@ class _ChattingRoomState extends State<ChattingRoom> {
     //     senderID: 1),
   ];
 
+  IO.Socket socket = IO.io('ws://www.funani.tk:4000/chat', <String, dynamic>{
+    'transports': ['websocket'],
+    'autoConnect': false,
+  });
+
   @override
   void initState() {
     super.initState();
+    enterChattingRoom();
     // channel.stream.listen((message) {
     //   channel.sink.add('received!');
     //   channel.sink.close(status.goingAway);
     // });
-    IO.Socket socket = IO.io('ws://www.funani.tk:4000/chat', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-    });
-    socket.connect();
-    socket.onConnect((_) {
-      print('connect');
-      socket.emit('msg', 'test');
-    });
-    socket.on('event', (data) => print(data));
-    socket.onDisconnect((_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));
+
     me = userController.myID;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    socket.disconnect();
   }
 
   @override
@@ -134,7 +139,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
                   controller: _scrollController,
                   itemCount: chatLog.length,
                   itemBuilder: (context, index) {
-                    if (chatLog[index].senderID == me) {
+                    if (chatLog[index].sender.id == me) {
                       return Align(
                         alignment: Alignment.centerRight,
                         child: Column(
@@ -158,8 +163,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
                               ),
                             ),
                             index + 1 < chatLog.length &&
-                                    chatLog[index].senderID !=
-                                        chatLog[index + 1].senderID
+                                    chatLog[index].sender.id !=
+                                        chatLog[index + 1].sender.id
                                 ? verticalSpacer(20)
                                 : verticalSpacer(6),
                           ],
@@ -173,10 +178,9 @@ class _ChattingRoomState extends State<ChattingRoom> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           index == 0 ||
-                                  chatLog[index].senderID !=
-                                      chatLog[index - 1].senderID
-                              ? userProfileInChat(
-                                  userController.users[chatLog[index].senderID])
+                                  chatLog[index].sender.id !=
+                                      chatLog[index - 1].sender.id
+                              ? userProfileInChat(chatLog[index].sender)
                               : Container(),
                           verticalSpacer(6),
                           Container(
@@ -198,8 +202,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
                             ),
                           ),
                           index + 1 < chatLog.length &&
-                                  chatLog[index].senderID !=
-                                      chatLog[index + 1].senderID
+                                  chatLog[index].sender.id !=
+                                      chatLog[index + 1].sender.id
                               ? verticalSpacer(20)
                               : Container(),
                         ],
@@ -286,15 +290,43 @@ class _ChattingRoomState extends State<ChattingRoom> {
   void sendMessage() {
     if (_textEditingController.text.isNotEmpty) {
       setState(() {
-        chatLog.add(Chat(
-            contents: _textEditingController.text,
-            sendAt: DateTime.now(),
-            senderID: me));
+        // chatLog.add(Chat(
+        //     contents: _textEditingController.text,
+        //     sendAt: DateTime.now(),
+        //     sender: userController.me()));
       });
       _textEditingController.clear();
       Future.delayed(const Duration(milliseconds: 100), () {}).then((value) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
       });
     }
+  }
+
+  Future<void> enterChattingRoom() async {
+    await getClubMembers(widget.club.id).then((value) {
+      for (var element in value) {
+        chatMembers[element.id] = element;
+      }
+    });
+    socket.connect();
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('joinRoom', widget.club.id);
+    });
+
+    socket.on('joinedRoom', (data) {
+      data.forEach((element) {
+        User? tempSender = chatMembers[element['sender']['id']];
+        chatLog.add(
+          Chat(
+              sendAt: DateTime.parse(element['createdAt']),
+              contents: element['content'],
+              sender: tempSender!),
+        );
+      });
+      setState(() {});
+    });
+
+    socket.onDisconnect((_) => print('disconnect'));
   }
 }

@@ -1,7 +1,9 @@
+import 'package:clu_b/data/user.dart';
+
 class Chat {
   final DateTime sendAt;
   final String contents;
-  final int senderID;
+  final User sender;
 
-  Chat({required this.sendAt, required this.contents, required this.senderID});
+  Chat({required this.sendAt, required this.contents, required this.sender});
 }

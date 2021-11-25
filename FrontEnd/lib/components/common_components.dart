@@ -347,7 +347,7 @@ Widget userProfileImg(double width, double height, {String? img}) {
   );
 }
 
-Widget userProfileInChat(MyInfo? user) {
+Widget userProfileInChat(User? user) {
   //TODO USER
   return Row(
     children: [
@@ -362,7 +362,7 @@ Widget userProfileInChat(MyInfo? user) {
             style: CluBTextTheme.semiBold14_20.copyWith(height: 1),
           ),
           Text(
-            "${user.major} ${user.studentNum}",
+            "${user.major} ${extractYearOnStudentNumber(user.studentNum)}",
             style: CluBTextTheme.medium12.copyWith(color: CluBColor.mainColor),
           )
         ],
