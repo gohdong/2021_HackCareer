@@ -8,6 +8,7 @@ import 'package:clu_b/splash_screen.dart';
 import 'package:clu_b/tab/home/board.dart';
 import 'package:clu_b/tab/home/chat.dart';
 import 'package:clu_b/tab/home/home.dart';
+import 'package:clu_b/tab/home/my_club.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -258,11 +259,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget tabBody() {
     if (currentTab == tab.home) {
-      return const Home();
+      return const HomeTab();
     } else if (currentTab == tab.chatting) {
       return const ChattingTab();
     } else if (currentTab == tab.board) {
       return const BoardTab();
+    } else if (currentTab == tab.myClub){
+      return const MyClubTab();
     }
 
     return Container();

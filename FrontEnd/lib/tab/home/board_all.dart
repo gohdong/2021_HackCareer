@@ -81,6 +81,7 @@ class _BoardAllTabState extends State<BoardAllTab> {
                     "우리들끼리 소통공간",
                     style: CluBTextTheme.medium18.copyWith(color: Colors.white),
                   ),
+                  verticalSpacer(8),
                   Text(
                     "오늘도 일상을 즐기세요!",
                     style:

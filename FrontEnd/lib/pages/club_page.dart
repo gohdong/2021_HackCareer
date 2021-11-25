@@ -39,9 +39,15 @@ class _ClubPageState extends State<ClubPage> {
                 Container(
                   height: 352,
                   decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: Image.asset('assets/img/IMG_4624.png').image)),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: widget.club.imagePath != ""
+                          ? NetworkImage(widget.club.imagePath)
+                          : Image.asset(
+                              'assets/img/default_img.png',
+                            ).image,
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25, left: 26, right: 26),

@@ -5,14 +5,14 @@ import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeTab extends StatefulWidget {
+  const HomeTab({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomeTab> createState() => _HomeTabState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeTabState extends State<HomeTab> {
   String currentTab = "now";
 
   @override

@@ -4,9 +4,12 @@ import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/components/small_card.dart';
 import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/pages/club_page.dart';
+import 'package:clu_b/user_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:swipable_stack/swipable_stack.dart';
@@ -30,120 +33,8 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
     'sport': '스포츠',
     'display' : '전시'
   };
-
+  UserController userController = Get.find();
   String currentCategory = 'all';
-  List data = [
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n1',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n2',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n3',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n4',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n5',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n6',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n7',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n8',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n9',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-    {
-      'category': '전시',
-      'leader': 'aa',
-      'leaderSchoolNum': 17,
-      'title': '4시에 요시고 사진전보러\n10',
-      'desc': '엣헴 선배랑 같이 보러가자',
-      'img': 'assets/img/IMG_4624.png',
-      'memberCount': 2,
-      'maxMemberCount': 4,
-      'time': DateTime.now().add(Duration(hours: 4))
-    },
-  ].obs;
 
   @override
   void initState() {
@@ -177,9 +68,10 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "안녕하세요, 크루님",
+                    "안녕하세요, ${userController.me()!.nickName}님",
                     style: CluBTextTheme.medium18.copyWith(color: Colors.white),
                   ),
+                  verticalSpacer(8),
                   Text(
                     "오늘도 일상을 즐기세요!",
                     style:
@@ -283,16 +175,21 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        return SmallCard(
-                          left: index % 2 == 1,
-                          title: snapshot.data![index].title,
-                          category: snapshot.data![index].category,
-                          desc: snapshot.data![index].description,
-                          img: snapshot.data![index].imagePath,
-                          leader: snapshot.data![index].leader,
-                          maxMemberCount: snapshot.data![index].numLimit,
-                          memberCount: snapshot.data![index].memberCount,
-                          time: snapshot.data![index].timeLimit,
+                        return InkWell(
+                          onTap: (){
+                            Get.to(() => ClubPage(club: snapshot.data![index],));
+                          },
+                          child: SmallCard(
+                            left: index % 2 == 1,
+                            title: snapshot.data![index].title,
+                            category: snapshot.data![index].category,
+                            desc: snapshot.data![index].description,
+                            img: snapshot.data![index].imagePath,
+                            leader: snapshot.data![index].leader,
+                            maxMemberCount: snapshot.data![index].numLimit,
+                            memberCount: snapshot.data![index].memberCount,
+                            time: snapshot.data![index].timeLimit,
+                          ),
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) =>
