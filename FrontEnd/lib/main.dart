@@ -4,9 +4,11 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/appbar.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/club_controller.dart';
+import 'package:clu_b/splash_screen.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:clu_b/user_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,39 +31,64 @@ Map tabDict = {
   tab.myClub: "내 모임",
 };
 
-void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.white, // Color for Android
-      statusBarBrightness:
-          Brightness.dark // Dark == white status bar -- for IOS.
-      ));
+Future<void> main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.black,
+        statusBarIconBrightness: Brightness.light, // Color for Android
+        statusBarBrightness:
+            Brightness.dark // Dark == white status bar -- for IOS.
+        ),
+  );
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+  @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'CluB',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Pretendard'),
-      builder: (context, child) => ResponsiveWrapper.builder(
-        child,
-        maxWidth: 1200,
-        minWidth: 428,
-        defaultScale: true,
-        breakpoints: const [
-          ResponsiveBreakpoint.resize(428, name: MOBILE),
-          ResponsiveBreakpoint.autoScale(800, name: TABLET),
-          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-        ],
-      ),
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page: () => const MyHomePage()),
-      ],
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return GetMaterialApp(
+            title: 'CluB',
+            debugShowCheckedModeBanner: false,
+            theme:
+                ThemeData(primarySwatch: Colors.blue, fontFamily: 'Pretendard'),
+            builder: (context, child) => ResponsiveWrapper.builder(
+              child,
+              maxWidth: 1200,
+              minWidth: 428,
+              defaultScale: true,
+              breakpoints: const [
+                ResponsiveBreakpoint.resize(428, name: MOBILE),
+                ResponsiveBreakpoint.autoScale(800, name: TABLET),
+                ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+              ],
+            ),
+            initialRoute: '/',
+            getPages: [
+              GetPage(name: '/', page: () => const SplashScreen()),
+              GetPage(name: '/home', page: () => const MyHomePage()),
+            ],
+          );
+        }
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: CluBColor.mainBackground,
+        );
+      },
     );
   }
 }
@@ -81,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    test = ScrollController(initialScrollOffset: 40);
+    test = ScrollController(initialScrollOffset: (500 - 428) / 2);
   }
 
   @override
@@ -160,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         }
 
-        test.jumpTo(40);
+        test.jumpTo((500 - 428) / 2);
         setState(() {
           currentTab = title;
         });
