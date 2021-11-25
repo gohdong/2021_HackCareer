@@ -1,3 +1,4 @@
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
@@ -31,7 +32,6 @@ class _HomeNowTabState extends State<HomeNowTab> {
   bool turnOnLikedButton = false;
 
   final ClubController c = Get.find();
-
 
   @override
   void initState() {
@@ -72,6 +72,9 @@ class _HomeNowTabState extends State<HomeNowTab> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: InkWell(
+        onTap: () async {
+          getNowClub();
+        },
         child: Container(
           margin: EdgeInsets.only(bottom: 20),
           height: 68,
@@ -251,7 +254,8 @@ class _HomeNowTabState extends State<HomeNowTab> {
                             child: BigCard(
                                 category: c.data[index]['category'],
                                 leader: c.data[index]['leader'],
-                                leaderSchoolNum: c.data[index]['leaderSchoolNum'],
+                                leaderSchoolNum: c.data[index]
+                                    ['leaderSchoolNum'],
                                 title: c.data[index]['title'],
                                 desc: c.data[index]['desc'],
                                 img: c.data[index]['img'],

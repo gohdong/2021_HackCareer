@@ -38,6 +38,4 @@ class User {
         level = int.parse(json['level']),
         birth = DateTime.parse(json['birth']);
 
-
-
 }

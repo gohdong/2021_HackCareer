@@ -33,6 +33,20 @@ Widget categoryIndicator(String category) {
   );
 }
 
+Widget feedCategoryIndicator(String category) {
+  return Container(
+    width: 52,
+    height: 23,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+        color: CluBColor.mainColor, borderRadius: BorderRadius.circular(27)),
+    child: Text(
+      category,
+      style: CluBTextTheme.bold16,
+    ),
+  );
+}
+
 Widget memberIndicator(int memberCount, int maxMemberCount) {
   return Container(
     width: 83,

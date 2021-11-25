@@ -20,3 +20,27 @@ String weekDayToString(int dateNum) {
 
   return "일요일";
 }
+
+String extractYearOnStudentNumber(int studentNum) {
+  return studentNum.toString().substring(2, 4);
+}
+
+String convertInterestToHashTag(List interest) {
+  String temp = "";
+
+  interest.forEach((element) {
+    temp += "#$element ";
+  });
+
+  return temp;
+}
+
+String timeFromNow(DateTime date) {
+  DateTime now = DateTime.now();
+  if (now.difference(date).inMinutes <= 60) {
+    return "${now.difference(date).inMinutes}분 전";
+  } else if (now.difference(date).inHours <= 24) {
+    return "${now.difference(date).inHours}시간 전";
+  }
+  return date.toString().split(' ')[0].replaceAll('-', '.');
+}

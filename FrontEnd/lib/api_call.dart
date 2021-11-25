@@ -13,29 +13,43 @@ import 'data/user.dart';
 const String url = 'http://www.funani.tk:3000';
 
 Future<Map<int, Club>> getNowClub() async {
-  // http.get(url)
-  return <int,Club>{};
-}
-
-Future<List> getFeeds({take=20,skip=0,category=''}) async{
   final UserController userController = Get.find();
   String token = userController.getMyToken();
-  return http.get(
-    Uri.parse(url+'/feed?take=${take.toString()}&skip=${skip.toString()}&category=$category'),
+
+  http.get(
+    Uri.parse('http://www.funani.tk:3000/club?take=20&isNow=true'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then(
+    (res) {
+      List<dynamic> resJson = jsonDecode(res.body);
+      print(resJson[0].keys.forEach((element) {
+        print("$element ${resJson[0][element]}");
+      }));
+    },
+  );
+
+  return <int, Club>{};
+}
+
+Future<List<Feed>> getFeeds({take = 20, skip = 0, category = ''}) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Feed> feeds = [];
+  await http.get(
+    Uri.parse(url +
+        '/feed?take=${take.toString()}&skip=${skip.toString()}&category=$category'),
     headers: {"Authorization": 'Bearer $token'},
   ).then((res) {
     try {
       List<dynamic> resJson = jsonDecode(res.body);
-      List<Feed> feeds = [];
       for (Map i in resJson) {
         feeds.add(Feed.fromJson(i));
       }
-      return feeds;
     } catch (e) {
       // feed Not found;
-      return [];
     }
   });
+  return feeds;
 }
 
 // http://www.funani.tk:3000/club?take=20&skip=0&isNow=false&category=영화

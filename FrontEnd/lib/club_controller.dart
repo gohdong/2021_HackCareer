@@ -124,7 +124,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러가실분 긴 텍스트를 넣어용',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       hashTag : ["전시회","전시회"],
@@ -138,7 +138,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n2',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -151,7 +151,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n3',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -164,7 +164,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n4',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -177,7 +177,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n5',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -190,7 +190,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n6',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -203,7 +203,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n7',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -216,7 +216,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n8',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -229,7 +229,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n9',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(
@@ -242,7 +242,7 @@ class ClubController extends GetxController {
       leaderSchoolNum: 17,
       title: '4시에 요시고 사진전보러\n10',
       desc: '엣헴 선배랑 같이 보러가자',
-      img: 'assets/img/IMG_4624.png',
+      imgPath: 'assets/img/IMG_4624.png',
       memberCount: 2,
       maxMemberCount: 4,
       time: DateTime.now().add(

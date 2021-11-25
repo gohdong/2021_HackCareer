@@ -22,15 +22,13 @@ class Feed {
     required this.likeCount,
   });
 
-  Feed.fromJson(Map first):
-
-    id= first['id'],
-    writer= User.fromJson(first['__writer__']),
-    description= first['description'],
-    imagePath= first['imagePath'],
-    createdAt= DateTime.parse(first['createdAt']),
-    commentCount= first['__comments__'].length,
-    likeCount= first['__likeUsers__'].length,
-    category= first['__category__']['categoryTitle'];
+  Feed.fromJson(Map first)
+      : id = first['id'],
+        writer = User.fromJson(first['__writer__']),
+        description = first['description'],
+        imagePath = first['imagePath'],
+        createdAt = DateTime.parse(first['createdAt']),
+        commentCount = first['__comments__'].length,
+        likeCount = first['__likeUsers__'].length,
+        category = first['__category__']['categoryTitle'];
 }
-
