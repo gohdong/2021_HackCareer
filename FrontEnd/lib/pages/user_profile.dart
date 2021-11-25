@@ -207,8 +207,9 @@ class _UserProfileState extends State<UserProfile> {
                     right: 65,
                     top: -100,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 12),
-                      decoration:  BoxDecoration(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 12),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
                         gradient: const LinearGradient(
                             colors: [
@@ -216,10 +217,12 @@ class _UserProfileState extends State<UserProfile> {
                               Color(0xff63D9B0),
                             ],
                             begin: Alignment.topLeft,
-                            end: Alignment.bottomCenter
-                        ),
+                            end: Alignment.bottomCenter),
                       ),
-                      child: const Text("슈퍼크루비",style: CluBTextTheme.bold16,),
+                      child: const Text(
+                        "슈퍼크루비",
+                        style: CluBTextTheme.bold16,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -238,25 +241,29 @@ class _UserProfileState extends State<UserProfile> {
                         clipBehavior: Clip.none,
                         children: [
                           userProfileImg(147, 147),
-                          Positioned(
-                            right: 18,
-                            bottom: -10,
-                            child: Container(
-                              width: 32,
-                              height: 32,
-                              decoration: BoxDecoration(
-                                color: CluBColor.mainColor,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(0.64),
-                                      offset: const Offset(0, 3),
-                                      blurRadius: 6)
-                                ],
-                              ),
-                              child: SvgPicture.asset('assets/svg/camera.svg'),
-                            ),
-                          )
+                          widget.userID == userController.myID
+                              ? Positioned(
+                                  right: 18,
+                                  bottom: -10,
+                                  child: Container(
+                                    width: 32,
+                                    height: 32,
+                                    decoration: BoxDecoration(
+                                      color: CluBColor.mainColor,
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.64),
+                                            offset: const Offset(0, 3),
+                                            blurRadius: 6)
+                                      ],
+                                    ),
+                                    child: SvgPicture.asset(
+                                        'assets/svg/camera.svg'),
+                                  ),
+                                )
+                              : Container()
                         ],
                       ),
                     ),
@@ -265,31 +272,37 @@ class _UserProfileState extends State<UserProfile> {
                     left: 26,
                     top: 12,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 12),
-                      decoration:  BoxDecoration(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 12),
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(22),
                         gradient: const LinearGradient(
-                          colors: [
-                            Color(0xffEF7F7A),
-                            Color(0xffC1C2FA),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomCenter
-                        ),
+                            colors: [
+                              Color(0xffEF7F7A),
+                              Color(0xffC1C2FA),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomCenter),
                       ),
-                      child: const Text("백신접종완료",style: CluBTextTheme.bold16,),
+                      child: const Text(
+                        "백신접종완료",
+                        style: CluBTextTheme.bold16,
+                      ),
                     ),
                   ),
                   Positioned(
                     left: 65,
                     top: -60,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 12),
-                      decoration:  BoxDecoration(
-                        borderRadius: BorderRadius.circular(22),
-                        color: CluBColor.mainColor
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 12),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(22),
+                          color: CluBColor.mainColor),
+                      child: const Text(
+                        "매너크루",
+                        style: CluBTextTheme.bold16,
                       ),
-                      child: const Text("매너크루",style: CluBTextTheme.bold16,),
                     ),
                   )
                 ],
