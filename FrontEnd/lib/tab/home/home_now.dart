@@ -34,7 +34,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   bool turnOnCloseButton = false;
   bool turnOnLikedButton = false;
 
-  final ClubController c = Get.find();
+  final ClubController clubController = Get.find();
 
   @override
   void initState() {
@@ -76,10 +76,10 @@ class _HomeNowTabState extends State<HomeNowTab> {
     return Scaffold(
       floatingActionButton: InkWell(
         onTap: () async {
-          getMyLikeClubs(true);
+          // print(clubController.joinedClub);
         },
         child: Container(
-          margin: EdgeInsets.only(bottom: 20),
+          margin: const EdgeInsets.only(bottom: 20),
           height: 68,
           width: 68,
           alignment: Alignment.center,
@@ -98,11 +98,17 @@ class _HomeNowTabState extends State<HomeNowTab> {
     return FutureBuilder<List<Club>>(
       future: getClubs(isNow: true),
       builder: (context, snapshot) {
-        print(snapshot.data);
         if (!snapshot.hasData) {
           return Container();
         } else {
-          if (currentCardIndex >= snapshot.data!.length) {
+          List<Club> filteredSnapshot = snapshot.data!
+              .where((element) =>
+                  !clubController.likedClub.containsKey(element.id))
+              .where((element) =>
+                  !clubController.likedClub.containsKey(element.id))
+              .toList();
+
+          if (currentCardIndex >= filteredSnapshot.length) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -130,7 +136,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 26, bottom: 20, top: 18),
+                padding: const EdgeInsets.only(left: 26, bottom: 20, top: 18),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -152,7 +158,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    currentCardIndex + 3 < snapshot.data!.length
+                    currentCardIndex + 3 < filteredSnapshot.length
                         ? Positioned(
                             top: constBottomPosition,
                             child: AnimatedOpacity(
@@ -186,7 +192,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                             ),
                           )
                         : Container(),
-                    currentCardIndex + 2 < snapshot.data!.length
+                    currentCardIndex + 2 < filteredSnapshot.length
                         ? AnimatedPositioned(
                             duration: varBottomPosition == constMidPosition
                                 ? const Duration(milliseconds: 500)
@@ -200,27 +206,29 @@ class _HomeNowTabState extends State<HomeNowTab> {
                                   ? 0.9
                                   : 0.95,
                               child: BigCard(
-                                title:
-                                    snapshot.data![currentCardIndex + 2].title,
-                                category: snapshot
-                                    .data![currentCardIndex + 2].category,
-                                desc: snapshot
-                                    .data![currentCardIndex + 2].description,
-                                img: snapshot
-                                    .data![currentCardIndex + 2].imagePath,
-                                leader:
-                                    snapshot.data![currentCardIndex + 2].leader,
-                                maxMemberCount: snapshot
-                                    .data![currentCardIndex + 2].numLimit,
-                                memberCount: snapshot
-                                    .data![currentCardIndex + 2].memberCount,
-                                time: snapshot
-                                    .data![currentCardIndex + 2].timeLimit,
+                                title: filteredSnapshot[currentCardIndex + 2]
+                                    .title,
+                                category: filteredSnapshot[currentCardIndex + 2]
+                                    .category,
+                                desc: filteredSnapshot[currentCardIndex + 2]
+                                    .description,
+                                img: filteredSnapshot[currentCardIndex + 2]
+                                    .imagePath,
+                                leader: filteredSnapshot[currentCardIndex + 2]
+                                    .leader,
+                                maxMemberCount:
+                                    filteredSnapshot[currentCardIndex + 2]
+                                        .numLimit,
+                                memberCount:
+                                    filteredSnapshot[currentCardIndex + 2]
+                                        .memberCount,
+                                time: filteredSnapshot[currentCardIndex + 2]
+                                    .timeLimit,
                               ),
                             ),
                           )
                         : Container(),
-                    currentCardIndex + 1 < snapshot.data!.length
+                    currentCardIndex + 1 < filteredSnapshot.length
                         ? AnimatedPositioned(
                             duration: varMidPosition == constMidPosition
                                 ? const Duration(milliseconds: 0)
@@ -233,22 +241,24 @@ class _HomeNowTabState extends State<HomeNowTab> {
                               scale:
                                   varMidPosition == constMidPosition ? 0.95 : 1,
                               child: BigCard(
-                                title:
-                                    snapshot.data![currentCardIndex + 1].title,
-                                category: snapshot
-                                    .data![currentCardIndex + 1].category,
-                                desc: snapshot
-                                    .data![currentCardIndex + 1].description,
-                                img: snapshot
-                                    .data![currentCardIndex + 1].imagePath,
-                                leader:
-                                    snapshot.data![currentCardIndex + 1].leader,
-                                maxMemberCount: snapshot
-                                    .data![currentCardIndex + 1].numLimit,
-                                memberCount: snapshot
-                                    .data![currentCardIndex + 1].memberCount,
-                                time: snapshot
-                                    .data![currentCardIndex + 1].timeLimit,
+                                title: filteredSnapshot[currentCardIndex + 1]
+                                    .title,
+                                category: filteredSnapshot[currentCardIndex + 1]
+                                    .category,
+                                desc: filteredSnapshot[currentCardIndex + 1]
+                                    .description,
+                                img: filteredSnapshot[currentCardIndex + 1]
+                                    .imagePath,
+                                leader: filteredSnapshot[currentCardIndex + 1]
+                                    .leader,
+                                maxMemberCount:
+                                    filteredSnapshot[currentCardIndex + 1]
+                                        .numLimit,
+                                memberCount:
+                                    filteredSnapshot[currentCardIndex + 1]
+                                        .memberCount,
+                                time: filteredSnapshot[currentCardIndex + 1]
+                                    .timeLimit,
                               ),
                             ),
                           )
@@ -261,44 +271,42 @@ class _HomeNowTabState extends State<HomeNowTab> {
                         child: SwipableStack(
                           controller: swipableStackController,
                           onSwipeCompleted: (index, direction) {
-                            cardUp(snapshot.data![currentCardIndex].id);
+                            cardUp(filteredSnapshot[currentCardIndex]);
                           },
                           allowVerticalSwipe: false,
-                          itemCount: snapshot.data!.length,
+                          itemCount: filteredSnapshot.length,
                           viewFraction: 1,
                           builder: (context, index, constraints) {
                             return GestureDetector(
-                              onTapUp: (e) {
-                                Get.to(() => ClubPage(
-                                      club: snapshot.data![currentCardIndex],
-                                    ));
-                              },
-                              onTapDown: (e) {
-                                print(e);
-                              },
-                              onTapCancel: () {
-                                print("canceled");
+                              onTap: () {
+                                Get.to(
+                                  () => ClubPage(
+                                    club: filteredSnapshot[currentCardIndex],
+                                  ),
+                                );
                               },
                               child: SizedBox(
                                 width: 376,
                                 child: Center(
                                   child: BigCard(
-                                    title:
-                                        snapshot.data![currentCardIndex].title,
-                                    category: snapshot
-                                        .data![currentCardIndex].category,
-                                    desc: snapshot
-                                        .data![currentCardIndex].description,
-                                    img: snapshot
-                                        .data![currentCardIndex].imagePath,
-                                    leader:
-                                        snapshot.data![currentCardIndex].leader,
-                                    maxMemberCount: snapshot
-                                        .data![currentCardIndex].numLimit,
-                                    memberCount: snapshot
-                                        .data![currentCardIndex].memberCount,
-                                    time: snapshot
-                                        .data![currentCardIndex].timeLimit,
+                                    title: filteredSnapshot[currentCardIndex]
+                                        .title,
+                                    category: filteredSnapshot[currentCardIndex]
+                                        .category,
+                                    desc: filteredSnapshot[currentCardIndex]
+                                        .description,
+                                    img: filteredSnapshot[currentCardIndex]
+                                        .imagePath,
+                                    leader: filteredSnapshot[currentCardIndex]
+                                        .leader,
+                                    maxMemberCount:
+                                        filteredSnapshot[currentCardIndex]
+                                            .numLimit,
+                                    memberCount:
+                                        filteredSnapshot[currentCardIndex]
+                                            .memberCount,
+                                    time: filteredSnapshot[currentCardIndex]
+                                        .timeLimit,
                                   ),
                                 ),
                               ),
@@ -307,7 +315,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                         ),
                       ),
                     ),
-                    currentCardIndex < snapshot.data!.length
+                    currentCardIndex < filteredSnapshot.length
                         ? Positioned(
                             top: 467,
                             child: InkWell(
@@ -316,14 +324,13 @@ class _HomeNowTabState extends State<HomeNowTab> {
                                   context: context,
                                   title: "NOW 참여",
                                   content:
-                                      "${snapshot.data![currentCardIndex].title}에 참가하시겠습니까?",
+                                      "${filteredSnapshot[currentCardIndex].title}에 참가하시겠습니까?",
                                   confirm: "참가",
                                   cancel: "취소",
                                   onConfirm: () async {
-                                    joinClub(
-                                            snapshot.data![currentCardIndex].id)
+                                    joinClub(filteredSnapshot[currentCardIndex]
+                                            .id)
                                         .then((value) {
-                                      print(value);
                                       if (value) {
                                         Get.back();
                                         Get.to(
@@ -359,7 +366,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                             ),
                           )
                         : Container(),
-                    currentCardIndex < snapshot.data!.length
+                    currentCardIndex < filteredSnapshot.length
                         ? Positioned(
                             top: 467,
                             left: 79,
@@ -391,7 +398,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                             ),
                           )
                         : Container(),
-                    currentCardIndex < snapshot.data!.length
+                    currentCardIndex < filteredSnapshot.length
                         ? Positioned(
                             top: 467,
                             right: 79,
@@ -434,9 +441,9 @@ class _HomeNowTabState extends State<HomeNowTab> {
     );
   }
 
-  void cardUp(int clubID) {
+  void cardUp(Club club) {
     if (turnOnLikedButton) {
-      likeClub(clubID);
+      clubController.likeClub(club);
     }
     setState(() {
       turnOnLikedButton = false;
@@ -446,9 +453,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
       varBottomPosition = constMidPosition;
       currentCardIndex += 1;
     });
-    Future.delayed(const Duration(milliseconds: 500), () {
-      print('delay');
-    }).then((value) {
+    Future.delayed(const Duration(milliseconds: 500), () {}).then((value) {
       setState(() {
         varTopPosition = 95;
         varMidPosition = constMidPosition;

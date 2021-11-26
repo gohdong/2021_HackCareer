@@ -139,6 +139,7 @@ Future<List<Club>> getMyLiveClubs(bool isNow) async {
 }
 
 Future<bool> joinClub(int clubID) async {
+  print("==POST JOIN CLUB==");
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   bool result = false;
@@ -146,11 +147,11 @@ Future<bool> joinClub(int clubID) async {
     Uri.parse(url + '/club/$clubID/member'),
     headers: {"Authorization": 'Bearer $token'},
   ).then((res) {
-    print("!!");
     print(res.statusCode);
     print(res.body);
     result = res.statusCode == 201;
   });
+  print("==END JOIN CLUB==");
   return result;
 }
 
@@ -162,23 +163,37 @@ Future<bool> leaveClub(int clubID) async {
     Uri.parse(url + '/club/$clubID/member'),
     headers: {"Authorization": 'Bearer $token'},
   ).then((res) {
-    print(res.statusCode);
-    print("!!");
-    print(res);
     result = res.statusCode == 200;
   });
   return result;
 }
 
-Future<void> likeClub(int clubID) async {
+Future<bool> likeClub(int clubID) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
+  bool result = false;
   await http.post(
     Uri.parse(url + '/club/$clubID/like'),
     headers: {"Authorization": 'Bearer $token'},
   ).then((res) {
-    print(res.body);
+    result = res.statusCode == 201;
   });
+  return result;
+}
+
+
+// http://www.funani.tk:3000/club/:clubId/unlike
+Future<bool> unlikeClub(int clubID) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  bool result = false;
+  await http.post(
+    Uri.parse(url + '/club/$clubID/unlike'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    result = res.statusCode == 201;
+  });
+  return result;
 }
 
 Future<List<Feed>> getFeedsBySearch({take = 20, skip = 0,category = '',query = ''}) async {

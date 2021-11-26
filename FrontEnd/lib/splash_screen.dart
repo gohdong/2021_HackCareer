@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/my_info.dart';
 import 'package:clu_b/tab/home/home.dart';
 import 'package:clu_b/user_controller.dart';
@@ -22,6 +24,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final UserController userController = Get.find();
+  final ClubController clubController = Get.find();
 
   // final UserController userController = Get.find();
   late Timer _everySecond;
@@ -94,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
               "Authorization": 'Bearer $token',
             },
           ).then(
-            (res) {
+            (res) async {
               Map resJson = jsonDecode(res.body);
               userController.updateData(
                 MyInfo(
@@ -118,6 +121,18 @@ class _SplashScreenState extends State<SplashScreen> {
               userController.setMyID(
                 resJson['id'].toInt(),
               );
+              await getMyLiveClubs(true).then((clubList) {
+                clubController.initializeJoinedClub(clubList);
+              });
+              await getMyLiveClubs(false).then((clubList) {
+                clubController.initializeJoinedClub(clubList);
+              });
+              await getMyLikeClubs(true).then((clubList) {
+                clubController.initializeLikedClub(clubList);
+              });
+              await getMyLikeClubs(false).then((clubList) {
+                clubController.initializeLikedClub(clubList);
+              });
             },
           );
         });

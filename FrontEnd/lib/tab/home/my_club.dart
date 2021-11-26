@@ -43,7 +43,7 @@ class _MyClubTabState extends State<MyClubTab> {
                 InkWell(
                   onTap: () {
                     getMyClubLog(false).then((value) {
-                      print(value.length);
+                      print(value[0].title);
                     });
                     setState(() {
                       currentTab = "now";
