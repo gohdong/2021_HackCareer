@@ -4,7 +4,7 @@ import { User } from 'src/auth/model/user.entity';
 import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
-import { DeleteResult, IsNull, LessThan, Like, Not, UpdateResult } from 'typeorm';
+import { DeleteResult, IsNull, LessThan, Like, Not, Raw, UpdateResult } from 'typeorm';
 import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { FeedCategoryRepository } from '../repository/feed-category.repository';
 import { FeedCategory } from '../model/feed-category.entity';
@@ -77,12 +77,19 @@ export class FeedService {
         })
     }
 
-    getHotFeed(){
-        return this.feedRepository.createQueryBuilder('feed')
-        .loadRelationCountAndMap("COALESCE('feed.commentCount',0)", 'feed.comments')
-        // .where(" 'feed.commentCount' > :num ",{num:2})
-        .where(` 'feed.commentCount' > 2 `)
-        .getMany()
+    // 댓글 2개 이상의 게시물 최대 100개
+    getHotFeed(temp:{feedid:number,commentcount:number}[],keyword?:string){
+        const whereContidtion = keyword?{
+            description: Like(`%${keyword}%`)
+        }:{}
+        const list = temp.filter((x)=> x.commentcount >= 2).sort((a, b) => b.commentcount - a.commentcount).map(x=>x.feedid)
+        return this.feedRepository.findByIds(list,{
+            relations:['writer','category'],
+            loadRelationIds:{
+                relations:['comments','likeUsers']
+            },
+            where:whereContidtion,
+        });
     }
 
     findFeedById(id:number):Promise<Feed>{

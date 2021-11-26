@@ -16,6 +16,16 @@ export class CommentService {
         private feedRepository : FeedRepository,
     ){}
 
+    getHotFeed(){
+        return this.commentRepository.createQueryBuilder('comment')
+        .select('comment.feedId AS feedId')
+        .addSelect('COUNT(*)::INTEGER AS commentCount')
+        .groupBy('comment.feedId')
+        .orderBy('commentCount')
+        .limit(30)
+        .getRawMany()
+    }
+
     async createComment(user:User,feedId:number,content:string):Promise<Comment>{
         return this.feedRepository.findOneOrFail(feedId).then((feed:Feed)=>{
             return this.commentRepository.createComment(user,feed,content);

@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
+import { LikeClubService } from 'src/auth/service/like-club.service';
+import { UserService } from 'src/auth/service/user.service';
 import { Any, getRepository, In, IsNull, LessThanOrEqual, Like, MoreThanOrEqual, Not, Raw, UpdateResult } from 'typeorm';
 import { ClubCategory } from '../model/club-catecory.entity';
 import { ClubCreateDTO } from '../model/club-create.dto';
@@ -20,6 +22,8 @@ export class ClubService {
         private memberService : MemberService,
         @InjectRepository(ClubCatecoryRepository)
         private clubCategoryRepository : ClubCatecoryRepository,
+        private userService : UserService,
+        private likeClubService :LikeClubService
     ){}
 
     getMyClub(user:User){
@@ -45,16 +49,18 @@ export class ClubService {
         });
     }
 
-    findNows(user:User,take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
+    async findNows(user:User,take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
+        const likeClubs :number[]= (await this.likeClubService.getLikeClubs(user,true)).map(x=>x['__club__'].id);
+        const joinedClubs:number[] = (await this.memberService.getLiveClub(user,true)).map(x=>x['__club__'].id);
+        const filtered = Array.from(new Set(likeClubs.concat(joinedClubs)));
+        console.log(filtered)
         const whereContidtion = selectedCategory?
-        {category:{categoryTitle:selectedCategory},
+        {
+            id:Not(In(filtered)),
+            category:{categoryTitle:selectedCategory},
             isThunder:true,
             timeLimit: MoreThanOrEqual(new Date()),      
-             
-            
-        }:{isThunder:true,timeLimit: MoreThanOrEqual(new Date()),
-            
-        }
+        }:{id:Not(In(filtered)),isThunder:true,timeLimit: MoreThanOrEqual(new Date()),}
         return this.clubRepository.findAndCount({
             take,skip,
             relations:["leader","category"],
@@ -62,6 +68,8 @@ export class ClubService {
                 relations:['members']
             },
             where:whereContidtion
+            
+            // where:whereContidtion
         }).then(([clubs])=>{
             if(clubs.length == 0){
                 throw new NotFoundException(`No Clubs`)

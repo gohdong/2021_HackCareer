@@ -18,27 +18,19 @@ export class LikeClubService {
     }
 
     getLikeClubs(user:User,isNow:boolean):Promise<LikeClub[]>{
-        return isNow?this.likeClubRepository.find({
-            relations:['club','club.leader','club.members','club.category'],
-            loadRelationIds:{
-                relations:['user']
-            },
-            where:{
-                user:{id:user.id},
+        const whereContidtion=isNow?{
+            user:{id:user.id},
                 club:{isThunder:true,timeLimit: MoreThanOrEqual(new Date()), isCanceled:false}
-                
-            },
-        }):
-        this.likeClubRepository.find({
+        }:{
+            user:{id:user.id},
+                club:{isThunder:false,timeLimit: MoreThanOrEqual(new Date()), isCanceled:false}
+        }
+        return this.likeClubRepository.find({
             relations:['club','club.leader','club.members','club.category'],
             loadRelationIds:{
                 relations:['user']
             },
-            where:{
-                user:{id:user.id},
-                club:{isThunder:false,timeLimit: MoreThanOrEqual(new Date()), isCanceled:false}
-                
-            },
+            where:whereContidtion
         })
     }
 

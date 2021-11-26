@@ -16,6 +16,7 @@ import { BodyInterceptor } from '../helper/feed-opt.interceptor';
 import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { LikeFeedService } from 'src/auth/service/like-feed.service';
 import { LikeFeed } from 'src/auth/model/like-feed.entity';
+import { throwIfEmpty } from 'rxjs';
 
 
 @Controller('feed')
@@ -38,8 +39,10 @@ export class FeedController {
             return this.feedService.findFeeds(take,skip,category)
     }
     @Get('hot')
-    getHotFeed(){
-        return this.feedService.getHotFeed()
+    async getHotFeed(
+        @Query('keyword') keyword:string
+    ){
+        return this.feedService.getHotFeed(await this.commentService.getHotFeed(),keyword)
     }
 
     @Get('/my')

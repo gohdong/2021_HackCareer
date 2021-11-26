@@ -3,7 +3,7 @@ import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToO
 import { Club } from "./club.entity";
 
 @Entity()
-@Unique(['club','user'])
+// @Unique(['club','user'])
 export class Member extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
