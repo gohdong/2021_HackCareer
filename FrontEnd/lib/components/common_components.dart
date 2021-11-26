@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
-import 'package:clu_b/data/club2.dart';
 import 'package:clu_b/data/my_info.dart';
 import 'package:clu_b/data/user.dart';
 import 'package:flutter/material.dart';
@@ -270,7 +269,7 @@ Widget dateIndicatorGray(DateTime date) {
   );
 }
 
-Widget clubInfo(Club2? club, {bool eclipseTitle = true}) {
+Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

@@ -3,7 +3,7 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/data/chat.dart';
-import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/user.dart';
 import 'package:clu_b/main.dart';
 import 'package:clu_b/user_controller.dart';
@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChattingRoom extends StatefulWidget {
-  final Club2 club;
+  final Club club;
 
   const ChattingRoom({Key? key, required this.club}) : super(key: key);
 

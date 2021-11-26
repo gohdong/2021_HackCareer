@@ -1,4 +1,3 @@
-import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/my_info.dart';
 import 'package:get/get.dart';
 

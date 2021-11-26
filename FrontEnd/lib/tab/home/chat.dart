@@ -2,7 +2,7 @@ import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
-import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/pages/chatting.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
@@ -68,7 +68,7 @@ class _ChattingTabState extends State<ChattingTab> {
   Widget chatBody(bool isNow) {
     return Container(
       padding: const EdgeInsets.only(top: 22, left: 26, right: 26, bottom: 20),
-      child: FutureBuilder<List<Club2>>(
+      child: FutureBuilder<List<Club>>(
           future: getMyLiveClubs(isNow),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {

@@ -3,7 +3,7 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/components/small_card.dart';
-import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/pages/club_page.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +31,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
     'reading': '독서',
     'good_food': '맛집탐방',
     'sport': '스포츠',
-    'display' : '전시'
+    'display': '전시'
   };
   UserController userController = Get.find();
   String currentCategory = 'all';
@@ -62,7 +62,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
         ),
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Container(
@@ -70,29 +70,31 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 26, top: 22,bottom: 22),
+                padding: const EdgeInsets.only(left: 26, top: 22, bottom: 22),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "안녕하세요, ${userController.me()!.nickName}님",
-                      style: CluBTextTheme.medium18.copyWith(color: Colors.white),
+                      "안녕하세요, ${userController.me() != null ? userController.me()!.nickName : "대원"}님",
+                      style:
+                          CluBTextTheme.medium18.copyWith(color: Colors.white),
                     ),
                     verticalSpacer(8),
                     Text(
                       "오늘도 일상을 즐기세요!",
-                      style:
-                          CluBTextTheme.extraBold18.copyWith(color: Colors.white),
+                      style: CluBTextTheme.extraBold18
+                          .copyWith(color: Colors.white),
                     ),
                   ],
                 ),
               ),
               Container(
                 height: 46,
-                margin: const EdgeInsets.only(left: 26,right: 26, bottom: 14),
+                margin: const EdgeInsets.only(left: 26, right: 26, bottom: 14),
                 padding: const EdgeInsets.all(13),
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: [
                     Expanded(
@@ -157,13 +159,12 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                     },
                   ),
                 ),
-                content: FutureBuilder<List<Club2>>(
+                content: FutureBuilder<List<Club>>(
                     future: getClubsBySearch(
-                      category: currentCategory != "all"
-                          ? category[currentCategory]
-                          : "",
-                      query: _textEditingController.text
-                    ),
+                        category: currentCategory != "all"
+                            ? category[currentCategory]
+                            : "",
+                        query: _textEditingController.text),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return Container();
@@ -201,8 +202,10 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: (){
-                              Get.to(() => ClubPage(club: snapshot.data![index],));
+                            onTap: () {
+                              Get.to(() => ClubPage(
+                                    club: snapshot.data![index],
+                                  ));
                             },
                             child: SmallCard(
                               left: index % 2 == 1,

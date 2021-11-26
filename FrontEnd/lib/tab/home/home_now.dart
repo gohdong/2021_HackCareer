@@ -4,7 +4,7 @@ import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/components/common_method.dart';
-import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/pages/chatting.dart';
 import 'package:clu_b/pages/club_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,7 +95,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   }
 
   Widget newDeck() {
-    return FutureBuilder<List<Club2>>(
+    return FutureBuilder<List<Club>>(
       future: getClubs(isNow: true),
       builder: (context, snapshot) {
         print(snapshot.data);

@@ -80,37 +80,44 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> signIn() async {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(
-            email: "test@test.com", password: "qwer1234")
+      email: "test@test.com",
+      password: "qwer1234",
+    )
         .then(
       (UserCredential value) {
         value.user!.getIdToken().then((token) {
           http.get(
-            Uri.parse('http://www.funani.tk:3000/user/my'),
-            headers: {"Authorization": 'Bearer $token'},
+            Uri.parse(
+              'http://www.funani.tk:3000/user/my',
+            ),
+            headers: {
+              "Authorization": 'Bearer $token',
+            },
           ).then(
             (res) {
               Map resJson = jsonDecode(res.body);
-              print(res);
               userController.updateData(
                 MyInfo(
-                    token : token,
-                    nickName: resJson['nickname'],
-                    id: int.parse(resJson['id'].toString()),
-                    major: resJson['department'],
-                    studentNum: int.parse(resJson['studentNum'].toString()),
-                    imgPath: resJson['imgPath'],
-                    intro: resJson['intro'],
-                    badges: resJson['badges'],
-                    interest: resJson['interest'],
-                    gender: resJson['gender'],
-                    level: int.parse(resJson['level'].toString()),
-                    birth: DateTime.parse(resJson['birth']),
-                    joinedClubs: resJson['__joinedClubs__'],
-                    createdClubs: resJson['__createdClubs__']),
+                  token: token,
+                  nickName: resJson['nickname'],
+                  id: int.parse(resJson['id'].toString()),
+                  major: resJson['department'],
+                  studentNum: int.parse(resJson['studentNum'].toString()),
+                  imgPath: resJson['imgPath'],
+                  intro: resJson['intro'],
+                  badges: resJson['badges'],
+                  interest: resJson['interest'],
+                  gender: resJson['gender'],
+                  level: int.parse(resJson['level'].toString()),
+                  birth: DateTime.parse(resJson['birth']),
+                  joinedClubs: resJson['__joinedClubs__'],
+                  createdClubs: resJson['__createdClubs__'],
+                ),
               );
 
-              print(userController.users);
-              userController.setMyID(resJson['id'].toInt());
+              userController.setMyID(
+                resJson['id'].toInt(),
+              );
             },
           );
         });

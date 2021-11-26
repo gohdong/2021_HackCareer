@@ -3,7 +3,7 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/components/small_card.dart';
-import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/data/club.dart';
 import 'package:clu_b/pages/club_page.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
@@ -74,7 +74,7 @@ class _InterestedClubTabState extends State<InterestedClubTab> {
   Widget myClubBody(bool isNow) {
     return Container(
       padding: const EdgeInsets.only(top: 22, bottom: 20),
-      child: FutureBuilder<List<Club2>>(
+      child: FutureBuilder<List<Club>>(
           future: getMyLikeClubs(isNow),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
