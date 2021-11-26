@@ -22,7 +22,12 @@ export class ChatService {
 
         return this.clubRepository.findOneOrFail({id:clubId}).then((club:Club)=>{
             return this.userRepository.findOneOrFail({id:userId}).then((user:User)=>{
-                return this.messageRepository.saveMessage(user,club,message);
+                const newMsg = this.messageRepository.create({
+                    sender:user,
+                    club:club,
+                    content:message
+                })
+                return this.messageRepository.save(newMsg);
             })
         })
         

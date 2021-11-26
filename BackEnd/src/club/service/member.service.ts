@@ -82,11 +82,11 @@ export class MemberService {
                 relations:['user'],
             },
             relations:['club','club.members','club.leader','club.category'],
-            withDeleted:true,
             where:[
                 {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:false,isThunder:true}},
                 {user:{id:user.id},club:{timeLimit: LessThanOrEqual(new Date()), isCanceled:true,isThunder:true}}
-            ]
+            ],
+            withDeleted:true,
             
         }):this.memberRepository.find({
             loadRelationIds:{

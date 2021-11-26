@@ -37,10 +37,10 @@ export class FeedController {
             take = take>20 ?20 : take;
             return this.feedService.findFeeds(take,skip,category)
     }
-    // @Get('hot')
-    // getHotFeed(){
-    //     return this.feedService.getHotFeed()
-    // }
+    @Get('hot')
+    getHotFeed(){
+        return this.feedService.getHotFeed()
+    }
 
     @Get('/my')
     getMyFeed(
@@ -54,9 +54,10 @@ export class FeedController {
         @Query('take') take:number=1,
         @Query('skip') skip:number,
         @Query('keyword') keyword:string,
+        @Query('category') category:string,
     ):Promise<Feed[]>{
         take = take>20 ?20 : take;
-        return this.feedService.findByKeyword(take,skip,keyword)
+        return this.feedService.findByKeyword(take,skip,keyword,category)
     }
 
     @Get("/:id")

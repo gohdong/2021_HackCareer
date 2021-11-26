@@ -29,7 +29,6 @@ export class UserController {
         @Query('isNow') now:string,
     ){
         const isNow = now==='true'? true:false
-        console.log(isNow);
         return this.likeClubService.getLikeClubs(user,isNow);
     }
 

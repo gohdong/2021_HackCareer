@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
 import {Server, Socket} from 'socket.io'
+import { Message } from '../model/message.entity';
 import { ChatService } from '../service/chat.service';
 @WebSocketGateway(4000,{cors:{origin:'*'} ,namespace:'/chat'})
 // @WebSocketGateway(81, { namespace: 'chat' })
@@ -29,8 +30,8 @@ export class ChatGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayD
   @SubscribeMessage('chatToServer')
   handleMessage(socket:Socket, message:{sender:number, room:number, content:string}):Promise<any>{
     console.log(message);
-    return this.chatService.saveMessage(message.sender,message.room,message.content).then((_)=>{
-      this.wss.to(String(message.room)).emit('chatToClient',message);
+    return this.chatService.saveMessage(message.sender,message.room,message.content).then((message:Message)=>{
+      this.wss.to(String(message.club.id)).emit('chatToClient',message);
     })
   }
 

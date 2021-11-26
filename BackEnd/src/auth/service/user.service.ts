@@ -30,11 +30,11 @@ export class UserService {
 
     getMyInfo(user:User):Promise<User>{
         return this.userRepository.createQueryBuilder('user')
+        .where(' user.id = :id',{id:user.id})
         .leftJoinAndSelect('user.joinedClubs',"member")
         .withDeleted()
         .leftJoinAndSelect('user.createdClubs','club')
         .withDeleted()
-        
         .getOne();
     }
 

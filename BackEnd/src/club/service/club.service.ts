@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/model/user.entity';
-import { Any, getRepository, In, LessThanOrEqual, Like, MoreThanOrEqual, Raw, UpdateResult } from 'typeorm';
+import { Any, getRepository, In, IsNull, LessThanOrEqual, Like, MoreThanOrEqual, Not, Raw, UpdateResult } from 'typeorm';
 import { ClubCategory } from '../model/club-catecory.entity';
 import { ClubCreateDTO } from '../model/club-create.dto';
 import { ClubUpdateDTO } from '../model/club-update.dto';
@@ -45,36 +45,23 @@ export class ClubService {
         });
     }
 
-    findNows(take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
-        return selectedCategory?this.clubRepository.findAndCount({
+    findNows(user:User,take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
+        const whereContidtion = selectedCategory?
+        {category:{categoryTitle:selectedCategory},
+            isThunder:true,
+            timeLimit: MoreThanOrEqual(new Date()),      
+             
+            
+        }:{isThunder:true,timeLimit: MoreThanOrEqual(new Date()),
+            
+        }
+        return this.clubRepository.findAndCount({
             take,skip,
             relations:["leader","category"],
             loadRelationIds:{
                 relations:['members']
             },
-            where:{
-                category:{categoryTitle:selectedCategory},
-                isThunder:true,
-                // timeLimit: MoreThanOrEqual(new Date()),
-                
-            }
-        }).then(([clubs])=>{
-            if(clubs.length == 0){
-                throw new NotFoundException(`No Clubs`)
-            }
-            return clubs
-        }):
-        this.clubRepository.findAndCount({
-            take,skip,
-            relations:["leader","category"],
-            loadRelationIds:{
-                relations:['members']
-            },
-            where:{
-                isThunder:true,
-                // timeLimit: MoreThanOrEqual(new Date()),
-                
-            }
+            where:whereContidtion
         }).then(([clubs])=>{
             if(clubs.length == 0){
                 throw new NotFoundException(`No Clubs`)
@@ -84,32 +71,20 @@ export class ClubService {
     }
 
     findClubs(take:number,skip:number,selectedCategory?:string):Promise<Club[]>{
-        return selectedCategory?this.clubRepository.findAndCount({
+        const whereContidtion = selectedCategory?
+        {
+            category:{categoryTitle:selectedCategory},
+            isThunder:false
+            
+        }:{isThunder:false}
+
+        return this.clubRepository.findAndCount({
             take,skip,
             relations:["leader","category"],
             loadRelationIds:{
                 relations:['members']
             },
-            where:{
-                category:{categoryTitle:selectedCategory},
-                isThunder:false
-                
-            }
-        }).then(([clubs])=>{
-            if(clubs.length == 0){
-                throw new NotFoundException(`No Clubs`)
-            }
-            return clubs
-        }):
-        this.clubRepository.findAndCount({
-            take,skip,
-            relations:["leader","category"],
-            loadRelationIds:{
-                relations:['members']
-            },
-            where:{
-                isThunder:false
-            }
+            where: whereContidtion
         }).then(([clubs])=>{
             if(clubs.length == 0){
                 throw new NotFoundException(`No Clubs`)
@@ -118,17 +93,21 @@ export class ClubService {
         })
     }
 
-    findClubByKeyword(take:number,skip:number,keyword:string):Promise<Club[]>{
+    findClubByKeyword(take:number,skip:number,keyword:string,cate?:string):Promise<Club[]>{
+        const whereContidtion = cate?[
+            {hashTags:Raw((hashTags)=>`${hashTags} @> '{${keyword}}'`),isThunder:false,category:{categoryTitle:cate}},
+            {title: keyword?Like(`%${keyword}%`):Not(IsNull()),isThunder:false,category:{categoryTitle:cate}},
+        ]:[
+            {hashTags:Raw((hashTags)=>`${hashTags} @> '{${keyword}}'`),isThunder:false},
+            {title: keyword?Like(`%${keyword}%`):Not(IsNull()),isThunder:false},
+        ]
         return this.clubRepository.findAndCount({
             take,skip,
             relations:["leader","category"],
             loadRelationIds:{
                 relations:['members']
             },
-            where:[
-                {hashTags:Raw((hashTags)=>`${hashTags} @> '{${keyword}}'`)},
-                {title: Like(`%${keyword}%`)},
-            ]
+            where:whereContidtion
         }).then(([clubs])=>{
             if(clubs.length == 0){
                 throw new NotFoundException(`No Clubs`)

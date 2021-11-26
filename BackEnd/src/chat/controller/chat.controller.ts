@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from 'src/auth/decoration/get-user.decorator';
 import { User } from 'src/auth/model/user.entity';
@@ -16,9 +16,14 @@ export class ChatController {
     sendMessage(
         @GetUser() user:User,
         
-        
     ){
 
+    }
+    @Get("/:id")
+    getMessages(
+        @Param("id") id:number
+    ){
+    return this.chatService.loadMessage(id)  
     }
 
 

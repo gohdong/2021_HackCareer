@@ -4,7 +4,7 @@ import { User } from 'src/auth/model/user.entity';
 import { Feed } from '../model/feed.entity';
 import { FeedDTO } from '../model/feed.dto';
 import { FeedRepository } from '../repository/feed.repository';
-import { DeleteResult, LessThan, Like, UpdateResult } from 'typeorm';
+import { DeleteResult, IsNull, LessThan, Like, Not, UpdateResult } from 'typeorm';
 import { FeedUpdateDTO } from '../model/feed-update.dto';
 import { FeedCategoryRepository } from '../repository/feed-category.repository';
 import { FeedCategory } from '../model/feed-category.entity';
@@ -54,16 +54,21 @@ export class FeedService {
         })
     }
 
-    findByKeyword(take:number,skip:number,keyword:string):Promise<Feed[]>{
+    findByKeyword(take:number,skip:number,keyword?:string,cate?:string):Promise<Feed[]>{
+        const whereContidtion = cate?{
+            category:{categoryTitle:cate},
+            description: keyword?Like(`%${keyword}%`): Not(IsNull())
+        }:{
+            description:  keyword?Like(`%${keyword}%`): Not(IsNull())
+        }
         return this.feedRepository.findAndCount({
             take,skip,
             relations:['writer','category'],
             loadRelationIds:{
                 relations:['comments','likeUsers']
             },
-            where:{
-                description: Like(`%${keyword}%`)
-            }
+            
+            where:whereContidtion
         }).then(([feeds])=>{
             if(feeds.length === 0){
                 throw new NotFoundException(`No feeds`)
@@ -72,15 +77,13 @@ export class FeedService {
         })
     }
 
-    // getHotFeed(){
-    //     return this.feedRepository.createQueryBuilder('feed')
-    //     .innerJoinAndSelect('feed.comments','comments')
-    //     .select("SUM(comments)", "sum")
-    //     .getRawOne(); 
-        // .getCount('comments',)
-        // .select('feed.comments AS comments')
-        // .getMany();
-    // }
+    getHotFeed(){
+        return this.feedRepository.createQueryBuilder('feed')
+        .loadRelationCountAndMap("COALESCE('feed.commentCount',0)", 'feed.comments')
+        // .where(" 'feed.commentCount' > :num ",{num:2})
+        .where(` 'feed.commentCount' > 2 `)
+        .getMany()
+    }
 
     findFeedById(id:number):Promise<Feed>{
         return this.feedRepository.findOneOrFail({id},{
