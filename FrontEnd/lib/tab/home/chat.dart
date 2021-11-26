@@ -3,6 +3,7 @@ import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/pages/chatting.dart';
 import 'package:clu_b/tab/home/home_club.dart';
 import 'package:clu_b/tab/home/home_now.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +40,9 @@ class _ChattingTabState extends State<ChattingTab> {
               children: [
                 InkWell(
                   onTap: () {
-
                     setState(() {
-
                       currentTab = "now";
-                      getFeeds(category: 1, skip: 2,take:10);
+                      getFeeds(category: 1, skip: 2, take: 10);
                     });
                   },
                   child: smallTabIndicator(currentTab == "now", "NOW"),
@@ -70,52 +69,55 @@ class _ChattingTabState extends State<ChattingTab> {
     return Container(
       padding: const EdgeInsets.only(top: 22, left: 26, right: 26, bottom: 20),
       child: FutureBuilder<List<Club2>>(
-        future: getMyLiveClubs(isNow),
-        builder: (context,snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          }
+          future: getMyLiveClubs(isNow),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Container();
+            }
 
-          if (snapshot.data!.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/luby_gray.svg',
-                    width: 100,
-                  ),
-                  verticalSpacer(
-                    20,
-                  ),
-                  Text(
-                    "지금은 채팅이 없어요!",
-                    style: CluBTextTheme.medium18
-                        .copyWith(color: CluBColor.lightGray),
-                  ),
-                  verticalSpacer(
-                    100,
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.separated(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return clubInfo(snapshot.data![index]);
-            },
-            separatorBuilder: (context, index) {
-              return const Divider(
-                height: 20,
-                color: CluBColor.darkGray,
-                thickness: 2,
+            if (snapshot.data!.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/svg/luby_gray.svg',
+                      width: 100,
+                    ),
+                    verticalSpacer(
+                      20,
+                    ),
+                    Text(
+                      "지금은 채팅이 없어요!",
+                      style: CluBTextTheme.medium18
+                          .copyWith(color: CluBColor.lightGray),
+                    ),
+                    verticalSpacer(
+                      100,
+                    ),
+                  ],
+                ),
               );
-            },
-          );
-        }
-      ),
+            }
+
+            return ListView.separated(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                    onTap: () {
+                      Get.to(() => ChattingRoom(club: snapshot.data![index]));
+                    },
+                    child: clubInfo(snapshot.data![index]));
+              },
+              separatorBuilder: (context, index) {
+                return const Divider(
+                  height: 20,
+                  color: CluBColor.darkGray,
+                  thickness: 2,
+                );
+              },
+            );
+          }),
     );
   }
 }

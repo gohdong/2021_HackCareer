@@ -39,7 +39,6 @@ class _ChattingRoomState extends State<ChattingRoom> {
     'autoConnect': false,
   });
 
-
   @override
   void initState() {
     super.initState();
@@ -263,19 +262,18 @@ class _ChattingRoomState extends State<ChattingRoom> {
 
   void sendMessage() {
     if (_textEditingController.text.isNotEmpty) {
-      socket.emit('chatToServer',{
-        'room' : widget.club.id,
-        'sender' : me,
-        'content' : _textEditingController.text
+      socket.emit('chatToServer', {
+        'room': widget.club.id,
+        'sender': me,
+        'content': _textEditingController.text
       });
       // setState(() {
-        // chatLog.add(Chat(
-        //     contents: _textEditingController.text,
-        //     sendAt: DateTime.now(),
-        //     sender: userController.me()));
+      // chatLog.add(Chat(
+      //     contents: _textEditingController.text,
+      //     sendAt: DateTime.now(),
+      //     sender: userController.me()));
       // });
       _textEditingController.clear();
-
     }
   }
 
@@ -291,20 +289,25 @@ class _ChattingRoomState extends State<ChattingRoom> {
       socket.emit('joinRoom', widget.club.id);
     });
 
-    socket.on('joinedRoom', (data) {
-      data.forEach((element) {
-        User? tempSender = chatMembers[element['sender']['id']];
-        chatLog.add(
-          Chat(
-              sendAt: DateTime.parse(element['createdAt']),
-              contents: element['content'],
-              sender: tempSender!),
-        );
-      });
-      setState(() {});
+    socket.on('joinedRoom', (data) async{
+      if (chatLog.isEmpty) {
+        await data.forEach((element) {
+          User? tempSender = chatMembers[element['sender']['id']];
+          chatLog.add(
+            Chat(
+                sendAt: DateTime.parse(element['createdAt']),
+                contents: element['content'],
+                sender: tempSender!),
+          );
+        });
+        setState(() {});
+        Future.delayed(const Duration(milliseconds: 500), () {}).then((value) {
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        });
+      }
     });
 
-    socket.on('chatToClient',(data){
+    socket.on('chatToClient', (data) {
       User? tempSender = chatMembers[data['sender']['id']];
       chatLog.add(
         Chat(
@@ -312,10 +315,10 @@ class _ChattingRoomState extends State<ChattingRoom> {
             contents: data['content'],
             sender: tempSender!),
       );
+      setState(() {});
       Future.delayed(const Duration(milliseconds: 100), () {}).then((value) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
       });
-      setState(() {});
     });
 
     socket.onDisconnect((_) => print('disconnect'));
