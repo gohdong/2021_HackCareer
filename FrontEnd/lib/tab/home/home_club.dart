@@ -31,7 +31,8 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
     'reading': '독서',
     'good_food': '맛집탐방',
     'sport': '스포츠',
-    'display': '전시'
+    'display': '전시',
+    'food' : '밥약',
   };
   UserController userController = Get.find();
   String currentCategory = 'all';

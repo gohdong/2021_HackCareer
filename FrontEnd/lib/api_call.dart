@@ -241,3 +241,20 @@ Future<List<Club>> getClubsBySearch(
   });
   return clubs;
 }
+
+// www.funani.tk:3000/user/:id/profile
+Future<User?> getMember(int memberID) async{
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  User? result ;
+  await http.get(
+    Uri.parse(url + '/user/$memberID/profile'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    if(res.statusCode == 200){
+      result = User.fromJson(jsonDecode(res.body));
+      print(result);
+    }
+  });
+  return result;
+}

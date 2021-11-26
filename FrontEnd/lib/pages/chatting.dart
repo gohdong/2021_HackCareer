@@ -6,6 +6,7 @@ import 'package:clu_b/data/chat.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/user.dart';
 import 'package:clu_b/main.dart';
+import 'package:clu_b/pages/club_page.dart';
 import 'package:clu_b/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -97,7 +98,11 @@ class _ChattingRoomState extends State<ChattingRoom> {
                       title: "채팅",
                     ),
                     verticalSpacer(10),
-                    clubInfo(widget.club),
+                    InkWell(
+                        onTap: () {
+                          Get.to(() => ClubPage(club: widget.club));
+                        },
+                        child: clubInfo(widget.club)),
                     const Divider(
                       height: 16,
                       thickness: 2,
@@ -289,7 +294,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
       socket.emit('joinRoom', widget.club.id);
     });
 
-    socket.on('joinedRoom', (data) async{
+    socket.on('joinedRoom', (data) async {
       if (chatLog.isEmpty) {
         await data.forEach((element) {
           User? tempSender = chatMembers[element['sender']['id']];

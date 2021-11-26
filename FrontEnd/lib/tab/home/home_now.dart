@@ -105,8 +105,9 @@ class _HomeNowTabState extends State<HomeNowTab> {
               .where((element) =>
                   !clubController.likedClub.containsKey(element.id))
               .where((element) =>
-                  !clubController.likedClub.containsKey(element.id))
+                  !clubController.joinedClub.containsKey(element.id))
               .toList();
+
 
           if (currentCardIndex >= filteredSnapshot.length) {
             return Column(
