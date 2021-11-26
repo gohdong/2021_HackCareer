@@ -3,7 +3,9 @@ import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
+import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club2.dart';
+import 'package:clu_b/pages/chatting.dart';
 import 'package:clu_b/pages/club_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +139,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                       style: CluBTextTheme.extraBold18
                           .copyWith(color: Colors.white),
                     ),
+                    verticalSpacer(8),
                     Text(
                       "3시간 이내의 모임",
                       style:
@@ -258,7 +261,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                         child: SwipableStack(
                           controller: swipableStackController,
                           onSwipeCompleted: (index, direction) {
-                            cardUp();
+                            cardUp(snapshot.data![currentCardIndex].id);
                           },
                           allowVerticalSwipe: false,
                           itemCount: snapshot.data!.length,
@@ -266,7 +269,9 @@ class _HomeNowTabState extends State<HomeNowTab> {
                           builder: (context, index, constraints) {
                             return GestureDetector(
                               onTapUp: (e) {
-                                Get.to(() => ClubPage(club: snapshot.data![currentCardIndex],));
+                                Get.to(() => ClubPage(
+                                      club: snapshot.data![currentCardIndex],
+                                    ));
                               },
                               onTapDown: (e) {
                                 print(e);
@@ -306,17 +311,46 @@ class _HomeNowTabState extends State<HomeNowTab> {
                         ? Positioned(
                             top: 467,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                customDialog(
+                                  context: context,
+                                  title: "NOW 참여",
+                                  content:
+                                      "${snapshot.data![currentCardIndex].title}에 참가하시겠습니까?",
+                                  confirm: "참가",
+                                  cancel: "취소",
+                                  onConfirm: () async {
+                                    joinClub(
+                                            snapshot.data![currentCardIndex].id)
+                                        .then((value) {
+                                      print(value);
+                                      if (value) {
+                                        Get.back();
+                                        Get.to(
+                                          () => ChattingRoom(
+                                            club: snapshot
+                                                .data![currentCardIndex],
+                                          ),
+                                        );
+                                      } else {
+                                        Get.back();
+                                        Get.snackbar(
+                                            "오류발생", "알 수 없는 오류가 발생했습니다.");
+                                      }
+                                    });
+                                  },
+                                );
+                              },
                               child: Container(
                                 height: 80,
                                 width: 80,
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: CluBColor.black,
-                                    border: Border.all(
-                                        color: CluBColor.mainColor,
-                                        width: 1.5)),
+                                  shape: BoxShape.circle,
+                                  color: CluBColor.black,
+                                  border: Border.all(
+                                      color: CluBColor.mainColor, width: 1.5),
+                                ),
                                 child: SvgPicture.asset(
                                   'assets/svg/luby_colored.svg',
                                   width: 37,
@@ -400,7 +434,10 @@ class _HomeNowTabState extends State<HomeNowTab> {
     );
   }
 
-  void cardUp() {
+  void cardUp(int clubID) {
+    if (turnOnLikedButton) {
+      likeClub(clubID);
+    }
     setState(() {
       turnOnLikedButton = false;
       turnOnCloseButton = false;

@@ -75,7 +75,7 @@ class _BigCardState extends State<BigCard> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               image: DecorationImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 image: Image.asset(
                   'assets/img/big_card_mask.png',
                 ).image,

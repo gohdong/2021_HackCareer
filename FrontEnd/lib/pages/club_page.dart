@@ -186,7 +186,27 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                   horizontalSpacer(18),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      customDialog(
+                        context: context,
+                        title: "모임 탈퇴",
+                        content: "${widget.club.title}에서 나가시겠습니까?",
+                        confirm: "탈퇴",
+                        cancel: "취소",
+                        onConfirm: () async {
+                          leaveClub(widget.club.id).then((value) {
+                            print(value);
+                            if (value) {
+                              Get.back();
+                              Get.back();
+                            } else {
+                              Get.back();
+                              Get.snackbar("오류발생", "알 수 없는 오류가 발생했습니다.");
+                            }
+                          });
+                        },
+                      );
+                    },
                     child: SvgPicture.asset(
                       'assets/svg/more.svg',
                       color: CluBColor.ultraLightGray,
@@ -251,10 +271,28 @@ class _ClubPageState extends State<ClubPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(
-                        () => ChattingRoom(
-                          club: widget.club,
-                        ),
+                      customDialog(
+                        context: context,
+                        title: "NOW 참여",
+                        content: "${widget.club.title}에 참가하시겠습니까?",
+                        confirm: "참가",
+                        cancel: "취소",
+                        onConfirm: () async {
+                          joinClub(widget.club.id).then((value) {
+                            print(value);
+                            if (value) {
+                              Get.back();
+                              Get.to(
+                                () => ChattingRoom(
+                                  club: widget.club,
+                                ),
+                              );
+                            } else {
+                              Get.back();
+                              Get.snackbar("오류발생", "알 수 없는 오류가 발생했습니다.");
+                            }
+                          });
+                        },
                       );
                     },
                     child: Container(

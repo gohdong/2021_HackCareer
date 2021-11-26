@@ -52,49 +52,53 @@ Future<List<Feed>> getFeeds({take = 20, skip = 0, category = ''}) async {
 }
 
 // http://www.funani.tk:3000/club?take=20&skip=0&isNow=false&category=영화
-Future<List<Club2>> getClubs({take=20,skip=0,category='',isNow=false}) async{
+Future<List<Club2>> getClubs(
+    {take = 20, skip = 0, category = '', isNow = false}) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> clubs = [];
   await http.get(
-      Uri.parse(url+'/club?take=${take.toString()}&skip=${skip.toString()}&category=$category&isNow=$isNow'),
-      headers: {"Authorization": 'Bearer $token'},).then((res){
-        try{
-          List<dynamic> resJson = jsonDecode(res.body);
-          for (Map i in resJson) {
-            clubs.add(Club2.fromJson(i));
-          }
-        }catch(e){
-          clubs = [];
-        }
+    Uri.parse(url +
+        '/club?take=${take.toString()}&skip=${skip.toString()}&category=$category&isNow=$isNow'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    try {
+      List<dynamic> resJson = jsonDecode(res.body);
+      for (Map i in resJson) {
+        clubs.add(Club2.fromJson(i));
+      }
+    } catch (e) {
+      clubs = [];
+    }
   });
   return clubs;
 }
 
-Future<List<User>> getClubMembers(clubId)async{
+Future<List<User>> getClubMembers(clubId) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<User> members = [];
   await http.get(
-    Uri.parse(url+'/member/${clubId.toString()}'),
-    headers: {"Authorization": 'Bearer $token'},).then((res){
-
-      List resJson = jsonDecode(res.body);
-      for (Map i in resJson) {
-        members.add(User.fromJson(i['__user__']));
-      }
+    Uri.parse(url + '/member/${clubId.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    List resJson = jsonDecode(res.body);
+    for (Map i in resJson) {
+      members.add(User.fromJson(i['__user__']));
+    }
   });
   return members;
 }
 
 // http://www.funani.tk:3000/user/my/likeClubs
-Future<List<Club2>> getMyLikeClubs(isNow)async{
+Future<List<Club2>> getMyLikeClubs(isNow) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> likeClubs = [];
   await http.get(
-    Uri.parse(url+'/user/my/likeClubs?isNow=${isNow.toString()}'),
-    headers: {"Authorization": 'Bearer $token'},).then((res){
+    Uri.parse(url + '/user/my/likeClubs?isNow=${isNow.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
     List resJson = jsonDecode(res.body);
     for (Map i in resJson) {
       likeClubs.add(Club2.fromJson(i['__club__']));
@@ -103,14 +107,14 @@ Future<List<Club2>> getMyLikeClubs(isNow)async{
   return likeClubs;
 }
 
-Future<List<Club2>> getMyClubLog(bool isNow)async{
+Future<List<Club2>> getMyClubLog(bool isNow) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> deadClubs = [];
   await http.get(
-    Uri.parse(url+'/member/myClubLog?isNow=${isNow.toString()}'),
-    headers: {"Authorization": 'Bearer $token'},).then((res){
-
+    Uri.parse(url + '/member/myClubLog?isNow=${isNow.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
     List resJson = jsonDecode(res.body);
     for (Map i in resJson) {
       deadClubs.add(Club2.fromJson(i['__club__']));
@@ -119,14 +123,14 @@ Future<List<Club2>> getMyClubLog(bool isNow)async{
   return deadClubs;
 }
 
-Future<List<Club2>> getMyLiveClubs(bool isNow)async{
+Future<List<Club2>> getMyLiveClubs(bool isNow) async {
   final UserController userController = Get.find();
   String token = userController.getMyToken();
   List<Club2> liveClubs = [];
   await http.get(
-    Uri.parse(url+'/member/myLiveClub?isNow=${isNow.toString()}'),
-    headers: {"Authorization": 'Bearer $token'},).then((res){
-
+    Uri.parse(url + '/member/myLiveClub?isNow=${isNow.toString()}'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
     List resJson = jsonDecode(res.body);
     for (Map i in resJson) {
       liveClubs.add(Club2.fromJson(i['__club__']));
@@ -135,5 +139,91 @@ Future<List<Club2>> getMyLiveClubs(bool isNow)async{
   return liveClubs;
 }
 
+Future<bool> joinClub(int clubID) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  bool result = false;
+  await http.post(
+    Uri.parse(url + '/club/$clubID/member'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    print("!!");
+    print(res.statusCode);
+    print(res.body);
+    result = res.statusCode == 201;
+  });
+  return result;
+}
 
+Future<bool> leaveClub(int clubID) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  bool result = false;
+  await http.delete(
+    Uri.parse(url + '/club/$clubID/member'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    print(res.statusCode);
+    print("!!");
+    print(res);
+    result = res.statusCode == 200;
+  });
+  return result;
+}
 
+Future<void> likeClub(int clubID) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  await http.post(
+    Uri.parse(url + '/club/$clubID/like'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    print(res.body);
+  });
+}
+
+Future<List<Feed>> getFeedsBySearch({take = 20, skip = 0,category = '',query = ''}) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Feed> feeds = [];
+  // http://www.funani.tk:3000/feed/search?take=20&skip=0&keyword=t
+  await http.get(
+    Uri.parse(url +
+        '/feed/search?take=$take&skip=$skip&keyword=$query&category=$category'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    print(jsonDecode(res.body));
+    print(jsonDecode(res.body).length);
+    try {
+      List<dynamic> resJson = jsonDecode(res.body);
+      for (Map i in resJson) {
+        feeds.add(Feed.fromJson(i));
+      }
+    } catch (e) {
+      // feed Not found;
+    }
+  });
+  return feeds;
+}
+
+Future<List<Club2>> getClubsBySearch(
+    {take = 20, skip = 0, category = '', isNow = false , query = ""}) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Club2> clubs = [];
+  await http.get(
+    Uri.parse(url +
+        '/club/search?take=${take.toString()}&skip=${skip.toString()}&category=$category&isNow=$isNow&keyword=$query'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    try {
+      List<dynamic> resJson = jsonDecode(res.body);
+      for (Map i in resJson) {
+        clubs.add(Club2.fromJson(i));
+      }
+    } catch (e) {
+      clubs = [];
+    }
+  });
+  return clubs;
+}
