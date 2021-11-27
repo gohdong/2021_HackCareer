@@ -6,8 +6,10 @@ import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/data/my_info.dart';
 import 'package:clu_b/data/user.dart';
+import 'package:clu_b/pages/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 Widget horizontalSpacer(double width) {
   return SizedBox(
@@ -129,7 +131,7 @@ Widget leaderIndicatorSummary(User leader) {
       ),
       Positioned(
         left: -12,
-        child: userProfileImg(46, 46, img: leader.imgPath),
+        child: userProfileImg(46, 46, user: leader),
       ),
     ],
   );
@@ -161,7 +163,7 @@ Widget smallLeaderIndicator(User leader) {
       ),
       Positioned(
         left: 0,
-        child: userProfileImg(36, 36, img: leader.imgPath),
+        child: userProfileImg(36, 36, user: leader),
       )
     ],
   );
@@ -331,18 +333,23 @@ Widget clubInfo(Club? club, {bool eclipseTitle = true}) {
   );
 }
 
-Widget userProfileImg(double width, double height, {String? img}) {
-  return Container(
-    width: width,
-    height: height,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      color: CluBColor.darkGray,
-      image: img != null
-          ? DecorationImage(image: CachedNetworkImageProvider(img), fit: BoxFit.cover)
-          : DecorationImage(
-              image: Image.asset('assets/img/default_profile.png').image,
-              fit: BoxFit.contain),
+Widget userProfileImg(double width, double height, {required User user}) {
+  return InkWell(
+    onTap: (){
+      Get.to(()=>UserProfile(userID: user.id));
+    },
+    child: Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: CluBColor.darkGray,
+        image: user.imgPath != null
+            ? DecorationImage(image: CachedNetworkImageProvider(user.imgPath!), fit: BoxFit.cover)
+            : DecorationImage(
+                image: Image.asset('assets/img/default_profile.png').image,
+                fit: BoxFit.contain),
+      ),
     ),
   );
 }
@@ -351,7 +358,7 @@ Widget userProfileInChat(User? user) {
   //TODO USER
   return Row(
     children: [
-      userProfileImg(36, 36, img: user!.imgPath),
+      userProfileImg(36, 36, user: user!),
       horizontalSpacer(8),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,

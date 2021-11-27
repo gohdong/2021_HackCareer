@@ -1,4 +1,5 @@
 import 'package:clu_b/data/my_info.dart';
+import 'package:clu_b/data/user.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
@@ -9,10 +10,27 @@ class UserController extends GetxController {
     return users[myID];
   }
 
+  User meUser() {
+    return User(
+      nickName: users[myID]!.nickName,
+      id: users[myID]!.id,
+      major: users[myID]!.major,
+      studentNum: users[myID]!.studentNum,
+      imgPath: users[myID]!.imgPath,
+      intro: users[myID]!.intro,
+      badges: users[myID]!.badges,
+      interest: users[myID]!.interest,
+      gender: users[myID]!.gender,
+      level: users[myID]!.level,
+      birth: users[myID]!.birth,
+    );
+  }
+
   void setMyID(int id) {
     myID = id;
   }
-  String getMyToken(){
+
+  String getMyToken() {
     return users[myID]!.token;
   }
 

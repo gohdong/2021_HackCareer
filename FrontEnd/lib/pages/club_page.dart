@@ -66,8 +66,7 @@ class _ClubPageState extends State<ClubPage> {
                         //TODO USER INDICATOR
                         Row(
                           children: [
-                            userProfileImg(48, 48,
-                                img: widget.club.leader.imgPath),
+                            userProfileImg(48, 48, user: widget.club.leader),
                             horizontalSpacer(8),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +138,7 @@ class _ClubPageState extends State<ClubPage> {
                                           ],
                                         ),
                                         child: userProfileImg(36, 36,
-                                            img: snapshot.data![index].imgPath),
+                                            user: snapshot.data![index]),
                                       ),
                                     );
                                   },

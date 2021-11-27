@@ -137,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(userController.me()!.imgPath);
     return Scaffold(
       primary: false,
       appBar: PreferredSize(
@@ -174,14 +173,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: SvgPicture.asset('assets/svg/search.svg'),
                           ),
                           horizontalSpacer(12),
-                          InkWell(
-                            onTap: () {
-                              Get.to(
-                                () => UserProfile(userID: userController.myID),
-                              );
-                            },
-                            child: userProfileImg(24, 24,
-                                img: userController.me()!.imgPath),
+                          userProfileImg(
+                            24,
+                            24,
+                            user: userController.meUser(),
                           ),
                         ],
                       ),
