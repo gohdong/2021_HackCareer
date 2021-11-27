@@ -108,8 +108,11 @@ class _HomeNowTabState extends State<HomeNowTab> {
                   !clubController.likedClub.containsKey(element.id))
               .where((element) =>
                   !clubController.joinedClub.containsKey(element.id))
+              .where((element) =>
+                  !clubController.hatedClub.containsKey(element.id))
               .toList();
-
+          print(filteredSnapshot);
+          print(currentCardIndex);
 
           if (currentCardIndex >= filteredSnapshot.length) {
             return Column(
@@ -161,7 +164,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    currentCardIndex + 3 < filteredSnapshot.length
+                    3 < filteredSnapshot.length
                         ? Positioned(
                             top: constBottomPosition,
                             child: AnimatedOpacity(
@@ -174,28 +177,20 @@ class _HomeNowTabState extends State<HomeNowTab> {
                               child: Transform.scale(
                                 scale: 0.9,
                                 child: BigCard(
-                                  title: snapshot
-                                      .data![currentCardIndex + 3].title,
-                                  category: snapshot
-                                      .data![currentCardIndex + 3].category,
-                                  desc: snapshot
-                                      .data![currentCardIndex + 3].description,
-                                  img: snapshot
-                                      .data![currentCardIndex + 3].imagePath,
-                                  leader: snapshot
-                                      .data![currentCardIndex + 3].leader,
-                                  maxMemberCount: snapshot
-                                      .data![currentCardIndex + 3].numLimit,
-                                  memberCount: snapshot
-                                      .data![currentCardIndex + 3].memberCount,
-                                  time: snapshot
-                                      .data![currentCardIndex + 3].timeLimit,
+                                  title: snapshot.data![3].title,
+                                  category: snapshot.data![3].category,
+                                  desc: snapshot.data![3].description,
+                                  img: snapshot.data![3].imagePath,
+                                  leader: snapshot.data![3].leader,
+                                  maxMemberCount: snapshot.data![3].numLimit,
+                                  memberCount: snapshot.data![3].memberCount,
+                                  time: snapshot.data![3].timeLimit,
                                 ),
                               ),
                             ),
                           )
                         : Container(),
-                    currentCardIndex + 2 < filteredSnapshot.length
+                    2 < filteredSnapshot.length
                         ? AnimatedPositioned(
                             duration: varBottomPosition == constMidPosition
                                 ? const Duration(milliseconds: 500)
@@ -209,29 +204,19 @@ class _HomeNowTabState extends State<HomeNowTab> {
                                   ? 0.9
                                   : 0.95,
                               child: BigCard(
-                                title: filteredSnapshot[currentCardIndex + 2]
-                                    .title,
-                                category: filteredSnapshot[currentCardIndex + 2]
-                                    .category,
-                                desc: filteredSnapshot[currentCardIndex + 2]
-                                    .description,
-                                img: filteredSnapshot[currentCardIndex + 2]
-                                    .imagePath,
-                                leader: filteredSnapshot[currentCardIndex + 2]
-                                    .leader,
-                                maxMemberCount:
-                                    filteredSnapshot[currentCardIndex + 2]
-                                        .numLimit,
-                                memberCount:
-                                    filteredSnapshot[currentCardIndex + 2]
-                                        .memberCount,
-                                time: filteredSnapshot[currentCardIndex + 2]
-                                    .timeLimit,
+                                title: filteredSnapshot[2].title,
+                                category: filteredSnapshot[2].category,
+                                desc: filteredSnapshot[2].description,
+                                img: filteredSnapshot[2].imagePath,
+                                leader: filteredSnapshot[2].leader,
+                                maxMemberCount: filteredSnapshot[2].numLimit,
+                                memberCount: filteredSnapshot[2].memberCount,
+                                time: filteredSnapshot[2].timeLimit,
                               ),
                             ),
                           )
                         : Container(),
-                    currentCardIndex + 1 < filteredSnapshot.length
+                    1 < filteredSnapshot.length
                         ? AnimatedPositioned(
                             duration: varMidPosition == constMidPosition
                                 ? const Duration(milliseconds: 0)
@@ -244,24 +229,14 @@ class _HomeNowTabState extends State<HomeNowTab> {
                               scale:
                                   varMidPosition == constMidPosition ? 0.95 : 1,
                               child: BigCard(
-                                title: filteredSnapshot[currentCardIndex + 1]
-                                    .title,
-                                category: filteredSnapshot[currentCardIndex + 1]
-                                    .category,
-                                desc: filteredSnapshot[currentCardIndex + 1]
-                                    .description,
-                                img: filteredSnapshot[currentCardIndex + 1]
-                                    .imagePath,
-                                leader: filteredSnapshot[currentCardIndex + 1]
-                                    .leader,
-                                maxMemberCount:
-                                    filteredSnapshot[currentCardIndex + 1]
-                                        .numLimit,
-                                memberCount:
-                                    filteredSnapshot[currentCardIndex + 1]
-                                        .memberCount,
-                                time: filteredSnapshot[currentCardIndex + 1]
-                                    .timeLimit,
+                                title: filteredSnapshot[1].title,
+                                category: filteredSnapshot[1].category,
+                                desc: filteredSnapshot[1].description,
+                                img: filteredSnapshot[1].imagePath,
+                                leader: filteredSnapshot[1].leader,
+                                maxMemberCount: filteredSnapshot[1].numLimit,
+                                memberCount: filteredSnapshot[1].memberCount,
+                                time: filteredSnapshot[1].timeLimit,
                               ),
                             ),
                           )
@@ -277,7 +252,6 @@ class _HomeNowTabState extends State<HomeNowTab> {
                             cardUp(filteredSnapshot[currentCardIndex]);
                           },
                           allowVerticalSwipe: false,
-                          itemCount: filteredSnapshot.length,
                           viewFraction: 1,
                           builder: (context, index, constraints) {
                             return GestureDetector(
@@ -292,24 +266,16 @@ class _HomeNowTabState extends State<HomeNowTab> {
                                 width: 376,
                                 child: Center(
                                   child: BigCard(
-                                    title: filteredSnapshot[currentCardIndex]
-                                        .title,
-                                    category: filteredSnapshot[currentCardIndex]
-                                        .category,
-                                    desc: filteredSnapshot[currentCardIndex]
-                                        .description,
-                                    img: filteredSnapshot[currentCardIndex]
-                                        .imagePath,
-                                    leader: filteredSnapshot[currentCardIndex]
-                                        .leader,
+                                    title: filteredSnapshot[0].title,
+                                    category: filteredSnapshot[0].category,
+                                    desc: filteredSnapshot[0].description,
+                                    img: filteredSnapshot[0].imagePath,
+                                    leader: filteredSnapshot[0].leader,
                                     maxMemberCount:
-                                        filteredSnapshot[currentCardIndex]
-                                            .numLimit,
+                                        filteredSnapshot[0].numLimit,
                                     memberCount:
-                                        filteredSnapshot[currentCardIndex]
-                                            .memberCount,
-                                    time: filteredSnapshot[currentCardIndex]
-                                        .timeLimit,
+                                        filteredSnapshot[0].memberCount,
+                                    time: filteredSnapshot[0].timeLimit,
                                   ),
                                 ),
                               ),
@@ -448,13 +414,16 @@ class _HomeNowTabState extends State<HomeNowTab> {
     if (turnOnLikedButton) {
       clubController.likeClub(club);
     }
+    if (turnOnCloseButton) {
+      clubController.addHateClub(club);
+    }
     setState(() {
       turnOnLikedButton = false;
       turnOnCloseButton = false;
       varTopPosition = 0;
       varMidPosition = 0;
       varBottomPosition = constMidPosition;
-      currentCardIndex += 1;
+      // currentCardIndex += 1;
     });
     Future.delayed(const Duration(milliseconds: 500), () {}).then((value) {
       setState(() {

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 class ClubController extends GetxController {
   Map joinedClub = <int, Club>{}.obs;
   Map likedClub = <int, Club>{}.obs;
+  Map hatedClub = <int, Club>{}.obs;
 
   void initializeJoinedClub(List<Club> newData) {
     for (Club element in newData) {
@@ -18,7 +19,7 @@ class ClubController extends GetxController {
     }
   }
 
-  Future<bool> joinClub(Club club) async{
+  Future<bool> joinClub(Club club) async {
     bool result = false;
     await api.joinClub(club.id).then((value) {
       if (value) {
@@ -61,4 +62,11 @@ class ClubController extends GetxController {
     });
     return result;
   }
+
+  Future<bool> addHateClub(Club club) async {
+    hatedClub[club.id] = club;
+    return true;
+  }
+
+
 }
