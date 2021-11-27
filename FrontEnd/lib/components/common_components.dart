@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_method.dart';
 import 'package:clu_b/data/club.dart';
@@ -338,7 +339,7 @@ Widget userProfileImg(double width, double height, {String? img}) {
       shape: BoxShape.circle,
       color: CluBColor.darkGray,
       image: img != null
-          ? DecorationImage(image: Image.asset(img).image, fit: BoxFit.contain)
+          ? DecorationImage(image: CachedNetworkImageProvider(img), fit: BoxFit.contain)
           : DecorationImage(
               image: Image.asset('assets/img/default_profile.png').image,
               fit: BoxFit.contain),

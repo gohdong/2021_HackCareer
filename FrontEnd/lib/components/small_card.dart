@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/data/user.dart';
@@ -36,7 +37,6 @@ class SmallCard extends StatefulWidget {
 }
 
 class _SmallCardState extends State<SmallCard> {
-
   @override
   void initState() {
     super.initState();
@@ -67,7 +67,9 @@ class _SmallCardState extends State<SmallCard> {
                   alignment: Alignment.centerRight,
                   fit: BoxFit.cover,
                   image: widget.img != ""
-                      ? NetworkImage(widget.img)
+                      ? CachedNetworkImageProvider(
+                          widget.img,
+                        )
                       : Image.asset(
                           'assets/img/default_img.png',
                         ).image,

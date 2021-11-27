@@ -27,7 +27,10 @@ String weekDayToString(int dateNum) {
 }
 
 String extractYearOnStudentNumber(int studentNum) {
-  return studentNum.toString().substring(2, 4);
+  return studentNum.toString()
+      .substring(0, 2)
+  ;
+  // return st
 }
 
 String convertInterestToHashTag(List interest) {

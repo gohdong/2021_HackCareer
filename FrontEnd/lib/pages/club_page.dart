@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clu_b/api_call.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
@@ -47,7 +48,7 @@ class _ClubPageState extends State<ClubPage> {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: widget.club.imagePath != ""
-                            ? NetworkImage(widget.club.imagePath)
+                            ? CachedNetworkImageProvider(widget.club.imagePath)
                             : Image.asset(
                                 'assets/img/default_img.png',
                               ).image,

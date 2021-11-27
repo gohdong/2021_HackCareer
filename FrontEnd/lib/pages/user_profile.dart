@@ -272,7 +272,7 @@ class _UserProfileState extends State<UserProfile> {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    userProfileImg(147, 147),
+                                    userProfileImg(147, 147,img: snapshot.data!.imgPath),
                                     widget.userID == userController.myID
                                         ? Positioned(
                                             right: 18,

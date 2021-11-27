@@ -4,6 +4,7 @@ import 'package:clu_b/components/big_card.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/club_controller.dart';
 import 'package:clu_b/components/common_method.dart';
+import 'package:clu_b/components/luby_gray.dart';
 import 'package:clu_b/data/club.dart';
 import 'package:clu_b/pages/chatting.dart';
 import 'package:clu_b/pages/club_page.dart';

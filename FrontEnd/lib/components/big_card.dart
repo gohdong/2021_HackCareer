@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:clu_b/club_theme.dart';
 import 'package:clu_b/components/common_components.dart';
 import 'package:clu_b/data/user.dart';
@@ -57,13 +58,13 @@ class _BigCardState extends State<BigCard> {
       width: (MediaQuery.of(context).size.width - 52),
       height: (MediaQuery.of(context).size.width - 52) * 1.43,
       decoration: BoxDecoration(
-        color: CluBColor.black,
+        color: CluBColor.mainColor,
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           alignment: Alignment.centerLeft,
-          fit: BoxFit.fitHeight,
+          fit: widget.img != "" ? BoxFit.fitHeight : BoxFit.fill,
           image: widget.img != ""
-              ? NetworkImage(widget.img)
+              ? CachedNetworkImageProvider(widget.img)
               : Image.asset(
                   'assets/img/default_img.png',
                 ).image,
