@@ -72,7 +72,7 @@ class _BoardAllTabState extends State<BoardAllTab> {
         ),
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Container(
@@ -86,13 +86,14 @@ class _BoardAllTabState extends State<BoardAllTab> {
                   children: [
                     Text(
                       "우리들끼리 소통공간",
-                      style: CluBTextTheme.medium18.copyWith(color: Colors.white),
+                      style:
+                          CluBTextTheme.medium18.copyWith(color: Colors.white),
                     ),
                     verticalSpacer(8),
                     Text(
                       "오늘도 일상을 즐기세요!",
-                      style:
-                          CluBTextTheme.extraBold18.copyWith(color: Colors.white),
+                      style: CluBTextTheme.extraBold18
+                          .copyWith(color: Colors.white),
                     ),
                   ],
                 ),
@@ -102,7 +103,8 @@ class _BoardAllTabState extends State<BoardAllTab> {
                 margin: const EdgeInsets.only(left: 26, right: 26, bottom: 10),
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   children: [
                     Expanded(
@@ -110,7 +112,8 @@ class _BoardAllTabState extends State<BoardAllTab> {
                         key: _formKey,
                         controller: _textEditingController,
                         decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(top: 5, bottom: 5),
+                            contentPadding:
+                                const EdgeInsets.only(top: 5, bottom: 5),
                             hintText: "지금 오버워치 한판 어때요?",
                             hintStyle: CluBTextTheme.medium18.copyWith(
                                 fontWeight: FontWeight.w600,
@@ -168,12 +171,13 @@ class _BoardAllTabState extends State<BoardAllTab> {
                   ),
                 ),
                 content: FutureBuilder<List>(
-                    future: getFeedsBySearch(
-                      category: currentCategory != "all"
-                          ? category[currentCategory]
-                          : "",
-                      query: _textEditingController.text
-                    ),
+                    future: currentCategory == 'hot'
+                        ? getHotFeed(query: _textEditingController.text)
+                        : getFeedsBySearch(
+                            category: currentCategory != "all"
+                                ? category[currentCategory]
+                                : "",
+                            query: _textEditingController.text),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return Container();
@@ -204,9 +208,10 @@ class _BoardAllTabState extends State<BoardAllTab> {
                                     feedCategoryIndicator(tempFeed.category),
                                     Text(
                                       timeFromNow(tempFeed.createdAt),
-                                      style: CluBTextTheme.semiBold14_20.copyWith(
-                                          height: 1,
-                                          color: CluBColor.ultraLightGray),
+                                      style: CluBTextTheme.semiBold14_20
+                                          .copyWith(
+                                              height: 1,
+                                              color: CluBColor.ultraLightGray),
                                     )
                                   ],
                                 ),
@@ -257,8 +262,10 @@ class _BoardAllTabState extends State<BoardAllTab> {
                                     ),
                                     Text(
                                       "${tempFeed.writer.nickName} · ${tempFeed.writer.major} ${extractYearOnStudentNumber(tempFeed.writer.studentNum)}",
-                                      style: CluBTextTheme.semiBold14_20.copyWith(
-                                          height: 1, color: CluBColor.lightGray),
+                                      style: CluBTextTheme.semiBold14_20
+                                          .copyWith(
+                                              height: 1,
+                                              color: CluBColor.lightGray),
                                     )
                                   ],
                                 )

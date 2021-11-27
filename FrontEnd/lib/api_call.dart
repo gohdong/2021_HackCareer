@@ -258,3 +258,28 @@ Future<User?> getMember(int memberID) async{
   });
   return result;
 }
+
+// http://www.funani.tk:3000/feed/hot?keyword=%EB%BF%A1%EB%BF%A1
+Future<List<Feed>> getHotFeed({take = 20, skip = 0,category = '',query = ''}) async {
+  final UserController userController = Get.find();
+  String token = userController.getMyToken();
+  List<Feed> feeds = [];
+  // http://www.funani.tk:3000/feed/hot?take=20&skip=0&keyword=t
+  await http.get(
+    Uri.parse(url +
+        '/feed/hot?take=$take&skip=$skip&keyword=$query&category=$category'),
+    headers: {"Authorization": 'Bearer $token'},
+  ).then((res) {
+    print(jsonDecode(res.body));
+    print(jsonDecode(res.body).length);
+    try {
+      List<dynamic> resJson = jsonDecode(res.body);
+      for (Map i in resJson) {
+        feeds.add(Feed.fromJson(i));
+      }
+    } catch (e) {
+      // feed Not found;
+    }
+  });
+  return feeds;
+}
