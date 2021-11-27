@@ -101,6 +101,7 @@ class _ChattingTabState extends State<ChattingTab> {
             }
 
             return ListView.separated(
+              physics: const BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(

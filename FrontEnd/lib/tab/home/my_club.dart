@@ -107,6 +107,7 @@ class _MyClubTabState extends State<MyClubTab> {
             }
 
             return ListView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 26, top: 22, bottom: 22),

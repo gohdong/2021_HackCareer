@@ -40,6 +40,7 @@ class _ClubPageState extends State<ClubPage> {
               color: CluBColor.mainBackground,
               padding: const EdgeInsets.only(bottom: 90),
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 children: [
                   Container(

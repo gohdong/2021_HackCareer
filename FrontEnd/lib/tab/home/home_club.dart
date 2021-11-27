@@ -70,6 +70,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
         child: Container(
           color: CluBColor.mainBackground,
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 26, top: 22, bottom: 22),
@@ -134,6 +135,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
                   color: CluBColor.mainBackground,
                   padding: const EdgeInsets.only(left: 26),
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: category.length,

@@ -114,6 +114,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
               ),
               Expanded(
                 child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.symmetric(horizontal: 26),
                   controller: _scrollController,
                   itemCount: chatLog.length,

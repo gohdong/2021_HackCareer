@@ -189,6 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 40,
                     child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
                       shrinkWrap: true,
                       controller: test,
                       scrollDirection: Axis.horizontal,

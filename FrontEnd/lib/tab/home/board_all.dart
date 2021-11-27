@@ -79,6 +79,7 @@ class _BoardAllTabState extends State<BoardAllTab> {
         child: Container(
           color: CluBColor.mainBackground,
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 26, top: 22, bottom: 22),
@@ -144,6 +145,7 @@ class _BoardAllTabState extends State<BoardAllTab> {
                   color: CluBColor.mainBackground,
                   padding: const EdgeInsets.only(left: 26, bottom: 5),
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: category.length,
