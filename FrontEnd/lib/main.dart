@@ -137,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(userController.me()!.imgPath);
     return Scaffold(
       primary: false,
       appBar: PreferredSize(
@@ -180,9 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                             child: userProfileImg(24, 24,
-                                img: userController.me() != null
-                                    ? userController.me()!.imgPath
-                                    : null),
+                                img: userController.me()!.imgPath),
                           ),
                         ],
                       ),

@@ -339,7 +339,7 @@ Widget userProfileImg(double width, double height, {String? img}) {
       shape: BoxShape.circle,
       color: CluBColor.darkGray,
       image: img != null
-          ? DecorationImage(image: CachedNetworkImageProvider(img), fit: BoxFit.contain)
+          ? DecorationImage(image: CachedNetworkImageProvider(img), fit: BoxFit.cover)
           : DecorationImage(
               image: Image.asset('assets/img/default_profile.png').image,
               fit: BoxFit.contain),

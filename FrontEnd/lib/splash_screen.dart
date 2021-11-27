@@ -106,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   id: int.parse(resJson['id'].toString()),
                   major: resJson['department'],
                   studentNum: int.parse(resJson['studentNum'].toString()),
-                  imgPath: resJson['imgPath'],
+                  imgPath: resJson['imagePath'],
                   intro: resJson['intro'],
                   badges: resJson['badges'],
                   interest: resJson['interest'],
