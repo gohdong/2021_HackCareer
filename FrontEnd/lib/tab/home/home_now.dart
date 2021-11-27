@@ -75,6 +75,7 @@ class _HomeNowTabState extends State<HomeNowTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CluBColor.mainBackground,
       floatingActionButton: InkWell(
         onTap: () async {
           // print(clubController.joinedClub);

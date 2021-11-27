@@ -63,6 +63,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CluBColor.mainBackground,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -192,7 +193,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
               ),
               Container(
                 padding: const EdgeInsets.only(
-                    left: 26, right: 26, top: 10, bottom: 40),
+                    left: 26, right: 26, top: 10, bottom: 10),
                 color: CluBColor.black,
                 alignment: Alignment.topCenter,
                 child: SizedBox(

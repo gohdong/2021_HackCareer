@@ -139,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       primary: false,
+      backgroundColor: CluBColor.mainBackground,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120),
         child: Stack(

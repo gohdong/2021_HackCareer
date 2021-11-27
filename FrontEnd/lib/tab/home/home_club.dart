@@ -53,6 +53,7 @@ class _HomeCluBTabState extends State<HomeCluBTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CluBColor.mainBackground,
       floatingActionButton: InkWell(
         child: Container(
           margin: const EdgeInsets.only(bottom: 20),

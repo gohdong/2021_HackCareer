@@ -50,6 +50,7 @@ class _BoardAllTabState extends State<BoardAllTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CluBColor.mainBackground,
       floatingActionButton: InkWell(
         onTap: () {
           customDialog(
